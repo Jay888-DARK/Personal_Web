@@ -170,27 +170,3 @@
   pointer-events: none;
   will-change: opacity, transform;
 }
-
-/* Unified styling for all project vertical stack scroll-expand instances */
-.project-media-col .scroll-expand,
-.math-scroll-expand {
-  width: 100%;
-  height: 540px;
-  position: relative;
-  border: 1px solid var(--border-medium, #282828);
-  background: #0A0A0A;
-  overflow: hidden;
-}
-
-.project-media-col .scroll-expand .scroll-expand__stage,
-.math-scroll-expand .scroll-expand__stage {
-  height: 100%;
-  position: relative;
-}
-
-.project-media-col .scroll-expand .scroll-expand__frame,
-.math-scroll-expand .scroll-expand__frame {
-  position: absolute;
-  inset: 0;
-  border-radius: 0 !important;
-}

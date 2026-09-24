@@ -9,7 +9,7 @@
 class ClickSparkEngine {
   constructor(options = {}) {
     this.sparkColor = options.sparkColor || '#00F0FF';
-    this.sparkColors = options.sparkColors || ['#00F0FF', '#FFFFFF', '#C084FC', '#00FFA3'];
+    this.sparkColors = options.sparkColors || ['#A8927D', '#E8E8E8', '#737373'];
     this.sparkSize = options.sparkSize !== undefined ? options.sparkSize : 12;
     this.sparkRadius = options.sparkRadius !== undefined ? options.sparkRadius : 22;
     this.sparkCount = options.sparkCount !== undefined ? options.sparkCount : 10;
@@ -155,7 +155,7 @@ class ClickSparkEngine {
 document.addEventListener('DOMContentLoaded', () => {
   window.clickSparkInstance = new ClickSparkEngine({
     sparkColor: '#00F0FF',
-    sparkColors: ['#00F0FF', '#FFFFFF', '#C084FC', '#00FFA3'],
+    sparkColors: ['#A8927D', '#E8E8E8', '#737373'],
     sparkSize: 12,
     sparkRadius: 20,
     sparkCount: 8,
