@@ -1,68 +1,64 @@
 /* ==========================================================================
-   JAY BHATT — AI & SYSTEMS ENGINEER | JAYBHATT.ME
-   Sophisticated Dark Navy & Slate Gray Editorial Systems Architecture
-   Strict 0px Sharp Geometry • Modern Serif & Refined Sans-Serif Typography
-   Zero Drop Shadows • Zero Glassmorphism • Zero Terminal Fonts
+   JAY BHATT — QUANTITATIVE SYSTEMS & AI | JAYBHATT.ME
+   High-End Architectural Magazine & Technical Journal Design System
+   Off-White/Bone Base • Deep Olive • Dark Espresso • Muted Terracotta
+   High-Contrast Serif & Rigid Geometric Sans • Heavy Solid Dividing Rules
+   Absolute 0px Sharp Edges • Zero Hover Animations • Flat Solid Shapes
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Archivo:wght@400;500;600;700;800;900&display=swap');
 
 :root {
-  /* Architectural Color Base: Sophisticated Dark Navy & Slate Gray */
-  --bg-primary: #0B111E;         /* Sophisticated Dark Navy Base */
-  --bg-surface: #10192A;         /* Primary Editorial Slate Surface */
-  --bg-elevated: #162238;        /* Elevated Technical Block */
-  --bg-highlight: #1D2D49;       /* Focused Cell / Active Highlight */
-  --bg-subtle: #0E1626;          /* Hairline Container Fill */
+  /* Earthy High-End Journal Palette (Strictly Non-White) */
+  --bg-primary: #F2EFE9;          /* Striking Off-White / Bone Viewport Base */
+  --bg-surface: #E8E3D8;          /* Pale Bone Plate */
+  --bg-elevated: #DDD7CA;         /* Muted Earth Surface */
+  --bg-contrast: #1C1613;         /* Solid Dark Espresso */
+  --bg-olive: #283325;            /* Deep Olive Green */
 
-  /* Refined Steel Blue & Architectural Slate Accents */
-  --accent-steel: #6487B2;       /* Restrained Steel Blue Accent */
-  --accent-slate: #8CA9CE;       /* Platinum Slate Marker */
-  --accent-steel-dim: rgba(100, 135, 178, 0.22);
-  --accent-steel-subtle: rgba(100, 135, 178, 0.08);
-  --accent-alert: #D08C6A;       /* Muted Terracotta Anomaly Warning (Non-Neon) */
+  /* Architectural Earth Accent Tones */
+  --color-terracotta: #A2583E;    /* Muted Terracotta Accent */
+  --color-terracotta-dim: rgba(162, 88, 62, 0.18);
+  --color-olive: #283325;         /* Deep Olive Green */
+  --color-espresso: #1C1613;      /* Dark Espresso Ink */
 
-  /* High-Contrast Crisp Editorial Typography */
-  --text-primary: #E2E8F0;       /* Off-White Slate Bone (Non-Pure White) */
-  --text-secondary: #94A3B8;     /* Refined Architectural Slate */
-  --text-muted: #64748B;         /* Muted Steel Slate for Specifications */
-  --text-dim: #3B4E6B;           /* Structural Demarcation Lines */
+  /* Text & Inks */
+  --text-primary: #1C1613;        /* Dark Espresso Ink */
+  --text-secondary: #483E38;      /* Deep Muted Espresso */
+  --text-muted: #726860;          /* Technical Journal Graphite */
+  --text-contrast: #F2EFE9;       /* Bone Off-White on Dark Inks */
 
-  /* Vector Structural Hairlines */
-  --border-subtle: #1C2A42;      /* Hairline Base Divider */
-  --border-medium: #273957;      /* Rigid Container Boundary */
-  --border-accent: #5275A1;      /* Focused Editorial Element */
+  /* Solid Dividing Rules (Heavy Journal Lines) */
+  --border-heavy: 2px solid #1C1613;
+  --border-thick: 3px solid #1C1613;
+  --border-hairline: 1px solid #1C1613;
+  --border-subtle: 1px solid #C8C1B3;
 
-  /* Mathematical Spacing Scale */
-  --space-1: 0.25rem;  /* 4px */
-  --space-2: 0.5rem;   /* 8px */
-  --space-3: 1rem;     /* 16px */
-  --space-4: 2rem;     /* 32px */
-  --space-5: 4rem;     /* 64px */
-  --space-6: 8rem;     /* 128px */
-  --space-7: 12rem;    /* 192px */
-  --space-8: 16rem;    /* 256px */
+  /* Typography Stacks */
+  --font-serif: 'Playfair Display', Didot, 'Bodoni MT', Georgia, serif;
+  --font-sans: 'Archivo', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
-  /* Typography Stacks: Modern Editorial Serif + Refined Sans-Serif (Zero Terminal Fonts) */
-  --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-spec: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-
-  /* Global Layout Dimensions */
-  --header-height: 4.75rem;    /* 76px */
+  /* Layout Constraints */
+  --header-height: 4.75rem;
   --container-max: 1440px;
-  --transition-fast: 0.14s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Global Reset & Strict 0px Geometry Constraint */
+/* Global Reset & Strict 0px Sharp Geometry Constraint */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  border-radius: 0 !important;   /* ABSOLUTE 0PX CORNER RADIUS */
-  box-shadow: none !important;   /* ZERO DROP SHADOWS */
+  border-radius: 0 !important;      /* ABSOLUTE 0PX CORNER RADIUS */
+  box-shadow: none !important;      /* ZERO DROP SHADOWS */
   backdrop-filter: none !important; /* ZERO GLASSMORPHISM */
   -webkit-backdrop-filter: none !important;
+  transition: none !important;      /* ZERO HOVER ANIMATIONS */
+  animation-duration: 0.001ms !important; /* DEFAULT DISABLE PLAYFUL ANIMATIONS */
+}
+
+/* Exceptions for deliberate functional progress & skeleton pulse */
+.skeleton-box::after {
+  animation-duration: 1.6s !important;
 }
 
 html {
@@ -85,7 +81,7 @@ body {
   min-height: 100vh;
 }
 
-/* Razor-Thin Architectural Coordinate Grid (No Noise, No Grain) */
+/* Static Structural Architectural Watermark (No Grid Noise, No Grain) */
 .viewport-vector-grid {
   position: fixed;
   top: 0;
@@ -95,12 +91,12 @@ body {
   pointer-events: none;
   z-index: 0;
   background-image: 
-    linear-gradient(to right, rgba(100, 135, 178, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(100, 135, 178, 0.04) 1px, transparent 1px);
-  background-size: 80px 80px;
+    linear-gradient(to right, rgba(28, 22, 19, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(28, 22, 19, 0.03) 1px, transparent 1px);
+  background-size: 96px 96px;
 }
 
-/* WebGL Background Canvas Container: strictly confined inside Hero section */
+/* Three.js Procedural Volatility Canvas Container (Confined Strictly to Hero) */
 .webgl-canvas-container {
   position: absolute;
   top: 0;
@@ -119,7 +115,7 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   STRICT 12-COLUMN EDITORIAL GRID SYSTEM
+   STRICT ASYMMETRICAL 12-COLUMN EDITORIAL GRID
    -------------------------------------------------------------------------- */
 .site-wrapper {
   position: relative;
@@ -131,84 +127,75 @@ body {
   width: 100%;
   max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 var(--space-4);
+  padding: 0 2rem;
 }
 
 .grid-12 {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: var(--space-4);
+  gap: 2rem;
 }
 
-/* Column Span Utilities */
+/* Column Utilities */
 .col-1-4  { grid-column: 1 / span 4; }
 .col-5-12 { grid-column: 5 / span 8; }
-.col-1-5  { grid-column: 1 / span 5; }
-.col-6-12 { grid-column: 6 / span 7; }
 .col-1-6  { grid-column: 1 / span 6; }
 .col-7-12 { grid-column: 7 / span 6; }
-.col-1-7  { grid-column: 1 / span 7; }
-.col-8-12 { grid-column: 8 / span 5; }
 .col-1-12 { grid-column: 1 / span 12; }
 
 /* Sticky Metadata Column */
 .project-sticky-meta {
   position: sticky;
-  top: calc(var(--header-height) + var(--space-3));
+  top: calc(var(--header-height) + 1.5rem);
   align-self: start;
 }
 
-/* Refined Editorial Typography Hierarchy */
+/* High-Contrast Dramatic Serif & Rigid Sans Typography */
 h1, h2, h3, h4 {
-  color: var(--text-primary);
-  letter-spacing: -0.02em;
-}
-
-.font-editorial-serif {
   font-family: var(--font-serif);
-  font-weight: 500;
+  color: var(--text-primary);
+  font-weight: 700;
+  line-height: 1.04;
   letter-spacing: -0.02em;
 }
 
 .text-hero-massive {
   font-family: var(--font-serif);
-  font-size: clamp(2.8rem, 5.2vw, 5rem);
-  font-weight: 500;
-  line-height: 1.05;
+  font-size: clamp(2.8rem, 5.2vw, 5.2rem);
+  font-weight: 900;
+  line-height: 0.98;
   letter-spacing: -0.03em;
   color: var(--text-primary);
-  margin-bottom: var(--space-3);
+  margin-bottom: 1.25rem;
 }
 
 .hero-subtext-massive {
   font-family: var(--font-sans);
-  font-size: 0.88rem;
-  font-weight: 700;
+  font-size: 0.85rem;
+  font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--accent-slate);
-  margin-bottom: var(--space-3);
-  font-variant-numeric: tabular-nums;
+  color: var(--color-terracotta);
+  margin-bottom: 1.25rem;
 }
 
 .text-section-massive {
   font-family: var(--font-serif);
-  font-size: clamp(2rem, 3.8vw, 3.2rem);
-  font-weight: 500;
-  line-height: 1.1;
-  letter-spacing: -0.025em;
+  font-size: clamp(2.2rem, 3.8vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
   color: var(--text-primary);
 }
 
 .text-spec-sharp {
-  font-family: var(--font-spec);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   line-height: 1.5;
   text-transform: uppercase;
   color: var(--text-muted);
-  font-variant-numeric: tabular-nums;
 }
 
 .text-lead-description {
@@ -218,45 +205,95 @@ h1, h2, h3, h4 {
   color: var(--text-secondary);
 }
 
-/* Section Marker Bar */
+/* Stark Solid Section Marker Bar */
 .section-marker-bar {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  border-bottom: 1px solid var(--border-medium);
-  padding-bottom: var(--space-3);
-  margin-bottom: var(--space-5);
+  border-top: var(--border-thick);
+  border-bottom: var(--border-hairline);
+  padding: 0.75rem 0;
+  margin-bottom: 3.5rem;
+  background-color: var(--bg-surface);
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .marker-index {
-  font-family: var(--font-spec);
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: var(--accent-steel);
-  letter-spacing: 0.1em;
-  font-variant-numeric: tabular-nums;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--color-olive);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .marker-title {
   font-family: var(--font-serif);
-  font-size: 1.45rem;
-  font-weight: 500;
+  font-size: 1.35rem;
+  font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--text-primary);
-  margin-left: var(--space-3);
+  margin-left: 1rem;
 }
 
 .marker-state {
-  font-family: var(--font-spec);
-  font-size: 0.74rem;
-  font-weight: 600;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
   color: var(--text-muted);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  font-variant-numeric: tabular-nums;
 }
 
-/* Custom SVG Icon Styling (Consistent 1.5px stroke, no Lucide, no emojis) */
+/* Flat Rigid Journal Buttons (No Hover Animation, Flat Solid Color) */
+.btn-rigid {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.4rem;
+  background-color: var(--bg-surface);
+  border: var(--border-heavy);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-rigid:hover {
+  background-color: var(--bg-contrast);
+  color: var(--text-contrast);
+}
+
+.btn-rigid-terracotta {
+  background-color: var(--color-terracotta);
+  border: 2px solid var(--color-terracotta);
+  color: var(--bg-primary);
+}
+
+.btn-rigid-terracotta:hover {
+  background-color: var(--color-espresso);
+  border-color: var(--color-espresso);
+  color: var(--bg-primary);
+}
+
+.btn-rigid-olive {
+  background-color: var(--color-olive);
+  border: 2px solid var(--color-olive);
+  color: var(--bg-primary);
+}
+
+.btn-rigid-olive:hover {
+  background-color: var(--color-espresso);
+  border-color: var(--color-espresso);
+  color: var(--bg-primary);
+}
+
+/* Custom Geometrically Rigid Inline SVG Icons */
 .custom-svg-icon {
   display: inline-block;
   width: 1.15rem;
@@ -270,56 +307,16 @@ h1, h2, h3, h4 {
   flex-shrink: 0;
 }
 
-/* Rigid Editorial Buttons */
-.btn-rigid {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: 0.8rem 1.35rem;
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-medium);
-  color: var(--text-primary);
-  font-family: var(--font-spec);
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
-}
-
-.btn-rigid:hover {
-  background-color: var(--bg-highlight);
-  border-color: var(--border-accent);
-  color: var(--text-primary);
-}
-
-.btn-rigid-steel {
-  background-color: var(--bg-elevated);
-  border: 1px solid var(--border-accent);
-  color: var(--text-primary);
-}
-
-.btn-rigid-steel:hover {
-  background-color: var(--bg-highlight);
-  border-color: var(--accent-slate);
-}
-
 /* ==========================================================================
-   RIGID SKELETON LOADERS (Sharp 0px Corners, Sophisticated Dark Navy Pulse)
-   Used for dynamic telemetry, simulated model loads, and live benchmark states
+   RIGID SKELETON LOADERS (Sharp 0px Corners, Off-White / Bone Shimmer)
    ========================================================================== */
-.skeleton-container {
-  position: relative;
-}
-
 .skeleton-box {
-  background-color: #121D30;
+  background-color: #DDD6C8;
   position: relative;
   overflow: hidden;
   min-height: 1.25rem;
   width: 100%;
+  border: 1px solid #C8C1B3;
 }
 
 .skeleton-box::after {
@@ -329,7 +326,7 @@ h1, h2, h3, h4 {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(90deg, transparent, rgba(100, 135, 178, 0.12), transparent);
+  background: linear-gradient(90deg, transparent, rgba(28, 22, 19, 0.08), transparent);
   animation: skeletonPulse 1.6s infinite ease-in-out;
 }
 
@@ -343,37 +340,24 @@ h1, h2, h3, h4 {
   width: 75%;
 }
 
-.skeleton-badge {
-  display: inline-block;
-  height: 1.2rem;
-  width: 80px;
-}
-
 @keyframes skeletonPulse {
   0% { transform: translateX(-100%); }
   50% { transform: translateX(20%); }
   100% { transform: translateX(100%); }
 }
 
-.is-hydrated .skeleton-box {
-  display: none !important;
-}
-
-.is-hydrated .dynamic-content {
-  display: block !important;
-}
-
-/* Standardized Scrollbar */
+/* Clean Journal Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-primary);
+  border-left: 1px solid var(--border-subtle);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--border-medium);
+  background: var(--text-muted);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--border-accent);
+  background: var(--color-espresso);
 }

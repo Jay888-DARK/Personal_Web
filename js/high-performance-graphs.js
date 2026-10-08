@@ -1,8 +1,8 @@
 /**
  * HIGH-PERFORMANCE GRAPH ANIMATIONS (SENTINEL & RISK ENGINE)
- * Pure HTML5 Canvas 2D • Linear Aggressive Mathematical Drawing
- * Dark Navy & Slate Gray Base • Zero Drop Shadows • Zero Neon • Zero Radar Blips
- * Zero Terminal Fonts ('Plus Jakarta Sans' Used Exclusively)
+ * Architectural Magazine & Technical Journal Edition
+ * Off-White Bone Canvas (#E8E3D8) • Dark Espresso (#1C1613) • Deep Olive (#283325) • Muted Terracotta (#A2583E)
+ * Pure Static & Linear Mathematical Drawing • Strict 0px Rectangles • Archivo Sans Typography
  */
 
 (function initHighPerformanceGraphs() {
@@ -22,10 +22,8 @@
     let height = 0;
     let dpr = window.devicePixelRatio || 1;
 
-    // Structured Grid of Nodes (Cyber Infrastructure)
     const COLS = 8;
     const ROWS = 5;
-    const TOTAL_NODES = COLS * ROWS;
     let nodes = [];
     let edges = [];
     let anomalyNodes = new Set();
@@ -49,7 +47,6 @@
       anomalyNodes.clear();
       anomalyEdges = [];
 
-      // Create nodes
       for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
           const idx = r * COLS + c;
@@ -64,7 +61,6 @@
         }
       }
 
-      // Designate core anomaly target cluster (nodes 18, 19, 20, 26, 27, 28)
       const targetIndices = [18, 19, 20, 26, 27, 28];
       targetIndices.forEach(idx => {
         if (nodes[idx]) {
@@ -73,7 +69,6 @@
         }
       });
 
-      // Create topological mesh edges
       for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
           const idx = r * COLS + c;
@@ -95,31 +90,29 @@
     }
 
     let startTime = null;
-    const DURATION = 900;
+    const DURATION = 850;
     let hasLocked = false;
 
     function drawStaticGrid() {
       ctx.clearRect(0, 0, width, height);
 
-      // Dark Navy Surface boundary
-      ctx.fillStyle = '#10192A';
+      ctx.fillStyle = '#E8E3D8';
       ctx.fillRect(0, 0, width, height);
 
-      ctx.strokeStyle = '#1C2A42';
-      ctx.lineWidth = 1;
+      ctx.strokeStyle = '#1C1613';
+      ctx.lineWidth = 2;
       ctx.strokeRect(0, 0, width, height);
 
-      // Inactive nodes
-      ctx.fillStyle = '#273957';
+      ctx.fillStyle = '#1C1613';
       for (let i = 0; i < nodes.length; i++) {
         const n = nodes[i];
-        ctx.fillRect(Math.round(n.x - 1.5), Math.round(n.y - 1.5), 3, 3);
+        ctx.fillRect(Math.round(n.x - 2), Math.round(n.y - 2), 4, 4);
       }
 
-      ctx.font = '11px "Plus Jakarta Sans", sans-serif';
-      ctx.fillStyle = '#64748B';
-      ctx.fillText('TOPOLOGY: 40 NODES // LATENCY < 18ms', 16, 22);
-      ctx.fillText('STATE: STANDBY', width - 120, 22);
+      ctx.font = '700 11px "Archivo", sans-serif';
+      ctx.fillStyle = '#483E38';
+      ctx.fillText('TOPOLOGY: 40 NODES // LATENCY < 18ms', 18, 24);
+      ctx.fillText('STATE: STANDBY', width - 130, 24);
     }
 
     function renderSentinelFrame(timestamp) {
@@ -129,24 +122,24 @@
 
       ctx.clearRect(0, 0, width, height);
 
-      ctx.fillStyle = '#10192A';
+      ctx.fillStyle = '#E8E3D8';
       ctx.fillRect(0, 0, width, height);
 
-      ctx.strokeStyle = '#1C2A42';
-      ctx.lineWidth = 1;
+      ctx.strokeStyle = '#1C1613';
+      ctx.lineWidth = 2;
       ctx.strokeRect(0, 0, width, height);
 
-      // Subtle background node markers
+      // Node base
       for (let i = 0; i < nodes.length; i++) {
         const n = nodes[i];
-        ctx.fillStyle = '#1E2D4A';
-        ctx.fillRect(Math.round(n.x - 1.5), Math.round(n.y - 1.5), 3, 3);
+        ctx.fillStyle = '#726860';
+        ctx.fillRect(Math.round(n.x - 2), Math.round(n.y - 2), 4, 4);
       }
 
-      // Draw mesh edges in sequential bursts
+      // Draw mesh edges in deep olive (#283325)
       const edgesToDrawCount = Math.floor(progress * edges.length);
-      ctx.strokeStyle = 'rgba(100, 135, 178, 0.35)';
-      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(40, 51, 37, 0.45)';
+      ctx.lineWidth = 1.25;
       ctx.beginPath();
       for (let i = 0; i < edgesToDrawCount; i++) {
         const edge = edges[i];
@@ -159,7 +152,7 @@
 
       // Sequential packet bursts
       const packetCount = Math.min(12, Math.floor(progress * 16));
-      ctx.fillStyle = '#8CA9CE';
+      ctx.fillStyle = '#1C1613';
       for (let p = 0; p < packetCount; p++) {
         const edgeIdx = (p * 7 + Math.floor(progress * 25)) % edges.length;
         const e = edges[edgeIdx];
@@ -168,16 +161,16 @@
         const t = (progress * 5 + p * 0.15) % 1;
         const px = n1.x + (n2.x - n1.x) * t;
         const py = n1.y + (n2.y - n1.y) * t;
-        ctx.fillRect(Math.round(px - 1), Math.round(py - 1), 2, 2);
+        ctx.fillRect(Math.round(px - 1.5), Math.round(py - 1.5), 3, 3);
       }
 
-      // Anomaly detection snap
+      // Anomaly snap
       if (progress >= 0.85) {
         hasLocked = true;
 
-        // Draw anomalous connecting edges in muted terracotta (#D08C6A)
-        ctx.strokeStyle = '#D08C6A';
-        ctx.lineWidth = 1.5;
+        // Draw anomalous connecting edges in muted terracotta (#A2583E)
+        ctx.strokeStyle = '#A2583E';
+        ctx.lineWidth = 2;
         ctx.beginPath();
         for (let j = 0; j < anomalyEdges.length; j++) {
           const ae = anomalyEdges[j];
@@ -188,10 +181,10 @@
         }
         ctx.stroke();
 
-        ctx.fillStyle = '#D08C6A';
+        ctx.fillStyle = '#A2583E';
         anomalyNodes.forEach(idx => {
           const an = nodes[idx];
-          ctx.fillRect(Math.round(an.x - 3), Math.round(an.y - 3), 6, 6);
+          ctx.fillRect(Math.round(an.x - 4), Math.round(an.y - 4), 8, 8);
         });
 
         // Bounding quarantine box
@@ -204,27 +197,27 @@
           if (an.y > maxY) maxY = an.y;
         });
 
-        ctx.strokeStyle = '#D08C6A';
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#A2583E';
+        ctx.lineWidth = 1.5;
         ctx.strokeRect(minX - 12, minY - 12, (maxX - minX) + 24, (maxY - minY) + 24);
 
-        ctx.font = '11px "Plus Jakarta Sans", sans-serif';
-        ctx.fillStyle = '#D08C6A';
+        ctx.font = '800 11px "Archivo", sans-serif';
+        ctx.fillStyle = '#A2583E';
         ctx.fillText('[TARGET LOCK // ANOMALY ISOLATED]', minX - 12, minY - 18);
-        ctx.fillStyle = '#E2E8F0';
+        ctx.fillStyle = '#1C1613';
         ctx.fillText('L(x, x̂) = 0.0841 > δ // QUARANTINE: ACTIVE', minX - 12, maxY + 24);
       }
 
-      ctx.font = '11px "Plus Jakarta Sans", sans-serif';
-      ctx.fillStyle = '#94A3B8';
-      ctx.fillText('SENTINEL TOPOLOGICAL SCANNER // 40 NODES', 16, 22);
+      ctx.font = '700 11px "Archivo", sans-serif';
+      ctx.fillStyle = '#483E38';
+      ctx.fillText('SENTINEL TOPOLOGICAL SCANNER // 40 NODES', 18, 24);
       
       if (hasLocked) {
-        ctx.fillStyle = '#D08C6A';
-        ctx.fillText('STATE: ANOMALY CONTAINED', width - 180, 22);
+        ctx.fillStyle = '#A2583E';
+        ctx.fillText('STATE: ANOMALY CONTAINED', width - 190, 24);
       } else {
-        ctx.fillStyle = '#64748B';
-        ctx.fillText('SCANNING TOPOLOGY...', width - 150, 22);
+        ctx.fillStyle = '#483E38';
+        ctx.fillText('SCANNING TOPOLOGY...', width - 160, 24);
       }
 
       if (progress < 1.0 || !hasLocked) {
@@ -371,16 +364,16 @@
     function drawCartesianAxes() {
       ctx.clearRect(0, 0, width, height);
 
-      ctx.fillStyle = '#10192A';
+      ctx.fillStyle = '#E8E3D8';
       ctx.fillRect(0, 0, width, height);
 
-      ctx.strokeStyle = '#1C2A42';
-      ctx.lineWidth = 1;
+      ctx.strokeStyle = '#1C1613';
+      ctx.lineWidth = 2;
       ctx.strokeRect(0, 0, width, height);
 
-      ctx.font = '11px "Plus Jakarta Sans", sans-serif';
-      ctx.fillStyle = '#64748B';
-      ctx.strokeStyle = '#162238';
+      ctx.font = '700 11px "Archivo", sans-serif';
+      ctx.fillStyle = '#726860';
+      ctx.strokeStyle = '#D4CEBF';
       ctx.lineWidth = 1;
 
       const yTicks = [0.80, 0.90, 1.00, 1.10, 1.20];
@@ -394,7 +387,7 @@
       });
 
       const base0Y = toCoordY(1.00);
-      ctx.strokeStyle = '#273957';
+      ctx.strokeStyle = '#1C1613';
       ctx.beginPath();
       ctx.setLineDash([4, 4]);
       ctx.moveTo(padL, base0Y);
@@ -412,12 +405,12 @@
         ctx.fillText(`T=${step}`, xPos - 12, height - padB + 18);
       });
 
-      ctx.fillText('CARTESIAN MATRIX: GARCH(1,1) SIMULATION [500 PATHS]', padL, 22);
-      ctx.fillText('STATE: READY', width - 110, 22);
+      ctx.fillText('CARTESIAN MATRIX: GARCH(1,1) SIMULATION [500 PATHS]', padL, 24);
+      ctx.fillText('STATE: READY', width - 110, 24);
     }
 
     let riskStartTime = null;
-    const RISK_DURATION = 1500;
+    const RISK_DURATION = 1400;
     let isFinished = false;
 
     function renderRiskFrame(timestamp) {
@@ -429,8 +422,7 @@
 
       const currentStep = Math.max(1, Math.floor(progress * TIME_STEPS));
 
-      // Draw background paths in refined steel slate
-      ctx.strokeStyle = 'rgba(100, 135, 178, 0.12)';
+      ctx.strokeStyle = 'rgba(40, 51, 37, 0.14)';
       ctx.lineWidth = 1;
 
       for (let p = 0; p < NUM_PATHS; p++) {
@@ -443,12 +435,11 @@
         ctx.stroke();
       }
 
-      // Highlight 99% VaR Path
       if (progress >= 1.0 && var99Path) {
         isFinished = true;
 
-        ctx.strokeStyle = '#D08C6A';
-        ctx.lineWidth = 2.5;
+        ctx.strokeStyle = '#A2583E';
+        ctx.lineWidth = 3;
         ctx.beginPath();
         ctx.moveTo(toCoordX(0), toCoordY(var99Path[0]));
         for (let s = 1; s <= TIME_STEPS; s++) {
@@ -458,23 +449,23 @@
 
         const finalX = toCoordX(TIME_STEPS);
         const finalY = toCoordY(var99Path[TIME_STEPS]);
-        ctx.fillStyle = '#D08C6A';
-        ctx.fillRect(Math.round(finalX - 3), Math.round(finalY - 3), 6, 6);
+        ctx.fillStyle = '#A2583E';
+        ctx.fillRect(Math.round(finalX - 4), Math.round(finalY - 4), 8, 8);
 
-        ctx.font = '11px "Plus Jakarta Sans", sans-serif';
-        ctx.fillStyle = '#D08C6A';
+        ctx.font = '800 11px "Archivo", sans-serif';
+        ctx.fillStyle = '#A2583E';
         ctx.fillText('SLASHED: 99% VALUE AT RISK (VaR) -> -3.42%', finalX - 290, finalY - 10);
 
-        ctx.font = '11px "Plus Jakarta Sans", sans-serif';
-        ctx.fillStyle = '#E2E8F0';
+        ctx.font = '700 11px "Archivo", sans-serif';
+        ctx.fillStyle = '#1C1613';
         ctx.fillText('N=500 SIMULATED PATHS CONVERGED // PERSISTENCE: 0.985', padL, height - padB - 14);
 
-        ctx.fillStyle = '#8CA9CE';
-        ctx.fillText('STATE: 99% VaR COMPUTED', width - 180, 22);
+        ctx.fillStyle = '#283325';
+        ctx.fillText('STATE: 99% VaR COMPUTED', width - 180, 24);
       } else {
-        ctx.font = '11px "Plus Jakarta Sans", sans-serif';
-        ctx.fillStyle = '#64748B';
-        ctx.fillText(`SIMULATING: STEP ${currentStep}/${TIME_STEPS} [PATHS: 500]`, width - 240, 22);
+        ctx.font = '700 11px "Archivo", sans-serif';
+        ctx.fillStyle = '#726860';
+        ctx.fillText(`SIMULATING: STEP ${currentStep}/${TIME_STEPS} [PATHS: 500]`, width - 240, 24);
       }
 
       if (progress < 1.0 || !isFinished) {

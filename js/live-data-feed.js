@@ -1,8 +1,8 @@
 /**
- * REAL-TIME QUANTITATIVE & SYSTEMS TELEMETRY STREAM
- * GARCH(1,1) Volatility Logs, Monte Carlo VaR Calculations,
- * and Latent Autoencoder Telemetry with Skeleton Loader Hydration.
- * Pure typography on Dark Navy base • No terminal fonts, No emojis, No window chrome.
+ * REAL-TIME QUANTITATIVE TELEMETRY STREAM
+ * Architectural Magazine & Technical Journal Edition
+ * GARCH(1,1), Monte Carlo VaR, Latent Autoencoder Telemetry with Rigid Skeleton Hydration
+ * Dark Espresso & Terracotta Inks • Bone Base • No Terminal Fonts
  */
 
 (function initLiveDataFeed() {
@@ -13,7 +13,6 @@
   const MAX_LINES = 5;
   const history = [];
 
-  // GARCH(1,1) base state
   let garchOmega = 0.000012;
   let garchAlpha = 0.085;
   let garchBeta = 0.905;
@@ -67,7 +66,7 @@
       <div class="skeleton-box skeleton-line" style="height: 16px; margin-bottom: 6px;"></div>
       <div class="skeleton-box skeleton-line" style="height: 16px; margin-bottom: 6px; width: 92%;"></div>
       <div class="skeleton-box skeleton-line" style="height: 16px; margin-bottom: 6px; width: 85%;"></div>
-      <div class="skeleton-box skeleton-line" style="height: 16px; margin-bottom: 6px; width: 96%;"></div>
+      <div class="skeleton-box skeleton-line" style="height: 16px; margin-bottom: 6px; width: 95%;"></div>
       <div class="skeleton-box skeleton-line" style="height: 16px; width: 70%;"></div>
     `;
   }
@@ -76,7 +75,7 @@
     container.innerHTML = history
       .map((line, idx) => {
         const isLatest = idx === history.length - 1;
-        return `<div class="data-feed-line" style="${isLatest ? 'color: #8CA9CE; font-weight: 600;' : 'color: #94A3B8;'}">${line}</div>`;
+        return `<div class="data-feed-line" style="${isLatest ? 'color: #A2583E; font-weight: 800;' : 'color: #483E38;'}">${line}</div>`;
       })
       .join('');
   }
@@ -90,12 +89,11 @@
       }
       renderFeed();
       isFeeding = true;
-    }, 450);
+    }, 400);
   }
 
   hydrateFeed();
 
-  // Periodic telemetry ingestion
   setInterval(() => {
     if (!isFeeding) return;
     history.shift();

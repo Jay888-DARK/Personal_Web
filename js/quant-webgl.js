@@ -1,14 +1,13 @@
 /**
  * QUANTITATIVE WEBGL 3D SURFACE & GSAP SCROLLTRIGGER CONTROLLER
- * Procedural Volatility Mesh & Latent Space Manifold
- * Wireframe Materials: Muted Steel Blue (#5275A1) & Refined Slate (#8CA9CE)
- * Confined Strictly to Hero Section • Dark Navy Base
+ * Architectural Magazine & Journal Edition
+ * Deep Olive Green (#283325) & Muted Terracotta (#A2583E) over Bone Base
+ * Strictly Confined to Hero Section
  */
 
 (function initQuantitativeWebGL() {
   const canvas = document.getElementById('webglCanvas');
   if (!canvas || typeof THREE === 'undefined') {
-    console.warn('[WebGL Active] Three.js not detected or canvas missing.');
     return;
   }
 
@@ -47,37 +46,35 @@
   // Store base un-displaced vertex positions
   const basePositions = planeGeo.attributes.position.clone();
 
-  // 1. Wireframe Material: Muted Steel Blue (#5275A1)
+  // 1. Wireframe Material: Deep Olive Green (#283325)
   const wireMaterial = new THREE.MeshBasicMaterial({
-    color: 0x5275A1,
+    color: 0x283325,
     wireframe: true,
     transparent: true,
-    opacity: 0.55
+    opacity: 0.45
   });
   const wireMesh = new THREE.Mesh(planeGeo, wireMaterial);
   scene.add(wireMesh);
 
-  // 2. Vertex Points Lattice: Refined Slate (#8CA9CE)
+  // 2. Vertex Points Lattice: Muted Terracotta (#A2583E)
   const pointsMaterial = new THREE.PointsMaterial({
-    color: 0x8CA9CE,
+    color: 0xA2583E,
     size: 0.14,
     transparent: true,
-    opacity: 0.85
+    opacity: 0.70
   });
   const pointsLattice = new THREE.Points(planeGeo, pointsMaterial);
   scene.add(pointsLattice);
 
-  // 3. Quantitative Axis & Bounding Risk Frame
-  const boxHelper = new THREE.BoxHelper(wireMesh, 0x1C2A42);
+  // 3. Quantitative Axis & Bounding Risk Frame: Dark Espresso (#1C1613)
+  const boxHelper = new THREE.BoxHelper(wireMesh, 0x1C1613);
   scene.add(boxHelper);
 
-  // Mathematical Parameters for Multi-Dimensional Risk / Autoencoder Latent Surface
   let clock = new THREE.Clock();
   let surfaceVolatility = 1.0;
   let waveFrequency = 1.0;
   let manifoldDeform = 0.0;
 
-  // Procedural Volatility Surface Wave Equation
   function updateSurfaceGeometry(elapsed) {
     const pos = planeGeo.attributes.position;
     const base = basePositions;
@@ -87,10 +84,8 @@
       const x = base.getX(i);
       const z = base.getZ(i);
 
-      // Distance from origin (Moneyness vs Maturity)
       const r = Math.sqrt(x * x + z * z);
       
-      // Multi-frequency wave simulating GARCH volatility clustering + latent space fold
       const wave1 = Math.sin(x * 0.25 * waveFrequency + elapsed * 0.6) * Math.cos(z * 0.25 * waveFrequency + elapsed * 0.5);
       const wave2 = Math.sin(r * 0.35 - elapsed * 0.8) * 0.5;
       const gaussianSmile = 2.4 * Math.exp(-0.035 * (x * x + z * z));
@@ -105,21 +100,18 @@
     boxHelper.update();
   }
 
-  // Animation Loop
   function render() {
     requestAnimationFrame(render);
     const elapsed = clock.getElapsedTime();
     updateSurfaceGeometry(elapsed);
 
-    // Subtle continuous idle drift
-    wireMesh.rotation.y = Math.sin(elapsed * 0.05) * 0.08;
+    wireMesh.rotation.y = Math.sin(elapsed * 0.05) * 0.06;
     pointsLattice.rotation.y = wireMesh.rotation.y;
 
     renderer.render(scene, camera);
   }
   render();
 
-  // Resize Handler
   function handleResize() {
     const width = canvas.clientWidth;
     const height = canvas.clientHeight;
@@ -129,7 +121,6 @@
   }
   window.addEventListener('resize', handleResize);
 
-  // GSAP ScrollTrigger: Confined strictly to Hero section
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -142,12 +133,9 @@
       }
     })
     .to(camera.position, { x: 18, y: 12, z: 20 }, 0)
-    .to(wireMaterial, { opacity: 0.25 }, 0);
-
-    console.log('[Quantitative WebGL Active] Volatility mesh confined strictly to Hero section.');
+    .to(wireMaterial, { opacity: 0.20 }, 0);
   }
 
-  // Expose global controller for interactive sliders
   window.QuantWebGL = {
     setVolatility: (v) => { surfaceVolatility = v; },
     setFrequency: (f) => { waveFrequency = f; },

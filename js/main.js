@@ -1,7 +1,8 @@
 /**
  * JAY BHATT — MAIN ARCHITECTURAL CONTROLLER
+ * Architectural Magazine & Technical Journal Edition
  * Navigation state tracking, legal modal dialogs, and clipboard utilities.
- * Sophisticated Dark Navy & Slate Gray • jaybhatt.me Specification
+ * Striking Off-White/Bone & Dark Espresso Palette • jaybhatt.me
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -42,19 +43,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const LEGAL_TEXTS = {
     tos: {
-      title: 'TERMS OF SERVICE // JAYBHATT.ME SYSTEMS REPOSITORY',
+      title: 'TERMS OF SERVICE // JAYBHATT.ME SYSTEMS ARCHITECTURE',
       content: `
         <h4>1. Operational Nature of jaybhatt.me</h4>
-        <p>This digital environment serves as the personal engineering portfolio, quantitative research laboratory, and systems repository of Jay Bhatt (domain: <strong>jaybhatt.me</strong>). All computational models, architectural topologies, algorithm implementations, and interactive demonstrations (including Sentinel intrusion detection, GARCH(1,1) volatility models, Monte Carlo risk engines, and Math-to-Code neural compilers) are provided strictly for research, engineering evaluation, and professional demonstration.</p>
+        <p>This digital environment serves as the quantitative systems journal, research archive, and engineering portfolio of Jay Bhatt (domain: <strong>jaybhatt.me</strong>). All computational models, architectural topologies, algorithm implementations, and interactive product demonstrations (including Sentinel intrusion containment, GARCH(1,1) volatility models, Monte Carlo risk engines, and Math-to-Code neural compilers) are provided strictly for academic, engineering evaluation, and professional research purposes.</p>
 
         <h4>2. No Financial, Investment, or Trading Advice</h4>
-        <p>The quantitative risk metrics, Value-at-Risk (VaR) estimations, Expected Shortfall (CVaR) calculations, and simulated Monte Carlo trajectories presented on jaybhatt.me are algorithmic demonstrations of computational methods. Nothing on this website constitutes financial advisory services, securities solicitation, investment counsel, or a recommendation to enter or liquidate positions in financial markets.</p>
+        <p>The quantitative risk metrics, Value-at-Risk (VaR) estimations, Expected Shortfall (CVaR) calculations, and simulated Monte Carlo trajectories presented on jaybhatt.me are literal mathematical demonstrations of computational methods. Nothing contained on this website constitutes financial advisory services, securities solicitation, investment counsel, or a recommendation to enter or liquidate positions in financial markets.</p>
 
         <h4>3. Intellectual Property & Systems Reproducibility</h4>
-        <p>All architectural formulations, neural autoencoder topologies, compilation pipelines, and bespoke software implementations remain the intellectual property of Jay Bhatt unless otherwise attributed to upstream open-source frameworks (e.g., PyTorch, Three.js, SymPy, Redis, React). Commercial replication, extraction, or scraping without explicit consent is strictly prohibited.</p>
+        <p>All architectural formulations, neural autoencoder topologies, compilation pipelines, and bespoke software implementations remain the intellectual property of Jay Bhatt unless otherwise attributed to upstream open-source frameworks. Commercial replication, extraction, or scraping without explicit consent is strictly prohibited.</p>
 
         <h4>4. Client-Side WebGL & Shader Execution</h4>
-        <p>The 3D procedural volatility mesh and real-time interactive canvases execute via client-side WebGL and Canvas 2D contexts on your hardware. Simulation rendering and FPS parity may depend upon local graphics hardware and browser configuration.</p>
+        <p>The 3D procedural volatility mesh and real-time interactive canvases execute via client-side WebGL and Canvas 2D contexts on your hardware. Simulation rendering and FPS parity depend upon local graphics hardware and browser configuration.</p>
       `
     },
     privacy: {
@@ -125,12 +126,8 @@ document.addEventListener('DOMContentLoaded', () => {
       navigator.clipboard.writeText(email).then(() => {
         const originalText = copyBtn.innerHTML;
         copyBtn.innerHTML = 'COPIED TO CLIPBOARD // [OK]';
-        copyBtn.style.borderColor = '#8CA9CE';
-        copyBtn.style.color = '#E2E8F0';
         setTimeout(() => {
           copyBtn.innerHTML = originalText;
-          copyBtn.style.borderColor = '';
-          copyBtn.style.color = '';
         }, 2200);
       });
     });
