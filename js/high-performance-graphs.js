@@ -1,8 +1,8 @@
 /**
- * HIGH-PERFORMANCE GRAPH ANIMATIONS (SENTINEL & RISK ENGINE ONLY)
+ * HIGH-PERFORMANCE GRAPH ANIMATIONS (SENTINEL & RISK ENGINE)
  * Pure HTML5 Canvas 2D • Linear Aggressive Mathematical Drawing
- * Zero Drop Shadows • Zero Neon • Zero Radar Blips • Rigid 0px Containers
- * Instant Reset & Redraw on Scroll via IntersectionObserver
+ * Dark Navy & Slate Gray Base • Zero Drop Shadows • Zero Neon • Zero Radar Blips
+ * Zero Terminal Fonts ('Plus Jakarta Sans' Used Exclusively)
  */
 
 (function initHighPerformanceGraphs() {
@@ -53,7 +53,6 @@
       for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
           const idx = r * COLS + c;
-          // Slight deterministic jitter for topological variation
           const jitterX = ((idx * 17) % 11 - 5) * 1.5;
           const jitterY = ((idx * 23) % 11 - 5) * 1.5;
           nodes.push({
@@ -74,26 +73,14 @@
         }
       });
 
-      // Create topological mesh edges (horizontal, vertical, diagonal)
+      // Create topological mesh edges
       for (let r = 0; r < ROWS; r++) {
         for (let c = 0; c < COLS; c++) {
           const idx = r * COLS + c;
-          // Right neighbor
-          if (c < COLS - 1) {
-            addEdge(idx, idx + 1);
-          }
-          // Down neighbor
-          if (r < ROWS - 1) {
-            addEdge(idx, idx + COLS);
-          }
-          // Diagonal right-down
-          if (c < COLS - 1 && r < ROWS - 1 && (idx % 2 === 0)) {
-            addEdge(idx, idx + COLS + 1);
-          }
-          // Diagonal left-down
-          if (c > 0 && r < ROWS - 1 && (idx % 3 === 0)) {
-            addEdge(idx, idx + COLS - 1);
-          }
+          if (c < COLS - 1) addEdge(idx, idx + 1);
+          if (r < ROWS - 1) addEdge(idx, idx + COLS);
+          if (c < COLS - 1 && r < ROWS - 1 && (idx % 2 === 0)) addEdge(idx, idx + COLS + 1);
+          if (c > 0 && r < ROWS - 1 && (idx % 3 === 0)) addEdge(idx, idx + COLS - 1);
         }
       }
     }
@@ -107,31 +94,32 @@
       }
     }
 
-    // Animation Timing
     let startTime = null;
-    const DURATION = 900; // 0.9s rapid sequential edge draw
+    const DURATION = 900;
     let hasLocked = false;
 
     function drawStaticGrid() {
       ctx.clearRect(0, 0, width, height);
 
-      // Stark Cartesian boundary and grid ticks
-      ctx.strokeStyle = '#1C1C1C';
+      // Dark Navy Surface boundary
+      ctx.fillStyle = '#10192A';
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.strokeStyle = '#1C2A42';
       ctx.lineWidth = 1;
       ctx.strokeRect(0, 0, width, height);
 
-      // Draw inactive nodes (sharp 3x3 squares)
-      ctx.fillStyle = '#2E2E2E';
+      // Inactive nodes
+      ctx.fillStyle = '#273957';
       for (let i = 0; i < nodes.length; i++) {
         const n = nodes[i];
         ctx.fillRect(Math.round(n.x - 1.5), Math.round(n.y - 1.5), 3, 3);
       }
 
-      // Top corner telemetry stamp
-      ctx.font = '10px Consolas, monospace';
-      ctx.fillStyle = '#737373';
-      ctx.fillText('TOPOLOGY: 40 NODES // LATENCY < 18ms', 14, 20);
-      ctx.fillText('STATE: STANDBY', width - 110, 20);
+      ctx.font = '11px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#64748B';
+      ctx.fillText('TOPOLOGY: 40 NODES // LATENCY < 18ms', 16, 22);
+      ctx.fillText('STATE: STANDBY', width - 120, 22);
     }
 
     function renderSentinelFrame(timestamp) {
@@ -141,22 +129,23 @@
 
       ctx.clearRect(0, 0, width, height);
 
-      // Boundary line
-      ctx.strokeStyle = '#222222';
+      ctx.fillStyle = '#10192A';
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.strokeStyle = '#1C2A42';
       ctx.lineWidth = 1;
       ctx.strokeRect(0, 0, width, height);
 
-      // Background subtle node markers
+      // Subtle background node markers
       for (let i = 0; i < nodes.length; i++) {
         const n = nodes[i];
-        ctx.fillStyle = '#333333';
+        ctx.fillStyle = '#1E2D4A';
         ctx.fillRect(Math.round(n.x - 1.5), Math.round(n.y - 1.5), 3, 3);
       }
 
-      // Rapidly draw edges in sequential bursts
+      // Draw mesh edges in sequential bursts
       const edgesToDrawCount = Math.floor(progress * edges.length);
-
-      ctx.strokeStyle = 'rgba(115, 115, 115, 0.45)'; // Faded Graphite (#737373)
+      ctx.strokeStyle = 'rgba(100, 135, 178, 0.35)';
       ctx.lineWidth = 1;
       ctx.beginPath();
       for (let i = 0; i < edgesToDrawCount; i++) {
@@ -168,9 +157,9 @@
       }
       ctx.stroke();
 
-      // Sequential packet bursts traveling across lines
+      // Sequential packet bursts
       const packetCount = Math.min(12, Math.floor(progress * 16));
-      ctx.fillStyle = '#737373';
+      ctx.fillStyle = '#8CA9CE';
       for (let p = 0; p < packetCount; p++) {
         const edgeIdx = (p * 7 + Math.floor(progress * 25)) % edges.length;
         const e = edges[edgeIdx];
@@ -182,12 +171,12 @@
         ctx.fillRect(Math.round(px - 1), Math.round(py - 1), 2, 2);
       }
 
-      // HIGHLIGHT: When edge drawing completes (or past 85%), instantly snap anomalous nodes
+      // Anomaly detection snap
       if (progress >= 0.85) {
         hasLocked = true;
 
-        // Draw anomalous connecting edges in solid Muted Bronze (#A8927D)
-        ctx.strokeStyle = '#A8927D';
+        // Draw anomalous connecting edges in muted terracotta (#D08C6A)
+        ctx.strokeStyle = '#D08C6A';
         ctx.lineWidth = 1.5;
         ctx.beginPath();
         for (let j = 0; j < anomalyEdges.length; j++) {
@@ -199,14 +188,13 @@
         }
         ctx.stroke();
 
-        // Draw anomalous target nodes as sharp Muted Bronze boxes
-        ctx.fillStyle = '#A8927D';
+        ctx.fillStyle = '#D08C6A';
         anomalyNodes.forEach(idx => {
           const an = nodes[idx];
           ctx.fillRect(Math.round(an.x - 3), Math.round(an.y - 3), 6, 6);
         });
 
-        // Bounding target quarantine bracket
+        // Bounding quarantine box
         let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
         anomalyNodes.forEach(idx => {
           const an = nodes[idx];
@@ -216,29 +204,27 @@
           if (an.y > maxY) maxY = an.y;
         });
 
-        ctx.strokeStyle = '#A8927D';
+        ctx.strokeStyle = '#D08C6A';
         ctx.lineWidth = 1;
         ctx.strokeRect(minX - 12, minY - 12, (maxX - minX) + 24, (maxY - minY) + 24);
 
-        // Immediate Target Lock Readout
-        ctx.font = '10px Consolas, monospace';
-        ctx.fillStyle = '#A8927D';
+        ctx.font = '11px "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = '#D08C6A';
         ctx.fillText('[TARGET LOCK // ANOMALY ISOLATED]', minX - 12, minY - 18);
-        ctx.fillStyle = '#E8E8E8';
+        ctx.fillStyle = '#E2E8F0';
         ctx.fillText('L(x, x̂) = 0.0841 > δ // QUARANTINE: ACTIVE', minX - 12, maxY + 24);
       }
 
-      // Status header
-      ctx.font = '10px Consolas, monospace';
-      ctx.fillStyle = '#737373';
-      ctx.fillText('SENTINEL TOPOLOGICAL SCANNER // 40 NODES', 14, 20);
+      ctx.font = '11px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#94A3B8';
+      ctx.fillText('SENTINEL TOPOLOGICAL SCANNER // 40 NODES', 16, 22);
       
       if (hasLocked) {
-        ctx.fillStyle = '#A8927D';
-        ctx.fillText('STATE: ANOMALY CONTAINED', width - 170, 20);
+        ctx.fillStyle = '#D08C6A';
+        ctx.fillText('STATE: ANOMALY CONTAINED', width - 180, 22);
       } else {
-        ctx.fillStyle = '#737373';
-        ctx.fillText('SCANNING TOPOLOGY...', width - 145, 20);
+        ctx.fillStyle = '#64748B';
+        ctx.fillText('SCANNING TOPOLOGY...', width - 150, 22);
       }
 
       if (progress < 1.0 || !hasLocked) {
@@ -262,7 +248,6 @@
       drawStaticGrid();
     }
 
-    // IntersectionObserver Trigger
     setupTopology();
     drawStaticGrid();
 
@@ -298,19 +283,16 @@
     let height = 0;
     let dpr = window.devicePixelRatio || 1;
 
-    // Simulation Parameters
     const NUM_PATHS = 500;
     const TIME_STEPS = 100;
     let precomputedPaths = [];
     let var99Path = null;
     let finalPrices = [];
 
-    // Pre-seed 500 deterministic GARCH(1,1) Monte Carlo paths
     function generateMonteCarloPaths() {
       precomputedPaths = [];
       finalPrices = [];
 
-      // Park-Miller LCG for fast reproducible math
       let seed = 42;
       function pseudoRandom() {
         seed = (seed * 16807) % 2147483647;
@@ -325,11 +307,10 @@
       }
 
       const initialPrice = 1.0000;
-      const baseVol = 0.16; // 16% annualized
+      const baseVol = 0.16;
       const dt = 1 / 252;
       const drift = 0.02;
 
-      // GARCH dynamics
       const alpha = 0.085;
       const beta = 0.900;
       const longTermVar = Math.pow(baseVol, 2);
@@ -347,7 +328,6 @@
           const nextPrice = path[t - 1] * Math.exp(ret);
           path[t] = nextPrice;
 
-          // GARCH update
           const shock = Math.pow(nextPrice - path[t - 1], 2);
           currentVar = omega + alpha * shock + beta * currentVar;
         }
@@ -356,7 +336,6 @@
         finalPrices.push({ index: p, price: path[TIME_STEPS] });
       }
 
-      // Sort final prices to identify 99% VaR path (1st percentile: index 5 of 500)
       finalPrices.sort((a, b) => a.price - b.price);
       const var99Index = finalPrices[Math.floor(NUM_PATHS * 0.01)].index;
       var99Path = precomputedPaths[var99Index];
@@ -373,7 +352,6 @@
       ctx.scale(dpr, dpr);
     }
 
-    // Cartesian Grid Dimensions
     const padL = 60;
     const padR = 30;
     const padT = 40;
@@ -393,15 +371,16 @@
     function drawCartesianAxes() {
       ctx.clearRect(0, 0, width, height);
 
-      // Background boundary
-      ctx.strokeStyle = '#1C1C1C';
+      ctx.fillStyle = '#10192A';
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.strokeStyle = '#1C2A42';
       ctx.lineWidth = 1;
       ctx.strokeRect(0, 0, width, height);
 
-      // Grid lines & Y Axis ticks
-      ctx.font = '10px Consolas, monospace';
-      ctx.fillStyle = '#737373';
-      ctx.strokeStyle = '#181818';
+      ctx.font = '11px "Plus Jakarta Sans", sans-serif';
+      ctx.fillStyle = '#64748B';
+      ctx.strokeStyle = '#162238';
       ctx.lineWidth = 1;
 
       const yTicks = [0.80, 0.90, 1.00, 1.10, 1.20];
@@ -411,12 +390,11 @@
         ctx.moveTo(padL, yPos);
         ctx.lineTo(width - padR, yPos);
         ctx.stroke();
-        ctx.fillText(val.toFixed(2), 18, yPos + 3);
+        ctx.fillText(val.toFixed(2), 18, yPos + 4);
       });
 
-      // Baseline at 1.00 (S_0)
       const base0Y = toCoordY(1.00);
-      ctx.strokeStyle = '#2A2A2A';
+      ctx.strokeStyle = '#273957';
       ctx.beginPath();
       ctx.setLineDash([4, 4]);
       ctx.moveTo(padL, base0Y);
@@ -424,7 +402,6 @@
       ctx.stroke();
       ctx.setLineDash([]);
 
-      // X Axis Ticks (Time Horizon)
       const xTicks = [0, 25, 50, 75, 100];
       xTicks.forEach(step => {
         const xPos = toCoordX(step);
@@ -435,14 +412,12 @@
         ctx.fillText(`T=${step}`, xPos - 12, height - padB + 18);
       });
 
-      // Header Readout
       ctx.fillText('CARTESIAN MATRIX: GARCH(1,1) SIMULATION [500 PATHS]', padL, 22);
       ctx.fillText('STATE: READY', width - 110, 22);
     }
 
-    // Animation Variables
     let riskStartTime = null;
-    const RISK_DURATION = 1500; // 1.5 seconds linear path generation sequence
+    const RISK_DURATION = 1500;
     let isFinished = false;
 
     function renderRiskFrame(timestamp) {
@@ -452,11 +427,10 @@
 
       drawCartesianAxes();
 
-      // Current visible step along time axis (Linear mathematical speed)
       const currentStep = Math.max(1, Math.floor(progress * TIME_STEPS));
 
-      // 1. Draw 500 Jagged Simulation Lines in Graphite (#737373) at 10% opacity
-      ctx.strokeStyle = 'rgba(115, 115, 115, 0.10)';
+      // Draw background paths in refined steel slate
+      ctx.strokeStyle = 'rgba(100, 135, 178, 0.12)';
       ctx.lineWidth = 1;
 
       for (let p = 0; p < NUM_PATHS; p++) {
@@ -469,12 +443,11 @@
         ctx.stroke();
       }
 
-      // 2. HIGHLIGHT: Once background paths finish drawing (progress === 1.0),
-      // slash a single, thick, opaque Muted Bronze (#A8927D) line across distribution (99% VaR)
+      // Highlight 99% VaR Path
       if (progress >= 1.0 && var99Path) {
         isFinished = true;
 
-        ctx.strokeStyle = '#A8927D';
+        ctx.strokeStyle = '#D08C6A';
         ctx.lineWidth = 2.5;
         ctx.beginPath();
         ctx.moveTo(toCoordX(0), toCoordY(var99Path[0]));
@@ -483,28 +456,24 @@
         }
         ctx.stroke();
 
-        // Terminal VaR point marker
         const finalX = toCoordX(TIME_STEPS);
         const finalY = toCoordY(var99Path[TIME_STEPS]);
-        ctx.fillStyle = '#A8927D';
+        ctx.fillStyle = '#D08C6A';
         ctx.fillRect(Math.round(finalX - 3), Math.round(finalY - 3), 6, 6);
 
-        // Explicit VaR threshold label
-        ctx.font = '11px Consolas, monospace';
-        ctx.fillStyle = '#A8927D';
+        ctx.font = '11px "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = '#D08C6A';
         ctx.fillText('SLASHED: 99% VALUE AT RISK (VaR) -> -3.42%', finalX - 290, finalY - 10);
 
-        ctx.font = '10px Consolas, monospace';
-        ctx.fillStyle = '#E8E8E8';
+        ctx.font = '11px "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = '#E2E8F0';
         ctx.fillText('N=500 SIMULATED PATHS CONVERGED // PERSISTENCE: 0.985', padL, height - padB - 14);
 
-        ctx.fillStyle = '#A8927D';
-        ctx.fillText('STATE: 99% VaR COMPUTED', width - 170, 22);
+        ctx.fillStyle = '#8CA9CE';
+        ctx.fillText('STATE: 99% VaR COMPUTED', width - 180, 22);
       } else {
-        // In-flight progress readout
-        const currentPathsCount = Math.floor(progress * NUM_PATHS);
-        ctx.font = '10px Consolas, monospace';
-        ctx.fillStyle = '#737373';
+        ctx.font = '11px "Plus Jakarta Sans", sans-serif';
+        ctx.fillStyle = '#64748B';
         ctx.fillText(`SIMULATING: STEP ${currentStep}/${TIME_STEPS} [PATHS: 500]`, width - 240, 22);
       }
 
@@ -529,7 +498,6 @@
       drawCartesianAxes();
     }
 
-    // IntersectionObserver Trigger
     resizeRiskCanvas();
     drawCartesianAxes();
 
@@ -552,7 +520,6 @@
     });
   }
 
-  // Global interface for interactive controls
   window.HighPerformanceGraphs = {
     triggerSentinel: () => {
       if (triggerSentinelFn) triggerSentinelFn();

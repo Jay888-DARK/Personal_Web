@@ -1,7 +1,8 @@
 /**
  * QUANTITATIVE WEBGL 3D SURFACE & GSAP SCROLLTRIGGER CONTROLLER
  * Procedural Volatility Mesh & Latent Space Manifold
- * Wireframe Materials: Muted Steel Blue (#4A6B8C) & Metallic Silver (#9BAEC0)
+ * Wireframe Materials: Muted Steel Blue (#5275A1) & Refined Slate (#8CA9CE)
+ * Confined Strictly to Hero Section • Dark Navy Base
  */
 
 (function initQuantitativeWebGL() {
@@ -46,19 +47,19 @@
   // Store base un-displaced vertex positions
   const basePositions = planeGeo.attributes.position.clone();
 
-  // 1. Wireframe Material: Muted Bronze / Champagne (#A8927D)
+  // 1. Wireframe Material: Muted Steel Blue (#5275A1)
   const wireMaterial = new THREE.MeshBasicMaterial({
-    color: 0xA8927D,
+    color: 0x5275A1,
     wireframe: true,
     transparent: true,
-    opacity: 0.60
+    opacity: 0.55
   });
   const wireMesh = new THREE.Mesh(planeGeo, wireMaterial);
   scene.add(wireMesh);
 
-  // 2. Vertex Points Lattice: Metallic Champagne (#C4B5A5)
+  // 2. Vertex Points Lattice: Refined Slate (#8CA9CE)
   const pointsMaterial = new THREE.PointsMaterial({
-    color: 0xC4B5A5,
+    color: 0x8CA9CE,
     size: 0.14,
     transparent: true,
     opacity: 0.85
@@ -67,7 +68,7 @@
   scene.add(pointsLattice);
 
   // 3. Quantitative Axis & Bounding Risk Frame
-  const boxHelper = new THREE.BoxHelper(wireMesh, 0x2E2A27);
+  const boxHelper = new THREE.BoxHelper(wireMesh, 0x1C2A42);
   scene.add(boxHelper);
 
   // Mathematical Parameters for Multi-Dimensional Risk / Autoencoder Latent Surface

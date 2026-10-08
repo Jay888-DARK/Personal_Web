@@ -1,11 +1,12 @@
 /* ==========================================================================
-   JAY BHATT — QUANTITATIVE COMPONENTS & ASYMMETRICAL 12-COL LAYOUT
-   Brutalist-Editorial Engineering Aesthetic • Rich Onyx & Muted Bronze Palette
-   Strict 0px Corners • Zero Drop Shadows • Bone #E8E8E8 & Graphite #737373
+   JAY BHATT — AI & SYSTEMS ENGINEER | JAYBHATT.ME
+   Editorial Component Systems & Asymmetrical 12-Column Architecture
+   Sophisticated Dark Navy & Slate Gray Base • Zero Drop Shadows
+   Modern Serif & Refined Sans-Serif • Strict 0px Corner Radii
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   1. FIXED HEADER (TOP)
+   1. FIXED EDITORIAL HEADER
    -------------------------------------------------------------------------- */
 .site-header-rigid {
   position: fixed;
@@ -13,7 +14,7 @@
   left: 0;
   width: 100%;
   height: var(--header-height);
-  background-color: rgba(10, 10, 10, 0.96);
+  background-color: rgba(11, 17, 30, 0.96);
   border-bottom: 1px solid var(--border-medium);
   z-index: 100;
   display: flex;
@@ -34,22 +35,26 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
+  text-decoration: none;
 }
 
 .brand-title {
-  font-family: var(--font-sans);
-  font-size: 1.15rem;
-  font-weight: 900;
-  letter-spacing: 0.08em;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   color: var(--text-primary);
+  line-height: 1.1;
 }
 
 .brand-subtitle {
-  font-family: var(--font-mono);
+  font-family: var(--font-spec);
   font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  letter-spacing: 0.06em;
+  font-weight: 600;
+  color: var(--accent-slate);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
 }
 
 .header-nav {
@@ -59,26 +64,29 @@
 }
 
 .nav-item {
-  font-family: var(--font-mono);
+  font-family: var(--font-spec);
   font-size: 0.78rem;
   font-weight: 700;
   color: var(--text-muted);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
   padding: 6px 0;
   border-bottom: 1px solid transparent;
   transition: color var(--transition-fast), border-color var(--transition-fast);
+  font-variant-numeric: tabular-nums;
 }
 
 .nav-item:hover,
 .nav-item.active {
   color: var(--text-primary);
-  border-bottom: 1px solid var(--border-accent);
+  border-bottom: 1px solid var(--accent-slate);
 }
 
 /* --------------------------------------------------------------------------
-   2. HERO VIEWPORT (STRICT 50/50 SPATIAL DIVISION)
-   Left Column: 45vw max with solid Onyx #0A0A0A background for 100% legibility
-   Right Column: 55vw containing Three.js canvas strictly constrained
+   2. HERO VIEWPORT (EDITORIAL 50/50 ASYMMETRICAL SPATIAL DIVISION)
+   Left Column: Solid Dark Navy #0B111E with high-contrast editorial hierarchy
+   Right Column: Constrained Procedural Three.js WebGL Volatility Canvas
    -------------------------------------------------------------------------- */
 .hero-rigid-section {
   position: relative;
@@ -86,7 +94,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  background: #0A0A0A; /* Solid Onyx background */
+  background-color: var(--bg-primary);
   padding: 0;
   margin: 0;
   overflow: hidden;
@@ -100,10 +108,10 @@
 }
 
 .hero-left-col {
-  width: 45vw;
-  max-width: 45vw;
+  width: 48vw;
+  max-width: 48vw;
   min-height: 100vh;
-  background-color: #0A0A0A; /* Solid Onyx: 100% Text Legibility */
+  background-color: var(--bg-primary);
   position: relative;
   z-index: 10;
   display: flex;
@@ -118,52 +126,46 @@
 .hero-content-group {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-3);
 }
 
 .hero-tag-spec {
-  display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-spec);
+  font-size: 0.76rem;
   font-weight: 700;
-  color: var(--accent-bronze);
-  letter-spacing: 0.14em;
+  color: var(--accent-steel);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-}
-
-.hero-subtext-massive {
-  font-family: var(--font-mono);
-  font-size: clamp(0.95rem, 1.3vw, 1.2rem);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 .hero-description-block {
-  border-left: 2px solid var(--border-accent);
+  border-left: 1px solid var(--border-accent);
   padding-left: var(--space-4);
-  max-width: 580px;
+  max-width: 600px;
 }
 
 .hero-lead-description {
   font-family: var(--font-sans);
   font-size: 1.05rem;
-  line-height: 1.6;
-  color: var(--text-muted); /* Graphite #737373 */
-  letter-spacing: -0.005em;
+  line-height: 1.7;
+  color: var(--text-secondary);
 }
 
 .hero-actions-row {
   display: flex;
-  gap: var(--space-4);
+  gap: var(--space-3);
   align-items: center;
   flex-wrap: wrap;
   margin-top: var(--space-2);
 }
 
 .hero-right-col {
-  width: 55vw;
-  max-width: 55vw;
+  width: 52vw;
+  max-width: 52vw;
   min-height: 100vh;
   position: relative;
   overflow: hidden;
@@ -171,173 +173,105 @@
 }
 
 /* --------------------------------------------------------------------------
-   3. LIVE DATA FEED (DATA MATRIX - RAW FLOATING TEXT DIRECTLY ON ONYX)
-   Strictly NO terminal UI, NO border, NO background, NO padding, NO chrome
+   3. LIVE DATA FEED (DYNAMIC TELEMETRY WITH SKELETON LOADER STATE)
+   Direct typographic telemetry on Dark Navy base with skeleton shimmer state
    -------------------------------------------------------------------------- */
 .live-data-feed-box {
   position: relative;
   margin-top: var(--space-3);
   max-width: 100%;
-  border: none !important;
-  background: transparent !important;
-  padding: 0 !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  pointer-events: none;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  padding: var(--space-3);
 }
 
 .data-feed-header {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-family: var(--font-spec);
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--accent-bronze);
+  letter-spacing: 0.1em;
+  color: var(--accent-slate);
   text-transform: uppercase;
   margin-bottom: var(--space-2);
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  border: none !important;
-  background: transparent !important;
-  padding: 0 !important;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 6px;
+  font-variant-numeric: tabular-nums;
 }
 
-.data-feed-pulse-indicator {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  background-color: var(--accent-bronze);
-  flex-shrink: 0;
+.data-feed-header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.data-feed-refresh-btn {
+  background: none;
+  border: 1px solid var(--border-medium);
+  color: var(--text-muted);
+  font-family: var(--font-spec);
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: all var(--transition-fast);
+}
+
+.data-feed-refresh-btn:hover {
+  background-color: var(--bg-elevated);
+  border-color: var(--border-accent);
+  color: var(--text-primary);
 }
 
 .data-feed-stream {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  line-height: 1.55;
-  color: var(--text-muted); /* Graphite #737373 */
+  font-family: var(--font-spec);
+  font-size: 0.74rem;
+  line-height: 1.6;
+  color: var(--text-muted);
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  border: none !important;
-  background: transparent !important;
-  padding: 0 !important;
+  gap: 4px;
+  min-height: 120px;
+  font-variant-numeric: tabular-nums;
 }
 
 .data-feed-line {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: var(--text-muted); /* Graphite #737373 */
-  border: none !important;
-  background: transparent !important;
-  padding: 0 !important;
+  color: var(--text-secondary);
+  transition: opacity var(--transition-fast);
 }
 
 .data-feed-line:last-child {
-  color: var(--text-primary);
-  font-weight: 700;
-}
-
-/* --------------------------------------------------------------------------
-   4. FOOTER / UTILITY (BOTTOM RIGHT)
-   "SCROLL TO NAVIGATE (WEBGL ACTIVE)" + Plain-Text Social & Legal Links
-   Single-line horizontal alignment with stark forward slash delimiter
-   -------------------------------------------------------------------------- */
-.footer-utility-box {
-  position: fixed;
-  bottom: var(--space-4);
-  right: var(--space-4);
-  z-index: 50;
-  text-align: right;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  align-items: flex-end;
-  pointer-events: auto;
-}
-
-.utility-nav-status {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  user-select: none;
-}
-
-.utility-legal-links {
-  display: flex;
-  gap: var(--space-2);
-  align-items: center;
-  white-space: nowrap;
-}
-
-.utility-plain-link {
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
+  color: var(--accent-slate);
   font-weight: 600;
-  color: var(--text-muted); /* Graphite #737373 */
-  letter-spacing: 0.08em;
-  text-decoration: none !important;
-  cursor: pointer;
-  transition: none !important;
-  animation: none !important;
-}
-
-.utility-plain-link:hover,
-.utility-plain-link:focus,
-.utility-plain-link:active {
-  color: var(--text-muted) !important;
-  text-decoration: none !important;
-  text-shadow: none !important;
-  box-shadow: none !important;
-  transform: none !important;
-  outline: none;
-}
-
-.utility-delimiter {
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  color: var(--text-dim);
-  user-select: none;
 }
 
 /* --------------------------------------------------------------------------
-   5. SECTIONS WITH MATHEMATICAL DELIBERATE SPACING
+   4. SECTIONS WITH MATHEMATICAL DELIBERATE SPACING
    -------------------------------------------------------------------------- */
 .section-rigid {
-  padding-top: var(--space-7);
-  padding-bottom: var(--space-7);
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-6);
   position: relative;
   border-top: 1px solid var(--border-subtle);
+  background-color: var(--bg-primary);
 }
 
 /* --------------------------------------------------------------------------
-   6. ASYMMETRICAL PROJECT & SYSTEMS PRESENTATION
-   Left: Sticky Locked Specs & Architecture (Cols 1-5)
-   Right: Massive Edge-to-Edge Demos & Media (Cols 6-12)
-   -------------------------------------------------------------------------- */
-.project-monograph-block {
-  margin-bottom: var(--space-7);
-  border-top: 1px solid var(--border-medium);
-  padding-top: var(--space-5);
-}
-
-.project-monograph-block:last-child {
-  margin-bottom: 0;
-}
-
-/* --------------------------------------------------------------------------
-   PROJECT MONOGRAPH VERTICAL STACK (FULL-WIDTH CONTAINERS)
-   Spacious min-h-screen layout with pure Onyx #0A0A0A background
-   Columns 1-4: Title, Stack, Overview & Quantitative Metrics (data in #737373)
-   Columns 5-12: Media Showcase powered by <ScrollExpand />
+   5. PROJECT MONOGRAPH VERTICAL STACK (REAL PRODUCT DEMOS)
+   Columns 1-4: Title, Stack, Architecture Overview & Live Parameters
+   Columns 5-12: Interactive Showcase with <ScrollExpand /> and Canvas/Video
    -------------------------------------------------------------------------- */
 .project-monograph-section {
   min-height: 100vh;
   width: 100%;
-  background-color: #0A0A0A;
+  background-color: var(--bg-primary);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -352,47 +286,70 @@
   gap: var(--space-3);
 }
 
-.project-sticky-meta {
-  position: sticky;
-  top: calc(var(--header-height) + var(--space-4));
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
 .project-title-massive {
-  font-family: var(--font-sans);
-  font-size: clamp(2rem, 3.2vw, 3rem);
-  font-weight: 900;
-  line-height: 0.96;
-  letter-spacing: -0.03em;
-  color: var(--text-primary); /* Bone #E8E8E8 */
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 3.4vw, 3.2rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
   margin-top: var(--space-1);
 }
 
 .project-stack-spec {
-  font-family: var(--font-mono);
+  font-family: var(--font-spec);
   font-size: 0.76rem;
   font-weight: 700;
-  color: var(--accent-bronze);
+  color: var(--accent-steel);
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
 }
 
 .project-editorial-desc {
   font-family: var(--font-sans);
-  font-size: 0.95rem;
-  line-height: 1.6;
+  font-size: 0.96rem;
+  line-height: 1.65;
   color: var(--text-secondary);
 }
 
+.system-header-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-medium);
+  padding-bottom: var(--space-2);
+}
+
+.system-num-code {
+  font-family: var(--font-spec);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--accent-slate);
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+}
+
+.system-domain-tag {
+  font-family: var(--font-spec);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  border: 1px solid var(--border-medium);
+  padding: 3px 8px;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Quantitative Technical Metrics Table */
 .project-metrics-table {
   width: 100%;
   border-collapse: collapse;
-  font-family: var(--font-mono);
-  font-size: 0.76rem;
+  font-family: var(--font-spec);
+  font-size: 0.78rem;
   margin-top: var(--space-2);
   border-top: 1px solid var(--border-medium);
+  font-variant-numeric: tabular-nums;
 }
 
 .project-metrics-table tr {
@@ -404,14 +361,15 @@
 }
 
 .project-metrics-table .metric-key {
-  color: var(--text-muted); /* Graphite #737373 */
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   width: 48%;
+  font-weight: 600;
 }
 
 .project-metrics-table .metric-val {
-  color: var(--text-primary); /* Bone #E8E8E8 */
+  color: var(--text-primary);
   font-weight: 700;
   text-align: right;
   letter-spacing: 0.02em;
@@ -427,173 +385,38 @@
   gap: var(--space-3);
 }
 
-.project-media-col .scroll-expand {
-  width: 100%;
-  min-height: 520px;
-}
-
-.project-media-col .scroll-expand__stage {
-  height: 540px;
-}
-
-/* Left Column: Locked Sticky Specs */
-.system-sticky-pane {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
-.system-header-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border-medium);
-  padding-bottom: var(--space-2);
-}
-
-.system-num-code {
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  font-weight: 800;
-  color: var(--accent-bronze);
-  letter-spacing: 0.1em;
-}
-
-.system-domain-tag {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  border: 1px solid var(--border-medium);
-  padding: 3px 8px;
-  letter-spacing: 0.04em;
-}
-
-.system-title-massive {
-  font-size: clamp(1.8rem, 2.8vw, 2.6rem);
-  font-weight: 900;
-  line-height: 1.0;
-  letter-spacing: -0.025em;
-  color: var(--text-primary);
-}
-
-.system-overview-text {
-  font-size: 0.95rem;
-  line-height: 1.65;
-  color: var(--text-secondary);
-}
-
-/* Quantitative Technical Specs Matrix */
-.spec-matrix-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  margin-top: var(--space-2);
-}
-
-.spec-matrix-table tr {
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.spec-matrix-table td {
-  padding: 10px 0;
-}
-
-.spec-label {
-  color: var(--text-muted);
-  width: 48%;
-}
-
-.spec-val {
-  color: var(--text-primary);
-  font-weight: 700;
-}
-
-/* Right Column: Massive Edge-to-Edge Media & Video Demos */
-.system-media-column {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid var(--border-medium);
-  background-color: var(--bg-surface);
-}
-
-.media-edge-viewport {
-  position: relative;
-  width: 100%;
-  height: 520px;
-  background-color: #070707;
-  overflow: hidden;
-}
-
-.media-edge-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
 .system-graph-canvas {
   width: 100%;
   height: 100%;
   display: block;
-  background-color: #0A0A0A;
+  background-color: var(--bg-surface);
 }
 
-/* Rigid Skeleton Loader Overlay */
-.media-skeleton-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 5;
-  background-color: #121212;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-3);
-  transition: opacity 0.4s ease;
-}
-
-.skeleton-loaded .media-skeleton-overlay {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.skeleton-text {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  color: var(--text-muted);
-}
-
-/* Media Technical Control / Status Bar */
 .media-status-strip {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: var(--space-3) var(--space-4);
-  background-color: var(--bg-elevated);
-  border-top: 1px solid var(--border-medium);
-  font-family: var(--font-mono);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  font-family: var(--font-spec);
   font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
 }
 
 .status-active-pill {
-  color: var(--accent-bronze);
-  font-weight: 800;
+  color: var(--accent-slate);
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: var(--space-2);
 }
 
-/* Interactive Simulation Workspace Tray */
+/* Interactive Simulation Tray */
 .system-interactive-tray {
-  padding: var(--space-4);
+  padding: var(--space-3) var(--space-4);
   background-color: var(--bg-surface);
-  border-top: 1px solid var(--border-medium);
+  border: 1px solid var(--border-subtle);
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
@@ -602,20 +425,22 @@
 .interactive-controls-row {
   display: flex;
   align-items: center;
-  gap: var(--space-5);
+  gap: var(--space-4);
   flex-wrap: wrap;
 }
 
 .control-input-group {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: 4px;
 }
 
 .control-label {
-  font-family: var(--font-mono);
+  font-family: var(--font-spec);
   font-size: 0.72rem;
+  font-weight: 600;
   color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 .control-slider {
@@ -632,13 +457,34 @@
   appearance: none;
   width: 14px;
   height: 14px;
-  background: var(--accent-bronze);
+  background: var(--accent-steel);
   cursor: pointer;
+  border-radius: 0;
+}
+
+.mono-value {
+  font-family: var(--font-spec);
+  font-weight: 700;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Code Snippet Box (Strict Editorial Sans with Tabular Figures) */
+.editorial-code-box {
+  font-family: var(--font-spec);
+  font-size: 0.74rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  padding: 12px;
+  overflow-x: auto;
+  white-space: pre;
+  font-variant-numeric: tabular-nums;
 }
 
 /* --------------------------------------------------------------------------
-   7. EXPERIENCE & ARCHIVAL REGISTRY
-   Strict 12-Column Layout
+   6. EXPERIENCE & ACADEMIC APPOINTMENTS (12-COL ASYMMETRICAL)
    -------------------------------------------------------------------------- */
 .registry-12col-item {
   display: contents;
@@ -646,12 +492,13 @@
 
 .registry-period-col {
   grid-column: 1 / span 3;
-  font-family: var(--font-mono);
+  font-family: var(--font-spec);
   font-size: 0.85rem;
-  font-weight: 800;
-  color: var(--accent-bronze);
+  font-weight: 700;
+  color: var(--accent-steel);
   border-top: 1px solid var(--border-medium);
   padding-top: var(--space-4);
+  font-variant-numeric: tabular-nums;
 }
 
 .registry-body-col {
@@ -663,18 +510,28 @@
   gap: var(--space-2);
 }
 
+.registry-body-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
 .registry-meta-col {
   grid-column: 10 / span 3;
   border-top: 1px solid var(--border-medium);
   padding-top: var(--space-4);
   text-align: right;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-family: var(--font-spec);
+  font-size: 0.74rem;
+  font-weight: 600;
   color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 /* --------------------------------------------------------------------------
-   8. CONTACT CHANNEL (12-COL ASYMMETRICAL)
+   7. CONTACT & PUBLIC SPECIFICATIONS
    -------------------------------------------------------------------------- */
 .contact-pane-left {
   grid-column: 1 / span 6;
@@ -697,16 +554,21 @@
 }
 
 .contact-email-massive {
-  font-family: var(--font-mono);
-  font-size: clamp(1.2rem, 2vw, 1.8rem);
-  font-weight: 900;
+  font-family: var(--font-serif);
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+  font-weight: 600;
   color: var(--text-primary);
+  text-decoration: none;
   letter-spacing: -0.01em;
   display: inline-block;
+  border-bottom: 1px solid var(--border-accent);
+  padding-bottom: 2px;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
 }
 
 .contact-email-massive:hover {
-  color: var(--accent-bronze);
+  color: var(--accent-slate);
+  border-color: var(--accent-slate);
 }
 
 .channel-list-rigid {
@@ -714,7 +576,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  font-family: var(--font-mono);
+  font-family: var(--font-spec);
   font-size: 0.82rem;
 }
 
@@ -726,6 +588,8 @@
   padding: var(--space-3) var(--space-4);
   border: 1px solid var(--border-subtle);
   background-color: var(--bg-elevated);
+  text-decoration: none;
+  transition: border-color var(--transition-fast), color var(--transition-fast);
 }
 
 .channel-link:hover {
@@ -734,7 +598,130 @@
 }
 
 /* --------------------------------------------------------------------------
-   9. STRICT 0PX LEGAL MODAL
+   8. DEDICATED EDITORIAL FOOTER WITH TERMS OF SERVICE & PRIVACY POLICY
+   -------------------------------------------------------------------------- */
+.site-footer-editorial {
+  width: 100%;
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-medium);
+  padding: var(--space-6) 0 var(--space-5);
+  margin-top: var(--space-7);
+  position: relative;
+  z-index: 10;
+}
+
+.footer-top-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: var(--space-5);
+  margin-bottom: var(--space-5);
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: var(--space-5);
+}
+
+.footer-col-brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.footer-brand-title {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.footer-brand-desc {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 480px;
+}
+
+.footer-nav-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.footer-col-heading {
+  font-family: var(--font-spec);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-slate);
+  margin-bottom: var(--space-1);
+}
+
+.footer-link-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-link-item a,
+.footer-link-item button {
+  font-family: var(--font-spec);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  letter-spacing: 0.04em;
+  transition: color var(--transition-fast);
+}
+
+.footer-link-item a:hover,
+.footer-link-item button:hover {
+  color: var(--text-primary);
+}
+
+.footer-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  font-family: var(--font-spec);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.footer-legal-inline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.footer-legal-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-spec);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--transition-fast);
+}
+
+.footer-legal-btn:hover {
+  color: var(--text-primary);
+}
+
+/* --------------------------------------------------------------------------
+   9. STRICT 0PX LEGAL MODAL (TERMS OF SERVICE & PRIVACY POLICY)
    -------------------------------------------------------------------------- */
 .legal-modal-backdrop {
   position: fixed;
@@ -742,7 +729,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(10, 10, 10, 0.92);
+  background-color: rgba(11, 17, 30, 0.94);
   z-index: 1000;
   display: none;
   align-items: center;
@@ -756,9 +743,9 @@
 
 .legal-modal-window {
   width: 100%;
-  max-width: 860px;
+  max-width: 880px;
   max-height: 85vh;
-  background-color: #0A0A0A;
+  background-color: var(--bg-surface);
   border: 1px solid var(--border-accent);
   display: flex;
   flex-direction: column;
@@ -769,15 +756,15 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--space-4) var(--space-5);
-  background-color: #121212;
+  background-color: var(--bg-elevated);
   border-bottom: 1px solid var(--border-medium);
 }
 
 .modal-title-rigid {
-  font-family: var(--font-mono);
-  font-size: 0.88rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   color: var(--text-primary);
 }
 
@@ -785,15 +772,19 @@
   background: none;
   border: 1px solid var(--border-medium);
   color: var(--text-muted);
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  padding: 4px 10px;
+  font-family: var(--font-spec);
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 5px 12px;
   cursor: pointer;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .modal-close-rigid:hover {
-  background-color: var(--border-accent);
-  color: #0A0A0A;
+  background-color: var(--bg-highlight);
+  border-color: var(--accent-slate);
+  color: var(--text-primary);
 }
 
 .modal-scroll-body {
@@ -806,11 +797,16 @@
 }
 
 .modal-scroll-body h4 {
-  font-family: var(--font-mono);
-  font-size: 0.95rem;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 600;
   color: var(--text-primary);
   margin-top: var(--space-4);
   margin-bottom: var(--space-2);
+}
+
+.modal-scroll-body h4:first-child {
+  margin-top: 0;
 }
 
 .modal-scroll-body p {
@@ -819,7 +815,7 @@
 
 .modal-footer-rigid {
   padding: var(--space-4) var(--space-5);
-  background-color: #121212;
+  background-color: var(--bg-elevated);
   border-top: 1px solid var(--border-medium);
   display: flex;
   justify-content: flex-end;
@@ -853,13 +849,8 @@
     grid-column: 1 / span 12;
   }
 
-  .sticky-spec-container,
   .project-sticky-meta {
     position: static;
-  }
-
-  .media-edge-viewport {
-    height: 380px;
   }
 
   .registry-period-col {
@@ -885,12 +876,13 @@
     grid-column: 1 / span 12;
   }
 
-  .live-data-feed-box {
-    display: none;
+  .footer-top-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
   }
 
   .webgl-canvas-container {
     width: 100vw;
-    opacity: 0.25;
+    opacity: 0.35;
   }
 }

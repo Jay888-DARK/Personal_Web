@@ -1,7 +1,7 @@
 /**
  * JAY BHATT — MAIN ARCHITECTURAL CONTROLLER
  * Navigation state tracking, legal modal dialogs, and clipboard utilities.
- * Strict 0px Hard Edges • High-Contrast Quantitative Styling
+ * Sophisticated Dark Navy & Slate Gray • jaybhatt.me Specification
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -37,40 +37,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalClose = document.getElementById('legalModalClose');
   const modalFooterClose = document.getElementById('legalModalFooterClose');
 
-  const openTosBtn = document.getElementById('linkTermsOfService');
-  const openPrivacyBtn = document.getElementById('linkPrivacyPolicy');
+  const openTosBtns = document.querySelectorAll('[data-open-legal="tos"], #linkTermsOfService, #footerLinkTos');
+  const openPrivacyBtns = document.querySelectorAll('[data-open-legal="privacy"], #linkPrivacyPolicy, #footerLinkPrivacy');
 
   const LEGAL_TEXTS = {
     tos: {
-      title: 'TERMS OF SERVICE // RESEARCH REPOSITORY SPECIFICATION',
+      title: 'TERMS OF SERVICE // JAYBHATT.ME SYSTEMS REPOSITORY',
       content: `
-        <h4>1. Nature of the Portfolio & Systems</h4>
-        <p>This digital environment serves as the quantitative research, systems engineering, and computational portfolio of Jay Bhatt. All mathematical models, simulations, architectures, and algorithms (including but not limited to Sentinel, GARCH(1,1) implementations, Monte Carlo engines, and Vision-to-Code pipelines) are provided strictly for academic, demonstration, and evaluation purposes.</p>
+        <h4>1. Operational Nature of jaybhatt.me</h4>
+        <p>This digital environment serves as the personal engineering portfolio, quantitative research laboratory, and systems repository of Jay Bhatt (domain: <strong>jaybhatt.me</strong>). All computational models, architectural topologies, algorithm implementations, and interactive demonstrations (including Sentinel intrusion detection, GARCH(1,1) volatility models, Monte Carlo risk engines, and Math-to-Code neural compilers) are provided strictly for research, engineering evaluation, and professional demonstration.</p>
 
         <h4>2. No Financial, Investment, or Trading Advice</h4>
-        <p>The quantitative risk metrics, Value at Risk (VaR) estimations, Monte Carlo simulated trajectories, and foreign exchange (FX) models displayed herein are algorithmic demonstrations. Nothing contained in this environment constitutes investment advice, financial counsel, securities solicitation, or a recommendation to purchase or liquidate any financial asset.</p>
+        <p>The quantitative risk metrics, Value-at-Risk (VaR) estimations, Expected Shortfall (CVaR) calculations, and simulated Monte Carlo trajectories presented on jaybhatt.me are algorithmic demonstrations of computational methods. Nothing on this website constitutes financial advisory services, securities solicitation, investment counsel, or a recommendation to enter or liquidate positions in financial markets.</p>
 
-        <h4>3. Intellectual Property & Code Reproducibility</h4>
-        <p>All proprietary codebases, neural architecture definitions, and custom simulation frameworks are the intellectual property of Jay Bhatt unless otherwise noted (such as open-source dependencies or academic citations). Commercial deployment, replication, or extraction without explicit authorization is strictly prohibited.</p>
+        <h4>3. Intellectual Property & Systems Reproducibility</h4>
+        <p>All architectural formulations, neural autoencoder topologies, compilation pipelines, and bespoke software implementations remain the intellectual property of Jay Bhatt unless otherwise attributed to upstream open-source frameworks (e.g., PyTorch, Three.js, SymPy, Redis, React). Commercial replication, extraction, or scraping without explicit consent is strictly prohibited.</p>
 
-        <h4>4. Systems Availability & WebGL Compute</h4>
-        <p>The 3D procedural WebGL canvas relies on client-side shader computation. Performance may vary according to GPU acceleration and hardware configuration. No warranty is expressed or implied regarding absolute uptime or real-time simulation parity.</p>
+        <h4>4. Client-Side WebGL & Shader Execution</h4>
+        <p>The 3D procedural volatility mesh and real-time interactive canvases execute via client-side WebGL and Canvas 2D contexts on your hardware. Simulation rendering and FPS parity may depend upon local graphics hardware and browser configuration.</p>
       `
     },
     privacy: {
-      title: 'PRIVACY POLICY // DATA TELEMETRY & ATTRIBUTION PROTOCOL',
+      title: 'PRIVACY POLICY // TELEMETRY & ATTRIBUTION PROTOCOL',
       content: `
-        <h4>1. Zero Commercial Tracking</h4>
-        <p>This quantitative environment does not utilize commercial tracking pixels, invasive third-party ad beacons, or cross-site fingerprinting scripts. We respect computational sovereignty.</p>
+        <h4>1. Zero Invasive Tracking & Data Sovereignty</h4>
+        <p>At <strong>jaybhatt.me</strong>, user privacy and computational sovereignty are paramount. This website does not deploy third-party advertising beacons, commercial tracking pixels, social media tracking tags, or cross-origin fingerprinting scripts.</p>
 
-        <h4>2. Client-Side Shader Execution</h4>
-        <p>All Three.js procedural volatility meshes and mathematical surface transformations execute entirely within your local browser's WebGL context. No personal telemetry or hardware parameters are harvested or transmitted to external servers.</p>
+        <h4>2. Client-Side Simulation Privacy</h4>
+        <p>All Three.js procedural simulations, Monte Carlo path generations, and neural AST compilation demonstrations execute entirely within your local browser runtime. No user input, parameter slider values, or client device identifiers are collected, profiled, or transmitted to remote databases.</p>
 
-        <h4>3. Communications & Direct Inquiries</h4>
-        <p>When contacting via institutional channels (<span class="mono-spec">jay.b@ahduni.edu.in</span>), your transmission is handled through standard academic email protocols. Information provided in correspondence is utilized solely for technical, research, or professional dialogue.</p>
+        <h4>3. Direct Communication & Academic Correspondence</h4>
+        <p>When communicating via institutional channels (<strong>jay.b@ahduni.edu.in</strong>), correspondence is processed through official Ahmedabad University academic email protocols. Data provided in email transmissions is held strictly confidential and used solely for professional, research, or engineering inquiries.</p>
 
-        <h4>4. Jurisdiction</h4>
-        <p>This research repository complies with standard Indian academic and data protection regulations under the Information Technology Act and applicable institutional guidelines of Ahmedabad University.</p>
+        <h4>4. Regulatory & Institutional Compliance</h4>
+        <p>This repository adheres to applicable digital privacy and data protection principles under the Information Technology Act of India and relevant institutional research conduct standards.</p>
       `
     }
   };
@@ -90,19 +90,19 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = '';
   }
 
-  if (openTosBtn) {
-    openTosBtn.addEventListener('click', (e) => {
+  openTosBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
       e.preventDefault();
       openLegalModal('tos');
     });
-  }
+  });
 
-  if (openPrivacyBtn) {
-    openPrivacyBtn.addEventListener('click', (e) => {
+  openPrivacyBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
       e.preventDefault();
       openLegalModal('privacy');
     });
-  }
+  });
 
   if (modalClose) modalClose.addEventListener('click', closeLegalModal);
   if (modalFooterClose) modalFooterClose.addEventListener('click', closeLegalModal);
@@ -123,15 +123,15 @@ document.addEventListener('DOMContentLoaded', () => {
     copyBtn.addEventListener('click', () => {
       const email = 'jay.b@ahduni.edu.in';
       navigator.clipboard.writeText(email).then(() => {
-        const originalText = copyBtn.textContent;
-        copyBtn.textContent = 'COPIED TO CLIPBOARD // [OK]';
-        copyBtn.style.borderColor = '#A8927D';
-        copyBtn.style.color = '#E8E8E8';
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = 'COPIED TO CLIPBOARD // [OK]';
+        copyBtn.style.borderColor = '#8CA9CE';
+        copyBtn.style.color = '#E2E8F0';
         setTimeout(() => {
-          copyBtn.textContent = originalText;
+          copyBtn.innerHTML = originalText;
           copyBtn.style.borderColor = '';
           copyBtn.style.color = '';
-        }, 2000);
+        }, 2200);
       });
     });
   }

@@ -1,26 +1,11 @@
 /**
- * SYSTEMS DEMO & SKELETON LOADER CONTROLLER
- * Real product demos for Sentinel, Risk Engine, Math-to-Code SaaS, and Otaku Bazaar.
- * Strict 0px Hard Edges • Mathematical Grounding • Skeleton Loaders
+ * SYSTEMS DEMOS & SKELETON LOADER CONTROLLER
+ * Real interactive product demos for Sentinel, Risk Engine, Math-to-Code AST Compiler, and Otaku Bazaar.
+ * Strict 0px Hard Edges • Slate Navy Palette • Skeleton Hydration
  */
 
 (function initSystemsDemo() {
-  // 1. Skeleton Loader Management for All Media Panes
-  const mediaPanes = document.querySelectorAll('.system-media-column');
-  mediaPanes.forEach(pane => {
-    const img = pane.querySelector('.media-edge-img');
-    if (img) {
-      if (img.complete) {
-        setTimeout(() => pane.classList.add('skeleton-loaded'), 250);
-      } else {
-        img.addEventListener('load', () => {
-          setTimeout(() => pane.classList.add('skeleton-loaded'), 250);
-        });
-      }
-    }
-  });
-
-  // 2. System 1: Sentinel Threat Injection Simulation
+  // 1. System 1: Sentinel Threat Injection Simulation
   const btnTriggerSentinel = document.getElementById('btnTriggerSentinel');
   const sentinelStatusText = document.getElementById('sentinelStatusText');
   const sentinelMetricsDisplay = document.getElementById('sentinelMetricsDisplay');
@@ -32,7 +17,7 @@
       isSimulating = true;
       btnTriggerSentinel.disabled = true;
       sentinelStatusText.textContent = 'INJECTING SYNTHETIC ZERO-DAY PACKET BURST...';
-      sentinelStatusText.style.color = '#E8E8E8';
+      sentinelStatusText.style.color = '#E2E8F0';
 
       if (window.HighPerformanceGraphs && window.HighPerformanceGraphs.triggerSentinel) {
         window.HighPerformanceGraphs.triggerSentinel();
@@ -40,21 +25,23 @@
 
       setTimeout(() => {
         sentinelStatusText.textContent = 'AUTOENCODER RECON LOSS: 0.0841 > THRESHOLD 0.00318 [ANOMALY DETECTED]';
+        sentinelStatusText.style.color = '#D08C6A';
         sentinelMetricsDisplay.textContent = 'ISOLATING COMPROMISED NODE [GRAPH BLAST RADIUS ISOLATED]';
-        sentinelMetricsDisplay.style.color = '#A8927D';
+        sentinelMetricsDisplay.style.color = '#8CA9CE';
       }, 700);
 
       setTimeout(() => {
         sentinelStatusText.textContent = 'CONTAINMENT LATENCY: 14.2ms | THREAT CONTAINED';
+        sentinelStatusText.style.color = '#8CA9CE';
         sentinelMetricsDisplay.textContent = 'TRAFFIC RESTORED TO DETERMINISTIC FALLBACK | STATE: NOMINAL';
-        sentinelMetricsDisplay.style.color = '#B0B0B0';
+        sentinelMetricsDisplay.style.color = '#94A3B8';
         btnTriggerSentinel.disabled = false;
         isSimulating = false;
       }, 1600);
     });
   }
 
-  // 3. System 2: Interactive Financial Risk Parameter Tuner
+  // 2. System 2: Interactive Financial Risk Parameter Tuner
   const sliderVol = document.getElementById('sliderVol');
   const sliderPaths = document.getElementById('sliderPaths');
   const dispVolVal = document.getElementById('dispVolVal');
@@ -102,45 +89,75 @@
     calculateRiskProfile();
   }
 
-  // 4. System 3: Math-to-Code SaaS Interactive Formula Selector
+  // 3. System 3: Math-to-Code Neural AST Compiler Interactive Presets
   const formulaSelector = document.getElementById('formulaSelector');
   const codeOutput = document.getElementById('codeOutput');
   const compileLatency = document.getElementById('compileLatency');
+  const btnCompileFormula = document.getElementById('btnCompileFormula');
 
   const FORMULA_PRESETS = {
     'garch': {
-      code: `// Compiled High-Throughput C++ Eigen Kernel
+      code: `// Compiled High-Throughput C++20 Eigen Kernel
 inline double garch_step(double omega, double alpha, double eps_prev, double beta, double sigma_prev_sq) {
     return omega + alpha * (eps_prev * eps_prev) + beta * sigma_prev_sq;
 }`,
-      latency: '1.42ms'
+      latency: '< 1.42ms',
+      flow: 'OCR [98.4%] -> LaTeX -> SymPy AST -> C++20 Eigen Kernel'
     },
     'autoencoder': {
       code: `import torch
 
 def reconstruction_loss(x: torch.Tensor, x_hat: torch.Tensor) -> torch.Tensor:
-    return torch.mean((x - x_hat) ** 2, dim=-1)`,
-      latency: '1.88ms'
+    # L2 Euclidean Reconstruction Deviation
+    return torch.mean(torch.sum((x - x_hat) ** 2, dim=-1))`,
+      latency: '< 1.88ms',
+      flow: 'OCR [99.1%] -> LaTeX -> SymPy AST -> PyTorch Tensor Kernel'
     },
     'blackscholes': {
-      code: `import numpy as np
-
-def bs_pde_step(V: np.ndarray, S: np.ndarray, sigma: float, r: float, dt: float, dS: float):
-    # Tridiagonal Crank-Nicolson finite difference matrix operator
-    pass`,
-      latency: '2.14ms'
+      code: `// Vectorized Crank-Nicolson Tridiagonal Operator
+void solve_bs_cn(const Eigen::VectorXd& S, Eigen::VectorXd& V, double dt, double sigma, double r) {
+    // Implicit-Explicit Crank-Nicolson Tridiagonal Solver
+    Eigen::MatrixXd A = build_tridiagonal_matrix(S, dt, sigma, r);
+    V = A.colPivHouseholderQr().solve(V);
+}`,
+      latency: '< 2.14ms',
+      flow: 'OCR [97.8%] -> LaTeX -> SymPy AST -> C++ Eigen QR Solver'
+    },
+    'attention': {
+      code: `// Scaled Dot-Product Attention Jacobian Operator
+Eigen::MatrixXd attention_jacobian(const Eigen::MatrixXd& Q, const Eigen::MatrixXd& K, double d_k) {
+    Eigen::MatrixXd scores = (Q * K.transpose()) / std::sqrt(d_k);
+    return softmax(scores);
+}`,
+      latency: '< 1.65ms',
+      flow: 'OCR [98.9%] -> LaTeX -> SymPy AST -> SIMD AVX-512 Kernel'
     }
   };
 
-  if (formulaSelector && codeOutput && compileLatency) {
-    formulaSelector.addEventListener('change', (e) => {
-      const selected = FORMULA_PRESETS[e.target.value] || FORMULA_PRESETS['garch'];
-      codeOutput.textContent = selected.code;
-      compileLatency.textContent = selected.latency;
-    });
+  function updateFormulaPreset() {
+    if (!formulaSelector || !codeOutput || !compileLatency) return;
+    const selectedKey = formulaSelector.value;
+    const preset = FORMULA_PRESETS[selectedKey] || FORMULA_PRESETS['garch'];
+
+    // Skeleton loader simulation during compilation parse
+    codeOutput.textContent = '// Parsing Abstract Syntax Tree... Re-compiling target runtime...';
+    compileLatency.textContent = 'COMPILING...';
+
+    setTimeout(() => {
+      codeOutput.textContent = preset.code;
+      compileLatency.textContent = preset.latency;
+    }, 280);
   }
 
-  // 5. System 4: Otaku Bazaar High-Throughput Transaction Simulator
+  if (formulaSelector) {
+    formulaSelector.addEventListener('change', updateFormulaPreset);
+  }
+
+  if (btnCompileFormula) {
+    btnCompileFormula.addEventListener('click', updateFormulaPreset);
+  }
+
+  // 4. System 4: Otaku Bazaar High-Throughput Concurrency Simulator
   const btnTriggerCheckout = document.getElementById('btnTriggerCheckout');
   const otakuStatusText = document.getElementById('otakuStatusText');
   const otakuMetricsDisplay = document.getElementById('otakuMetricsDisplay');
@@ -152,13 +169,17 @@ def bs_pde_step(V: np.ndarray, S: np.ndarray, sigma: float, r: float, dt: float,
       if (isTesting) return;
       isTesting = true;
       btnTriggerCheckout.disabled = true;
-      otakuStatusText.textContent = 'DISPATCHING ATOMIC LUA INVENTORY LOCK...';
-      otakuStatusText.style.color = '#E8E8E8';
+      otakuStatusText.textContent = 'DISPATCHING ATOMIC LUA INVENTORY LOCK [5,000 REQ/S]...';
+      otakuStatusText.style.color = '#E2E8F0';
+
+      if (otakuTelemetryOutput) {
+        otakuTelemetryOutput.textContent = '[T+0.02ms] CONCURRENCY_SPIKE: Simulating 5,000 parallel checkout dispatches...\n[T+0.05ms] REDIS_POOL: Acquiring distributed inventory lease...\n[T+0.08ms] SKELETON_CHECK: Validating ACID locks...';
+      }
 
       setTimeout(() => {
         otakuStatusText.textContent = 'REDIS TTL LOCK ACQUIRED: TOKEN_0x9B4E38 [300s TTL]';
         otakuMetricsDisplay.textContent = 'HMAC-SHA256 SIGNATURE VALIDATED [LATENCY 0.84ms]';
-        otakuMetricsDisplay.style.color = '#A8927D';
+        otakuMetricsDisplay.style.color = '#8CA9CE';
         if (otakuTelemetryOutput) {
           otakuTelemetryOutput.textContent = `[T+0.12ms] REDIS: EVALSHA lua_reserve_stock KEYS[sku_992] ARGS[1, 300] -> OK\n[T+0.48ms] RAZORPAY_WEBHOOK: payment.captured event payload 2.4KB\n[T+0.84ms] CRYPTO: HMAC_SHA256(raw_body, secret) == x_razorpay_signature [MATCH]\n[T+1.12ms] POSTGRES_ACID: BEGIN; UPDATE inventory SET qty=qty-1; INSERT INTO orders; COMMIT; [OK]`;
         }
@@ -166,8 +187,9 @@ def bs_pde_step(V: np.ndarray, S: np.ndarray, sigma: float, r: float, dt: float,
 
       setTimeout(() => {
         otakuStatusText.textContent = 'TRANSACTION COMMITTED // ZERO-RACE RECONCILIATION';
+        otakuStatusText.style.color = '#8CA9CE';
         otakuMetricsDisplay.textContent = 'EDGE CACHE HIT: 99.8% | TTFB: 42ms | CONCURRENCY: 5,000 REQ/S';
-        otakuMetricsDisplay.style.color = '#B0B0B0';
+        otakuMetricsDisplay.style.color = '#94A3B8';
         btnTriggerCheckout.disabled = false;
         isTesting = false;
       }, 1500);

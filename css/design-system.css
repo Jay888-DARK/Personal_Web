@@ -1,36 +1,39 @@
 /* ==========================================================================
-   JAY BHATT — QUANTITATIVE RESEARCH & SYSTEMS ARCHITECTURE
-   Brutalist-Editorial Engineering Aesthetic • Premium Onyx & Muted Bronze Palette
-   Strict 12-Column Grid • Mathematically Scaled Spacing (Factor of 4)
-   Absolute 0px Hard Edges • Rich Onyx #0A0A0A • Bone #E8E8E8 • Graphite #737373
+   JAY BHATT — AI & SYSTEMS ENGINEER | JAYBHATT.ME
+   Sophisticated Dark Navy & Slate Gray Editorial Systems Architecture
+   Strict 0px Sharp Geometry • Modern Serif & Refined Sans-Serif Typography
+   Zero Drop Shadows • Zero Glassmorphism • Zero Terminal Fonts
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  /* Architectural Color Hierarchy (Strict Rich Onyx) */
-  --bg-primary: #0A0A0A;         /* Rich Onyx Viewport */
-  --bg-surface: #121212;         /* Rigid Surface Layer */
-  --bg-elevated: #181818;        /* Secondary Technical Plate */
-  --bg-highlight: #222222;       /* Focused Cell Highlight */
+  /* Architectural Color Base: Sophisticated Dark Navy & Slate Gray */
+  --bg-primary: #0B111E;         /* Sophisticated Dark Navy Base */
+  --bg-surface: #10192A;         /* Primary Editorial Slate Surface */
+  --bg-elevated: #162238;        /* Elevated Technical Block */
+  --bg-highlight: #1D2D49;       /* Focused Cell / Active Highlight */
+  --bg-subtle: #0E1626;          /* Hairline Container Fill */
 
-  /* Muted Bronze / Champagne Accent (Strictly WebGL & Critical Data Highlights) */
-  --accent-bronze: #A8927D;       /* Muted Bronze / Champagne */
-  --accent-bronze-dim: rgba(168, 146, 125, 0.20);
-  --accent-bronze-subtle: rgba(168, 146, 125, 0.08);
+  /* Refined Steel Blue & Architectural Slate Accents */
+  --accent-steel: #6487B2;       /* Restrained Steel Blue Accent */
+  --accent-slate: #8CA9CE;       /* Platinum Slate Marker */
+  --accent-steel-dim: rgba(100, 135, 178, 0.22);
+  --accent-steel-subtle: rgba(100, 135, 178, 0.08);
+  --accent-alert: #D08C6A;       /* Muted Terracotta Anomaly Warning (Non-Neon) */
 
-  /* High-Contrast Crisp Typography (Bone / Off-White & Graphite) */
-  --text-primary: #E8E8E8;       /* Bone / Off-White (Under no circumstances pure white) */
-  --text-secondary: #B0B0B0;     /* Precision Architectural Text */
-  --text-muted: #737373;         /* Graphite for Technical Details, Timestamps, Secondary Metrics */
-  --text-dim: #383838;           /* Coordinate Marker Line */
+  /* High-Contrast Crisp Editorial Typography */
+  --text-primary: #E2E8F0;       /* Off-White Slate Bone (Non-Pure White) */
+  --text-secondary: #94A3B8;     /* Refined Architectural Slate */
+  --text-muted: #64748B;         /* Muted Steel Slate for Specifications */
+  --text-dim: #3B4E6B;           /* Structural Demarcation Lines */
 
-  /* Structural Vector Hairlines (No Blur, No Glow) */
-  --border-subtle: #1C1C1C;      /* Base Vector Divider */
-  --border-medium: #282828;      /* Rigid Container Boundary */
-  --border-accent: #A8927D;      /* Focused Element Vector (Muted Bronze) */
+  /* Vector Structural Hairlines */
+  --border-subtle: #1C2A42;      /* Hairline Base Divider */
+  --border-medium: #273957;      /* Rigid Container Boundary */
+  --border-accent: #5275A1;      /* Focused Editorial Element */
 
-  /* Mathematical Spacing Scale (Scaled by Factor of 4) */
+  /* Mathematical Spacing Scale */
   --space-1: 0.25rem;  /* 4px */
   --space-2: 0.5rem;   /* 8px */
   --space-3: 1rem;     /* 16px */
@@ -40,14 +43,15 @@
   --space-7: 12rem;    /* 192px */
   --space-8: 16rem;    /* 256px */
 
-  /* Typography Stacks (Strict: Standard Roboto / Helvetica + Monospace) */
-  --font-sans: 'Roboto', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  --font-mono: 'Consolas', 'Courier New', Courier, monospace;
+  /* Typography Stacks: Modern Editorial Serif + Refined Sans-Serif (Zero Terminal Fonts) */
+  --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-spec: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-  /* Global Constraints */
-  --header-height: 4.5rem;     /* 72px */
-  --container-max: 1480px;
-  --transition-fast: 0.12s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Global Layout Dimensions */
+  --header-height: 4.75rem;    /* 76px */
+  --container-max: 1440px;
+  --transition-fast: 0.14s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Global Reset & Strict 0px Geometry Constraint */
@@ -75,13 +79,13 @@ html {
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  line-height: 1.55;
+  line-height: 1.6;
   overflow-x: hidden;
   position: relative;
   min-height: 100vh;
 }
 
-/* Static Razor-Thin Vector Grid (No Noise, No Grain, No Image) */
+/* Razor-Thin Architectural Coordinate Grid (No Noise, No Grain) */
 .viewport-vector-grid {
   position: fixed;
   top: 0;
@@ -91,9 +95,9 @@ body {
   pointer-events: none;
   z-index: 0;
   background-image: 
-    linear-gradient(to right, rgba(168, 146, 125, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(168, 146, 125, 0.035) 1px, transparent 1px);
-  background-size: 64px 64px;
+    linear-gradient(to right, rgba(100, 135, 178, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(100, 135, 178, 0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
 }
 
 /* WebGL Background Canvas Container: strictly confined inside Hero section */
@@ -115,7 +119,7 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   STRICT 12-COLUMN GRID SYSTEM
+   STRICT 12-COLUMN EDITORIAL GRID SYSTEM
    -------------------------------------------------------------------------- */
 .site-wrapper {
   position: relative;
@@ -147,59 +151,70 @@ body {
 .col-8-12 { grid-column: 8 / span 5; }
 .col-1-12 { grid-column: 1 / span 12; }
 
-/* Sticky Container on the Left */
-.sticky-spec-container {
+/* Sticky Metadata Column */
+.project-sticky-meta {
   position: sticky;
-  top: calc(var(--header-height) + var(--space-4));
+  top: calc(var(--header-height) + var(--space-3));
   align-self: start;
 }
 
-/* Massive & Razor-Sharp Typography Hierarchy */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-sans);
-  font-weight: 900;
+/* Refined Editorial Typography Hierarchy */
+h1, h2, h3, h4 {
   color: var(--text-primary);
-  text-transform: uppercase;
-  letter-spacing: -0.03em;
-  line-height: 0.98;
+  letter-spacing: -0.02em;
+}
+
+.font-editorial-serif {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: -0.02em;
 }
 
 .text-hero-massive {
-  font-size: clamp(3rem, 5.8vw, 5.6rem);
-  font-weight: 900;
-  line-height: 0.94;
-  letter-spacing: -0.035em;
-  color: var(--text-primary); /* Solid Bone #E8E8E8 */
-  background: none !important;
-  text-shadow: none !important;
+  font-family: var(--font-serif);
+  font-size: clamp(2.8rem, 5.2vw, 5rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin-bottom: var(--space-3);
 }
 
-.text-hero-massive::before,
-.text-hero-massive::after {
-  content: none !important;
-  display: none !important;
+.hero-subtext-massive {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-slate);
+  margin-bottom: var(--space-3);
+  font-variant-numeric: tabular-nums;
 }
 
 .text-section-massive {
-  font-size: clamp(2rem, 4vw, 3.4rem);
-  font-weight: 900;
-  line-height: 0.98;
-  letter-spacing: -0.03em;
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.8vw, 3.2rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
   color: var(--text-primary);
 }
 
-.text-mono-sharp {
-  font-family: var(--font-mono);
+.text-spec-sharp {
+  font-family: var(--font-spec);
   font-size: 0.78rem;
+  font-weight: 600;
   letter-spacing: 0.08em;
   line-height: 1.5;
   text-transform: uppercase;
   color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
 }
 
 .text-lead-description {
+  font-family: var(--font-sans);
   font-size: 1.05rem;
-  line-height: 1.65;
+  line-height: 1.7;
   color: var(--text-secondary);
 }
 
@@ -214,45 +229,63 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .marker-index {
-  font-family: var(--font-mono);
+  font-family: var(--font-spec);
   font-size: 0.82rem;
   font-weight: 700;
-  color: var(--accent-bronze);
+  color: var(--accent-steel);
   letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
 }
 
 .marker-title {
-  font-family: var(--font-sans);
-  font-size: 1.25rem;
-  font-weight: 800;
-  letter-spacing: 0.05em;
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
   color: var(--text-primary);
   margin-left: var(--space-3);
 }
 
 .marker-state {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-family: var(--font-spec);
+  font-size: 0.74rem;
+  font-weight: 600;
   color: var(--text-muted);
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
 }
 
-/* Rigid Sharp Buttons */
+/* Custom SVG Icon Styling (Consistent 1.5px stroke, no Lucide, no emojis) */
+.custom-svg-icon {
+  display: inline-block;
+  width: 1.15rem;
+  height: 1.15rem;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  fill: none;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+/* Rigid Editorial Buttons */
 .btn-rigid {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  padding: 0.75rem 1.25rem;
+  padding: 0.8rem 1.35rem;
   background-color: var(--bg-surface);
   border: 1px solid var(--border-medium);
   color: var(--text-primary);
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-family: var(--font-spec);
+  font-size: 0.78rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   cursor: pointer;
+  text-decoration: none;
   transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
 }
 
@@ -262,44 +295,78 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-primary);
 }
 
-.btn-rigid-bronze {
+.btn-rigid-steel {
   background-color: var(--bg-elevated);
   border: 1px solid var(--border-accent);
   color: var(--text-primary);
 }
 
-.btn-rigid-bronze:hover {
+.btn-rigid-steel:hover {
   background-color: var(--bg-highlight);
-  border-color: #C4B19D;
+  border-color: var(--accent-slate);
 }
 
-/* Rigid Skeleton Loader (Absolute 0px Corners, Subtle Sweep) */
-.skeleton-loader {
+/* ==========================================================================
+   RIGID SKELETON LOADERS (Sharp 0px Corners, Sophisticated Dark Navy Pulse)
+   Used for dynamic telemetry, simulated model loads, and live benchmark states
+   ========================================================================== */
+.skeleton-container {
   position: relative;
-  background-color: #141414;
-  overflow: hidden;
 }
 
-.skeleton-loader::after {
+.skeleton-box {
+  background-color: #121D30;
+  position: relative;
+  overflow: hidden;
+  min-height: 1.25rem;
+  width: 100%;
+}
+
+.skeleton-box::after {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(90deg, transparent, rgba(168, 146, 125, 0.05), transparent);
-  animation: skeletonSweep 1.8s infinite linear;
+  background: linear-gradient(90deg, transparent, rgba(100, 135, 178, 0.12), transparent);
+  animation: skeletonPulse 1.6s infinite ease-in-out;
 }
 
-@keyframes skeletonSweep {
+.skeleton-line {
+  height: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-line:last-child {
+  margin-bottom: 0;
+  width: 75%;
+}
+
+.skeleton-badge {
+  display: inline-block;
+  height: 1.2rem;
+  width: 80px;
+}
+
+@keyframes skeletonPulse {
   0% { transform: translateX(-100%); }
+  50% { transform: translateX(20%); }
   100% { transform: translateX(100%); }
 }
 
-/* Scrollbar Hard Style */
+.is-hydrated .skeleton-box {
+  display: none !important;
+}
+
+.is-hydrated .dynamic-content {
+  display: block !important;
+}
+
+/* Standardized Scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-primary);
@@ -308,5 +375,5 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--border-medium);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-bronze);
+  background: var(--border-accent);
 }
