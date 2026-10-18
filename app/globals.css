@@ -1,0 +1,40 @@
+/* Strict Brutalist Design System - Zero Gradients, Zero Glassmorphism, 0px Radius, Arial/Helvetica */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-radius: 0 !important;
+}
+
+html, body {
+  background-color: #0A0A0A;
+  color: #E5E5E5;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  box-shadow: none !important;
+}
+
+/* Zero hover animations / zero state change movement */
+a, button, input, select {
+  transition: none !important;
+  transform: none !important;
+  animation: none !important;
+}
+
+/* Skeleton Pulse Animation */
+@keyframes skeletonBlink {
+  0%, 100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+.skeleton-block {
+  background-color: #1A1A1A;
+  border: 1px solid #2A2A2A;
+  animation: skeletonBlink 1.4s infinite ease-in-out;
+}
