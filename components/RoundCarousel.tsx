@@ -164,127 +164,139 @@ function TechnicalDiagram({ type }: { type: ProjectNode["svgType"] }) {
       style={{
         width: "100%",
         height: "110px",
-        backgroundColor: "#0A0A0A",
-        border: "1px solid #262626",
+        backgroundColor: "var(--bg-surface-solid, #1E2015)",
+        border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
         display: "block",
       }}
     >
-      {/* Grid Reference Lines */}
-      <line x1="0" y1="27" x2="240" y2="27" stroke="#1A1A1A" strokeWidth="1" />
-      <line x1="0" y1="55" x2="240" y2="55" stroke="#1A1A1A" strokeWidth="1" />
-      <line x1="0" y1="82" x2="240" y2="82" stroke="#1A1A1A" strokeWidth="1" />
-      <line x1="60" y1="0" x2="60" y2="110" stroke="#1A1A1A" strokeWidth="1" />
-      <line x1="120" y1="0" x2="120" y2="110" stroke="#1A1A1A" strokeWidth="1" />
-      <line x1="180" y1="0" x2="180" y2="110" stroke="#1A1A1A" strokeWidth="1" />
+      {/* Precision Grid Hairlines */}
+      <line x1="0" y1="27" x2="240" y2="27" stroke="rgba(205, 203, 214, 0.08)" strokeWidth="1" />
+      <line x1="0" y1="55" x2="240" y2="55" stroke="rgba(205, 203, 214, 0.08)" strokeWidth="1" />
+      <line x1="0" y1="82" x2="240" y2="82" stroke="rgba(205, 203, 214, 0.08)" strokeWidth="1" />
+      <line x1="60" y1="0" x2="60" y2="110" stroke="rgba(205, 203, 214, 0.08)" strokeWidth="1" />
+      <line x1="120" y1="0" x2="120" y2="110" stroke="rgba(205, 203, 214, 0.08)" strokeWidth="1" />
+      <line x1="180" y1="0" x2="180" y2="110" stroke="rgba(205, 203, 214, 0.08)" strokeWidth="1" />
 
+      {/* 01 // OTAKUBAZAAR ESCROW: Terracotta Primary & Tactical Olive Secondary */}
       {type === "escrow" && (
         <>
-          <rect x="14" y="35" width="52" height="40" fill="#141414" stroke="#A3A3A3" strokeWidth="1.5" />
-          <rect x="94" y="35" width="52" height="40" fill="#141414" stroke="#E5E5E5" strokeWidth="1.5" />
-          <rect x="174" y="35" width="52" height="40" fill="#141414" stroke="#A3A3A3" strokeWidth="1.5" />
-          <line x1="66" y1="55" x2="94" y2="55" stroke="#E5E5E5" strokeWidth="1.5" />
-          <line x1="146" y1="55" x2="174" y2="55" stroke="#E5E5E5" strokeWidth="1.5" />
-          <text x="22" y="59" fill="#E5E5E5" fontSize="9" fontFamily="Arial, sans-serif">AUTH</text>
-          <text x="101" y="59" fill="#E5E5E5" fontSize="9" fontFamily="Arial, sans-serif">ESCROW</text>
-          <text x="182" y="59" fill="#E5E5E5" fontSize="9" fontFamily="Arial, sans-serif">SETTLE</text>
+          <rect x="14" y="35" width="52" height="40" fill="rgba(89, 98, 53, 0.22)" stroke="#596235" strokeWidth="1.2" />
+          <rect x="94" y="35" width="52" height="40" fill="rgba(217, 104, 70, 0.2)" stroke="#D96846" strokeWidth="2" />
+          <rect x="174" y="35" width="52" height="40" fill="rgba(89, 98, 53, 0.22)" stroke="#596235" strokeWidth="1.2" />
+          <line x1="66" y1="55" x2="94" y2="55" stroke="#D96846" strokeWidth="1.5" />
+          <line x1="146" y1="55" x2="174" y2="55" stroke="#596235" strokeWidth="1.5" />
+          <text x="22" y="59" fill="#CDCBD6" fontSize="9" fontWeight="700" fontFamily="Arial, sans-serif">AUTH</text>
+          <text x="100" y="59" fill="#E88364" fontSize="9" fontWeight="800" fontFamily="Arial, sans-serif">ESCROW</text>
+          <text x="180" y="59" fill="#CDCBD6" fontSize="9" fontWeight="700" fontFamily="Arial, sans-serif">SETTLE</text>
         </>
       )}
 
+      {/* 02 // GARCH VOLATILITY: Terracotta Key Path + Tactical Olive Secondary + Muted Baseline */}
       {type === "garch" && (
         <>
           <polyline
             fill="none"
-            stroke="#525252"
+            stroke="#9A99A2"
             strokeWidth="1"
+            strokeOpacity="0.4"
             points="0,85 30,80 60,72 90,45 120,25 150,60 180,50 210,30 240,20"
           />
           <polyline
             fill="none"
-            stroke="#737373"
-            strokeWidth="1"
+            stroke="#596235"
+            strokeWidth="1.4"
             points="0,90 30,88 60,84 90,70 120,62 150,78 180,74 210,66 240,60"
           />
           <polyline
             fill="none"
-            stroke="#E5E5E5"
+            stroke="#D96846"
             strokeWidth="2"
             points="0,88 25,82 50,76 75,38 100,18 125,54 150,48 175,28 200,42 240,14"
           />
         </>
       )}
 
+      {/* 03 // SENTINEL ANOMALY: Terracotta Threat Stream + Elevated Olive eBPF Window */}
       {type === "sentinel" && (
         <>
           <polyline
             fill="none"
-            stroke="#E5E5E5"
-            strokeWidth="1.5"
+            stroke="#D96846"
+            strokeWidth="1.8"
             points="10,55 45,55 55,20 65,90 75,55 115,55 125,14 135,96 145,55 230,55"
           />
-          <rect x="115" y="10" width="30" height="90" fill="none" stroke="#A3A3A3" strokeWidth="1" strokeDasharray="3,3" />
+          <rect x="115" y="10" width="30" height="90" fill="rgba(89, 98, 53, 0.25)" stroke="#849250" strokeWidth="1" strokeDasharray="3,3" />
+          <text x="119" y="24" fill="#E88364" fontSize="8" fontWeight="700" fontFamily="Arial, sans-serif">eBPF</text>
         </>
       )}
 
+      {/* 04 // GNU RADIO: Terracotta In-Phase + Tactical Olive Quadrature Carrier */}
       {type === "gnuradio" && (
         <>
           <polyline
             fill="none"
-            stroke="#E5E5E5"
-            strokeWidth="1.5"
+            stroke="#D96846"
+            strokeWidth="1.8"
             points="0,55 15,25 30,55 45,85 60,55 75,25 90,55 105,85 120,55 135,25 150,55 165,85 180,55 195,25 210,55 225,85 240,55"
           />
           <polyline
             fill="none"
-            stroke="#737373"
-            strokeWidth="1.2"
+            stroke="#596235"
+            strokeWidth="1.3"
             points="0,25 15,55 30,85 45,55 60,25 75,55 90,85 105,55 120,25 135,55 150,85 165,55 180,25 195,55 210,85 225,55 240,25"
           />
         </>
       )}
 
+      {/* 05 // FLASH JOULE HEATING: High-Current Discharge Pulse */}
       {type === "hardcarbon" && (
         <>
           <polyline
             fill="none"
-            stroke="#E5E5E5"
+            stroke="#D96846"
             strokeWidth="2"
             points="0,95 40,95 48,12 65,12 75,95 115,95 123,18 140,18 150,95 240,95"
           />
-          <text x="82" y="34" fill="#A3A3A3" fontSize="9" fontFamily="Arial, sans-serif">3000K FLASH PULSE</text>
+          <text x="80" y="34" fill="#E88364" fontSize="9" fontWeight="800" fontFamily="Arial, sans-serif">3000K FLASH PULSE</text>
         </>
       )}
 
+      {/* 06 // ATMEGA32 TELEMETRY: Clock Edge & PWM Actuation */}
       {type === "atmega" && (
         <>
           <polyline
             fill="none"
-            stroke="#E5E5E5"
-            strokeWidth="1.5"
+            stroke="#D96846"
+            strokeWidth="1.8"
             points="0,80 0,30 30,30 30,80 60,80 60,30 110,30 110,80 130,80 130,30 190,30 190,80 210,80 210,30 240,30"
           />
+          <line x1="0" y1="80" x2="240" y2="80" stroke="#596235" strokeWidth="1" strokeDasharray="2,2" />
+          <text x="140" y="24" fill="#CDCBD6" fontSize="8" fontWeight="700" fontFamily="Arial, sans-serif">PWM CH-0</text>
         </>
       )}
 
+      {/* 07 // DARE TO SIP POP-UP: Terracotta Primary & Tactical Olive Secondary Bars */}
       {type === "daretosip" && (
         <>
-          <rect x="20" y="65" width="24" height="35" fill="#737373" />
-          <rect x="60" y="48" width="24" height="52" fill="#A3A3A3" />
-          <rect x="100" y="32" width="24" height="68" fill="#D4D4D4" />
-          <rect x="140" y="18" width="24" height="82" fill="#E5E5E5" />
-          <rect x="180" y="26" width="24" height="74" fill="#A3A3A3" />
+          <rect x="20" y="65" width="24" height="35" fill="#596235" />
+          <rect x="60" y="48" width="24" height="52" fill="#D96846" />
+          <rect x="100" y="32" width="24" height="68" fill="#596235" />
+          <rect x="140" y="18" width="24" height="82" fill="#D96846" />
+          <rect x="180" y="26" width="24" height="74" fill="#596235" />
         </>
       )}
 
+      {/* 08 // ANSYS TENSILE FEA: Terracotta Curve + Warm Champagne Sand Threshold */}
       {type === "ansys" && (
         <>
           <polyline
             fill="none"
-            stroke="#E5E5E5"
+            stroke="#D96846"
             strokeWidth="2"
             points="10,98 55,28 95,24 145,16 195,22 225,45"
           />
-          <line x1="55" y1="28" x2="55" y2="98" stroke="#737373" strokeWidth="1" strokeDasharray="3,3" />
-          <text x="62" y="90" fill="#A3A3A3" fontSize="9" fontFamily="Arial, sans-serif">YIELD LIMIT</text>
+          <line x1="55" y1="28" x2="55" y2="98" stroke="#D4B483" strokeWidth="1.2" strokeDasharray="3,3" />
+          <text x="62" y="90" fill="#D4B483" fontSize="9" fontWeight="700" fontFamily="Arial, sans-serif">YIELD LIMIT</text>
         </>
       )}
     </svg>
@@ -303,7 +315,7 @@ export default function RoundCarousel({
   tilt = -5,
   perspective = 2800,
   innerDim = 2.5,
-  background = "#0A0A0A",
+  background = "transparent",
   style = {},
 }: RoundCarouselProps) {
   const items = projects.length > 0 ? projects : PORTFOLIO_PROJECTS;
@@ -408,20 +420,23 @@ export default function RoundCarousel({
     activeProject.simBase % 1 === 0 ? 0 : 2
   );
 
+  // Smoked Olive-Charcoal Glass Panel Face
   const cardFaceStyle: React.CSSProperties = {
     position: "absolute",
     inset: 0,
     borderRadius: 0,
     overflow: "hidden",
     backfaceVisibility: "hidden",
-    backgroundColor: "#111111",
-    border: "1px solid #333333",
+    backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
+    backdropFilter: "blur(16px)",
+    WebkitBackdropFilter: "blur(16px)",
+    border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
     padding: "18px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
     fontFamily: "Arial, Helvetica, sans-serif",
-    color: "#E5E5E5",
+    color: "var(--text-primary, #F4F3EF)",
     userSelect: "none",
   };
 
@@ -491,41 +506,59 @@ export default function RoundCarousel({
                     cursor: "pointer",
                   }}
                 >
-                  {/* FRONT TECHNICAL DOSSIER FACE */}
+                  {/* FRONT TECHNICAL DOSSIER FACE: Smoked Olive-Charcoal Glass Panel */}
                   <div
                     style={{
                       ...cardFaceStyle,
-                      borderColor: isSelected ? "#E5E5E5" : "#2E2E2E",
-                      backgroundColor: isSelected ? "#161616" : "#111111",
+                      borderColor: isSelected ? "var(--accent-terracotta, #D96846)" : "var(--glass-border, rgba(205, 203, 214, 0.16))",
+                      backgroundColor: isSelected ? "var(--glass-elevated, rgba(47, 48, 32, 0.78))" : "var(--glass-surface, rgba(47, 48, 32, 0.58))",
+                      position: "relative",
                     }}
                   >
+                    {/* Active 3D Card Top Bar */}
+                    {isSelected && (
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          height: "3px",
+                          backgroundColor: "var(--accent-terracotta-bright, #E88364)",
+                          zIndex: 10,
+                        }}
+                      />
+                    )}
+
                     <div>
                       <div
                         style={{
                           display: "flex",
                           justifyContent: "space-between",
                           alignItems: "center",
-                          borderBottom: "1px solid #262626",
+                          borderBottom: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
                           paddingBottom: "8px",
                           marginBottom: "10px",
                           fontSize: "10px",
                           letterSpacing: "0.08em",
-                          color: "#A3A3A3",
+                          color: "var(--text-muted, #9A99A2)",
                         }}
                       >
-                        <span>{proj.code} // {proj.domain}</span>
-                        <span style={{ color: isSelected ? "#E5E5E5" : "#737373", fontWeight: 700 }}>
+                        <span>
+                          {proj.code} <span style={{ color: "var(--accent-terracotta, #D96846)" }}>//</span> {proj.domain}
+                        </span>
+                        <span style={{ color: isSelected ? "var(--accent-terracotta-bright, #E88364)" : "var(--text-muted, #9A99A2)", fontWeight: 700 }}>
                           {isSelected ? "[ACTIVE]" : "[SELECT]"}
                         </span>
                       </div>
 
                       <div
                         style={{
-                          fontSize: "16px",
+                          fontSize: "15px",
                           fontWeight: 700,
                           letterSpacing: "0.02em",
-                          marginBottom: "12px",
-                          color: "#E5E5E5",
+                          marginBottom: "10px",
+                          color: "var(--text-primary, #F4F3EF)",
                         }}
                       >
                         {proj.title}
@@ -537,16 +570,16 @@ export default function RoundCarousel({
                     <div>
                       <div
                         style={{
-                          borderTop: "1px solid #262626",
-                          borderBottom: "1px solid #262626",
+                          borderTop: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
+                          borderBottom: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
                           padding: "8px 0",
                           marginBottom: "8px",
                         }}
                       >
-                        <div style={{ fontSize: "9px", color: "#737373", letterSpacing: "0.08em" }}>
+                        <div style={{ fontSize: "9px", color: "var(--text-muted, #9A99A2)", letterSpacing: "0.08em" }}>
                           {proj.metricLabel}
                         </div>
-                        <div style={{ fontSize: "12px", fontWeight: 700, color: "#D4D4D4", marginTop: "2px" }}>
+                        <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-primary, #F4F3EF)", marginTop: "2px" }}>
                           {proj.metricValue}
                         </div>
                       </div>
@@ -554,11 +587,16 @@ export default function RoundCarousel({
                       <div
                         style={{
                           fontSize: "10px",
-                          color: "#A3A3A3",
+                          color: "var(--text-secondary, #CDCBD6)",
                           letterSpacing: "0.04em",
                         }}
                       >
-                        {proj.stack}
+                        {proj.stack.split(" / ").map((tech, idx, arr) => (
+                          <React.Fragment key={idx}>
+                            <span>{tech}</span>
+                            {idx < arr.length - 1 && <span style={{ color: "var(--accent-terracotta, #D96846)" }}> / </span>}
+                          </React.Fragment>
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -568,14 +606,15 @@ export default function RoundCarousel({
                     style={{
                       ...cardFaceStyle,
                       transform: "rotateY(180deg)",
-                      backgroundColor: "#0D0D0D",
+                      backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
+                      borderColor: "var(--glass-border, rgba(205, 203, 214, 0.16))",
                       filter: `brightness(${innerDim / 10})`,
                       justifyContent: "center",
                       alignItems: "center",
                     }}
                   >
-                    <div style={{ fontSize: "24px", fontWeight: 700, color: "#404040" }}>
-                      {proj.code} // {proj.id.toUpperCase()}
+                    <div style={{ fontSize: "20px", fontWeight: 700, color: "var(--text-muted, #9A99A2)", letterSpacing: "0.08em" }}>
+                      {proj.code} <span style={{ color: "var(--accent-terracotta, #D96846)" }}>//</span> {proj.id.toUpperCase()}
                     </div>
                   </div>
                 </div>
@@ -585,12 +624,15 @@ export default function RoundCarousel({
         </div>
       </div>
 
-      {/* SYNCHRONIZED LIVE INSPECTOR & TELEMETRY DOCK */}
+      {/* SMOKED OLIVE-CHARCOAL TELEMETRY BAR & SELECTOR INDEX DOCK */}
       <div
         style={{
           height: "165px",
-          borderTop: "1px solid #262626",
-          backgroundColor: "#0E0E0E",
+          backgroundColor: "var(--glass-elevated, rgba(47, 48, 32, 0.78))",
+          backdropFilter: "blur(16px)",
+          WebkitBackdropFilter: "blur(16px)",
+          borderTop: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
+          borderBottom: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
           padding: "16px 32px",
           display: "flex",
           flexDirection: "column",
@@ -604,33 +646,52 @@ export default function RoundCarousel({
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            borderBottom: "1px solid #222222",
+            borderBottom: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
             paddingBottom: "10px",
           }}
         >
           <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
-            {items.map((item, idx) => (
-              <button
-                key={item.id}
-                onClick={() => selectProject(idx)}
-                style={{
-                  backgroundColor: idx === selectedIndex ? "#E5E5E5" : "#171717",
-                  color: idx === selectedIndex ? "#0A0A0A" : "#A3A3A3",
-                  border: "1px solid #333333",
-                  borderRadius: 0,
-                  padding: "4px 10px",
-                  fontSize: "11px",
-                  fontWeight: 700,
-                  fontFamily: "Arial, Helvetica, sans-serif",
-                  cursor: "pointer",
-                }}
-              >
-                {item.code} // {item.title.split(" ")[0]}
-              </button>
-            ))}
+            {items.map((item, idx) => {
+              const isActive = idx === selectedIndex;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => selectProject(idx)}
+                  style={{
+                    backgroundColor: isActive ? "var(--accent-terracotta, #D96846)" : "rgba(47, 48, 32, 0.58)",
+                    color: isActive ? "#14150E" : "var(--text-secondary, #CDCBD6)",
+                    border: isActive
+                      ? "1px solid var(--accent-terracotta, #D96846)"
+                      : "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
+                    borderRadius: 0,
+                    padding: "4px 10px",
+                    fontSize: "11px",
+                    fontWeight: 800,
+                    fontFamily: "Arial, Helvetica, sans-serif",
+                    cursor: "pointer",
+                    position: "relative",
+                  }}
+                >
+                  {item.code} // {item.title.split(" ")[0]}
+                  {!isActive && (
+                    <span
+                      style={{
+                        position: "absolute",
+                        top: "3px",
+                        right: "3px",
+                        width: "5px",
+                        height: "5px",
+                        backgroundColor: "var(--accent-olive, #596235)",
+                        display: "block",
+                      }}
+                    />
+                  )}
+                </button>
+              );
+            })}
           </div>
 
-          <div style={{ fontSize: "11px", color: "#737373", letterSpacing: "0.06em" }}>
+          <div style={{ fontSize: "11px", color: "var(--text-muted, #9A99A2)", letterSpacing: "0.06em" }}>
             CLICK CARD OR INDEX TO LOCK TELEMETRY
           </div>
         </div>
@@ -638,9 +699,30 @@ export default function RoundCarousel({
         {/* Skeleton Loader vs Active Project Telemetry */}
         {isLoadingInspector ? (
           <div style={{ display: "flex", gap: "24px", alignItems: "center", height: "85px" }}>
-            <div style={{ flex: 2, height: "54px", backgroundColor: "#1A1A1A", border: "1px solid #262626" }} />
-            <div style={{ flex: 1, height: "54px", backgroundColor: "#1A1A1A", border: "1px solid #262626" }} />
-            <div style={{ width: "180px", height: "54px", backgroundColor: "#1A1A1A", border: "1px solid #262626" }} />
+            <div
+              style={{
+                flex: 2,
+                height: "54px",
+                backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
+                border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
+              }}
+            />
+            <div
+              style={{
+                flex: 1,
+                height: "54px",
+                backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
+                border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
+              }}
+            />
+            <div
+              style={{
+                width: "180px",
+                height: "54px",
+                backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
+                border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
+              }}
+            />
           </div>
         ) : (
           <div
@@ -653,10 +735,11 @@ export default function RoundCarousel({
             }}
           >
             <div style={{ flex: 2 }}>
-              <div style={{ fontSize: "14px", fontWeight: 700, color: "#E5E5E5", marginBottom: "4px" }}>
-                {activeProject.code} // {activeProject.title} — {activeProject.stack}
+              <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary, #F4F3EF)", marginBottom: "4px" }}>
+                <span style={{ color: "var(--accent-terracotta, #D96846)" }}>{activeProject.code} //</span> {activeProject.title} —{" "}
+                <span style={{ color: "var(--text-secondary, #CDCBD6)" }}>{activeProject.stack}</span>
               </div>
-              <div style={{ fontSize: "12px", color: "#A3A3A3", lineHeight: 1.4 }}>
+              <div style={{ fontSize: "12px", color: "var(--text-secondary, #CDCBD6)", lineHeight: 1.4 }}>
                 {activeProject.summary}
               </div>
             </div>
@@ -665,8 +748,10 @@ export default function RoundCarousel({
             <div
               style={{
                 flex: 1,
-                backgroundColor: "#141414",
-                border: "1px solid #262626",
+                backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
+                backdropFilter: "blur(16px)",
+                WebkitBackdropFilter: "blur(16px)",
+                border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
                 padding: "10px 14px",
                 display: "flex",
                 justifyContent: "space-between",
@@ -674,23 +759,23 @@ export default function RoundCarousel({
               }}
             >
               <div>
-                <div style={{ fontSize: "10px", color: "#737373", letterSpacing: "0.06em" }}>
+                <div style={{ fontSize: "10px", color: "var(--text-muted, #9A99A2)", letterSpacing: "0.06em" }}>
                   LIVE TELEMETRY BENCHMARK
                 </div>
-                <div style={{ fontSize: "16px", fontWeight: 700, color: "#E5E5E5", marginTop: "2px" }}>
+                <div style={{ fontSize: "15px", fontWeight: 800, color: "var(--accent-sage, #849250)", marginTop: "2px" }}>
                   {computedMetric} {activeProject.simUnit}
                 </div>
               </div>
               <button
                 onClick={() => setSimMultiplier((prev) => (prev >= 1.8 ? 0.85 : Number((prev + 0.23).toFixed(2))))}
                 style={{
-                  backgroundColor: "#262626",
-                  color: "#E5E5E5",
-                  border: "1px solid #404040",
+                  backgroundColor: "var(--accent-terracotta, #D96846)",
+                  color: "#14150E",
+                  border: "1px solid var(--accent-terracotta, #D96846)",
                   borderRadius: 0,
-                  padding: "6px 10px",
+                  padding: "6px 12px",
                   fontSize: "10px",
-                  fontWeight: 700,
+                  fontWeight: 800,
                   fontFamily: "Arial, Helvetica, sans-serif",
                   cursor: "pointer",
                 }}
@@ -699,19 +784,21 @@ export default function RoundCarousel({
               </button>
             </div>
 
+            {/* INSPECT GITHUB Button */}
             <a
               href={activeProject.repoUrl}
               target="_blank"
               rel="noreferrer"
               style={{
-                backgroundColor: "#E5E5E5",
-                color: "#0A0A0A",
-                padding: "14px 18px",
+                backgroundColor: "var(--accent-terracotta, #D96846)",
+                color: "#14150E",
+                padding: "14px 20px",
                 fontSize: "11px",
-                fontWeight: 700,
+                fontWeight: 800,
                 textDecoration: "none",
                 letterSpacing: "0.06em",
-                border: "1px solid #E5E5E5",
+                border: "1px solid var(--accent-terracotta, #D96846)",
+                borderRadius: 0,
                 whiteSpace: "nowrap",
               }}
             >

@@ -1,4 +1,31 @@
-/* Strict Brutalist Design System - Zero Gradients, Zero Glassmorphism, 0px Radius, Arial/Helvetica */
+:root {
+  /* Base & Smoked Glass Surfaces (Derived from #2F3020) */
+  --bg-canvas: #14150E;                        /* Deepened Obsidian Loam canvas */
+  --bg-surface-solid: #1E2015;                 /* Inner chart well background */
+  --glass-surface: rgba(47, 48, 32, 0.58);     /* #2F3020 Smoked Glass */
+  --glass-elevated: rgba(47, 48, 32, 0.78);    /* Header & Telemetry Bar Glass */
+  --glass-border: rgba(205, 203, 214, 0.16);   /* #CDCBD6 Specular Hairline */
+  --border-olive: #596235;                     /* Structural Olive Rule */
+
+  /* Primary & Secondary Accents (Derived from #D96846 & #596235) */
+  --accent-terracotta: #D96846;                /* Primary CTA, Active Tab, Primary SVG */
+  --accent-terracotta-bright: #E88364;         /* Active 3D Card Top Bar & Peak Data */
+  --accent-olive: #596235;                     /* Secondary SVG Bars & Structural Badges */
+  --accent-sage: #849250;                      /* Elevated Olive for Live Latency Readout */
+  --accent-sand: #D4B483;                      /* Warm Champagne for Handles & Thresholds */
+
+  /* Typography (Derived from #CDCBD6) */
+  --text-primary: #F4F3EF;                     /* Warm Alabaster Headings */
+  --text-secondary: #CDCBD6;                   /* Silver Putty Body & Specs */
+  --text-muted: #9A99A2;                       /* Muted Index Labels */
+
+  /* Aliases for legacy component bindings */
+  --glass-surface-elevated: var(--glass-elevated);
+  --accent-amber: var(--accent-terracotta);
+  --accent-amber-bright: var(--accent-terracotta-bright);
+  --chart-neutral: var(--text-secondary);
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -7,8 +34,8 @@
 }
 
 html, body {
-  background-color: #0A0A0A;
-  color: #E5E5E5;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   line-height: 1.5;
@@ -16,11 +43,26 @@ html, body {
   box-shadow: none !important;
 }
 
-/* Zero hover animations / zero state change movement */
+/* Zero unnecessary transition/animation bloat, crisp architectural interaction */
 a, button, input, select {
-  transition: none !important;
-  transform: none !important;
-  animation: none !important;
+  border-radius: 0 !important;
+}
+
+/* Smoked Olive-Charcoal Glass Panels */
+.glass-panel {
+  background: var(--glass-surface);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 0 !important;
+}
+
+.glass-panel-elevated {
+  background: var(--glass-elevated);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 0 !important;
 }
 
 /* Skeleton Pulse Animation */
@@ -34,7 +76,20 @@ a, button, input, select {
 }
 
 .skeleton-block {
-  background-color: #1A1A1A;
-  border: 1px solid #2A2A2A;
+  background-color: var(--glass-surface);
+  border: 1px solid var(--glass-border);
   animation: skeletonBlink 1.4s infinite ease-in-out;
+}
+
+/* 2-Column Architectural Project Specification Ledger Grid */
+.ledger-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 860px) {
+  .ledger-grid {
+    grid-template-columns: 1fr;
+  }
 }
