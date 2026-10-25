@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#14150E',
+  themeColor: '#0B0B0E',
 };
 
 export default function RootLayout({
@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body style={{ margin: 0, padding: 0, backgroundColor: '#14150E', color: '#F4F3EF', fontFamily: 'Arial, Helvetica, sans-serif' }}>
+      <body style={{ margin: 0, padding: 0, backgroundColor: '#F5F2EB', color: '#0B0B0E', fontFamily: '"Arial Black", Impact, Arial, Helvetica, sans-serif' }}>
         {children}
       </body>
     </html>

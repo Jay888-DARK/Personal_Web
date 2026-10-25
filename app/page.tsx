@@ -1,24 +1,63 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import CloudSky from "@/components/CloudSky";
 import RoundCarousel from "@/components/RoundCarousel";
 
+/* ================================================================
+   MANDATORY PALETTE — Zero deviation
+   ================================================================ */
+const SILK_BONE     = "#F5F2EB";
+const TITANIUM_PUTTY = "#E4DFD3";
+const SUMI_OBSIDIAN = "#0B0B0E";
+const AKIRA_VERMILION = "#D91E2A";
+const ULTRAMARINE   = "#1436B8";
+const MECHA_GOLD    = "#F2B705";
+
+/* Neo-Brutalist slab border (no box-shadow) */
+const SLAB_BORDER: React.CSSProperties = {
+  borderTop: "3px solid " + SUMI_OBSIDIAN,
+  borderLeft: "3px solid " + SUMI_OBSIDIAN,
+  borderRight: "7px solid " + SUMI_OBSIDIAN,
+  borderBottom: "7px solid " + SUMI_OBSIDIAN,
+  borderRadius: "0px",
+};
+
+const FONT_STACK = '"Arial Black", Impact, Arial, Helvetica, sans-serif';
+
+/* ================================================================
+   MAIN PAGE COMPONENT
+   ================================================================ */
 export default function HomePage() {
-  // Demo switcher state
+  /* --- Scroll state for disappearing hero --- */
+  const [scrollProgress, setScrollProgress] = useState<number>(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const progress = Math.min(1, window.scrollY / window.innerHeight);
+      setScrollProgress(progress);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  /* --- Demo switcher state --- */
   const [activeDemo, setActiveDemo] = useState<"otakubazaar" | "risk" | "sentinel">("otakubazaar");
   const [isLoadingDemo, setIsLoadingDemo] = useState<boolean>(false);
 
-  // Quantitative Risk Calculator Interactive State
+  /* --- Quantitative Risk Calculator Interactive State --- */
   const [portfolioValue, setPortfolioValue] = useState<number>(1000000);
   const [confidenceLevel, setConfidenceLevel] = useState<0.95 | 0.99>(0.99);
   const [dailyVol, setDailyVol] = useState<number>(1.85);
-  const [horizonDays, setHorizonDays] = useState<number>(1);
+  const [horizonDays] = useState<number>(1);
 
-  // Legal Modal State
+  /* --- Legal Modal State --- */
   const [legalModal, setLegalModal] = useState<"tos" | "privacy" | null>(null);
 
-  // Switch demo with simulated skeleton loader state
+  /* --- Sentinel Demo State --- */
+  const [sentinelBurst, setSentinelBurst] = useState<number>(0);
+
   const handleSwitchDemo = (demo: "otakubazaar" | "risk" | "sentinel") => {
     if (demo === activeDemo) return;
     setIsLoadingDemo(true);
@@ -28,48 +67,71 @@ export default function HomePage() {
     }, 380);
   };
 
-  // Parametric Value-at-Risk calculations
+  /* Parametric VaR calc */
   const zScore = confidenceLevel === 0.99 ? 2.326 : 1.645;
   const calculatedVaR = portfolioValue * (dailyVol / 100) * zScore * Math.sqrt(horizonDays);
   const expectedShortfall = calculatedVaR * 1.15;
 
+  /* Hero transform values */
+  const heroOpacity = Math.max(0, 1 - scrollProgress * 1.25);
+  const heroScale = 1 - scrollProgress * 0.08;
+  const heroTranslateY = -scrollProgress * 90;
+  const heroHidden = scrollProgress >= 1;
+
   return (
     <div
       style={{
-        backgroundColor: "var(--bg-canvas, #14150E)",
-        color: "var(--text-primary, #F4F3EF)",
+        backgroundColor: SILK_BONE,
+        color: SUMI_OBSIDIAN,
         minHeight: "100vh",
         width: "100%",
-        fontFamily: "Arial, Helvetica, sans-serif",
+        fontFamily: FONT_STACK,
       }}
     >
       {/* ====================================================================
-          1. HERO SECTION: CLOUDSKY BACKGROUND + FOREGROUND CONTENT
+          1. FIXED FULL-SCREEN HERO (100vh) — Disappears on scroll
           ==================================================================== */}
-      <section
-        id="home"
+      <header
+        id="hero"
         style={{
-          position: "relative",
+          position: "fixed",
+          inset: 0,
           width: "100%",
-          height: "90vh",
-          minHeight: "640px",
-          borderBottom: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-          overflow: "hidden",
+          height: "100vh",
+          zIndex: 1,
+          opacity: heroOpacity,
+          transform: `scale(${heroScale}) translateY(${heroTranslateY}px)`,
+          visibility: heroHidden ? "hidden" : "visible",
+          pointerEvents: heroHidden ? "none" : "auto",
+          willChange: "transform, opacity",
         }}
       >
-        {/* Background WebGL canvas wrapper (Organic Industrial Deep Loam & Olive Charcoal Smoke) */}
-        <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+        {/* Background WebGL CloudSky — high-contrast sculpted Neo-Brutalist daylight sky */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            width: "100vw",
+            height: "100vh",
+            zIndex: 0,
+          }}
+        >
           <CloudSky
-            background="#14150E"
-            baseColor="#1E2015"
-            accentColor="#2F3020"
-            density={85}
-            speed={45}
-            size={130}
+            background="#8C8275"
+            baseColor="#D6CFC2"
+            accentColor="#F5F2EB"
+            density={95}
+            speed={55}
+            size={145}
+            clouds={{ softness: 65, shadow: 195, cirrus: 85 }}
+            sun={{ x: 80, y: 85, glow: "#D91E2A" }}
           />
         </div>
 
-        {/* Foreground Content */}
+        {/* Foreground HUD Content */}
         <div
           style={{
             position: "relative",
@@ -80,24 +142,23 @@ export default function HomePage() {
             justifyContent: "space-between",
             padding: "32px 48px",
             boxSizing: "border-box",
-            pointerEvents: "none",
           }}
         >
-          {/* Top Bar: Full-Width Smoked Olive-Charcoal Glass Container */}
-          <header
+          {/* ── TOP NAV BAR ── */}
+          <div
             style={{
               width: "100%",
-              pointerEvents: "auto",
-              backgroundColor: "var(--glass-elevated, rgba(47, 48, 32, 0.78))",
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)",
-              border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-              padding: "12px 24px",
+              backgroundColor: TITANIUM_PUTTY,
+              borderTop: "3px solid " + SUMI_OBSIDIAN,
+              borderLeft: "3px solid " + SUMI_OBSIDIAN,
+              borderRight: "7px solid " + SUMI_OBSIDIAN,
+              borderBottom: "7px solid " + SUMI_OBSIDIAN,
+              borderRadius: "0px",
+              padding: "10px 20px",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
               boxSizing: "border-box",
-              borderRadius: 0,
             }}
           >
             <div style={{ display: "flex", alignItems: "center" }}>
@@ -106,7 +167,7 @@ export default function HomePage() {
                   fontSize: "14px",
                   fontWeight: 900,
                   letterSpacing: "0.14em",
-                  color: "var(--text-primary, #F4F3EF)",
+                  color: SUMI_OBSIDIAN,
                   textTransform: "uppercase",
                 }}
               >
@@ -116,98 +177,91 @@ export default function HomePage() {
                 style={{
                   marginLeft: "12px",
                   fontSize: "11px",
-                  color: "var(--text-muted, #9A99A2)",
+                  color: SUMI_OBSIDIAN,
+                  opacity: 0.65,
                   letterSpacing: "0.06em",
+                  fontWeight: 700,
                 }}
               >
                 jaybhatt.me
               </span>
             </div>
 
-            {/* Navigation links & Contact Button */}
             <nav
               style={{
                 display: "flex",
-                gap: "24px",
+                gap: "20px",
                 alignItems: "center",
+                backgroundColor: SUMI_OBSIDIAN,
+                padding: "6px 14px",
+                ...SLAB_BORDER,
               }}
             >
-              <a
-                href="#showcase"
-                style={{
-                  color: "var(--text-secondary, #CDCBD6)",
-                  textDecoration: "none",
-                  fontSize: "11px",
-                  fontWeight: 700,
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                }}
-              >
-                SHOWCASE
-              </a>
-              <a
-                href="#systems"
-                style={{
-                  color: "var(--text-secondary, #CDCBD6)",
-                  textDecoration: "none",
-                  fontSize: "11px",
-                  fontWeight: 700,
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                }}
-              >
-                SYSTEMS
-              </a>
-              <a
-                href="#demos"
-                style={{
-                  color: "var(--text-secondary, #CDCBD6)",
-                  textDecoration: "none",
-                  fontSize: "11px",
-                  fontWeight: 700,
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                }}
-              >
-                DEMOS
-              </a>
+              {["SHOWCASE", "SYSTEMS", "DEMOS"].map((label) => (
+                <a
+                  key={label}
+                  href={`#${label.toLowerCase()}`}
+                  style={{
+                    color: SILK_BONE,
+                    textDecoration: "none",
+                    fontSize: "11px",
+                    fontWeight: 900,
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {label}
+                </a>
+              ))}
               <a
                 href="#contact"
                 style={{
-                  color: "#14150E",
-                  backgroundColor: "var(--accent-terracotta, #D96846)",
+                  color: SILK_BONE,
+                  backgroundColor: AKIRA_VERMILION,
                   textDecoration: "none",
                   fontSize: "11px",
-                  fontWeight: 800,
+                  fontWeight: 900,
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
                   padding: "6px 14px",
-                  border: "1px solid var(--accent-terracotta, #D96846)",
-                  borderRadius: 0,
+                  ...SLAB_BORDER,
+                  borderColor: AKIRA_VERMILION,
                 }}
               >
                 CONTACT
               </a>
             </nav>
-          </header>
+          </div>
 
-          {/* Bottom Stark Brutalist Headline & Hero Metadata Ticker */}
-          <div style={{ maxWidth: "1020px", pointerEvents: "auto" }}>
+          {/* ── BOTTOM: Oversized Headline + Metadata Bar ── */}
+          <div style={{ maxWidth: "1020px" }}>
+            <div
+              style={{
+                fontSize: "11px",
+                fontWeight: 900,
+                letterSpacing: "0.18em",
+                color: AKIRA_VERMILION,
+                textTransform: "uppercase",
+                marginBottom: "12px",
+              }}
+            >
+              JAY BHATT <span style={{ color: SUMI_OBSIDIAN }}>//</span> PORTFOLIO MONOGRAPH
+            </div>
             <h1
               style={{
-                fontSize: "clamp(26px, 4.2vw, 54px)",
+                fontSize: "clamp(2.4rem, 6vw, 5.5rem)",
                 fontWeight: 900,
                 textTransform: "uppercase",
                 letterSpacing: "-0.03em",
-                lineHeight: 1.05,
-                color: "var(--text-primary, #F4F3EF)",
-                margin: "0 0 20px 0",
+                lineHeight: 0.92,
+                color: SUMI_OBSIDIAN,
+                margin: "0 0 24px 0",
               }}
             >
               QUANTITATIVE RISK ARCHITECTURE, EMBEDDED SYSTEMS &amp; FULL-STACK ENGINEERING.
             </h1>
 
-            {/* Hero Metadata Ticker Bar: Smoked Olive-Charcoal Glass */}
+            {/* Metadata Bar */}
             <div
               style={{
                 display: "flex",
@@ -215,852 +269,518 @@ export default function HomePage() {
                 alignItems: "center",
                 gap: "14px",
                 padding: "10px 18px",
-                backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
-                backdropFilter: "blur(16px)",
-                WebkitBackdropFilter: "blur(16px)",
-                border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
+                backgroundColor: SUMI_OBSIDIAN,
+                borderTop: "3px solid " + SUMI_OBSIDIAN,
+                borderLeft: "3px solid " + SUMI_OBSIDIAN,
+                borderRight: "7px solid " + SUMI_OBSIDIAN,
+                borderBottom: "7px solid " + SUMI_OBSIDIAN,
+                borderRadius: "0px",
                 fontSize: "11px",
-                fontWeight: 700,
+                fontWeight: 900,
                 letterSpacing: "0.12em",
-                color: "var(--text-secondary, #CDCBD6)",
+                color: TITANIUM_PUTTY,
                 textTransform: "uppercase",
                 width: "fit-content",
-                borderRadius: 0,
               }}
             >
               <span>
-                B.TECH CSE <span style={{ color: "var(--accent-terracotta, #D96846)" }}>//</span> AHMEDABAD UNIVERSITY
+                B.TECH CSE <span style={{ color: AKIRA_VERMILION }}>//</span> AHMEDABAD UNIVERSITY
               </span>
-              <span style={{ color: "var(--glass-border, rgba(205, 203, 214, 0.2))" }}>|</span>
+              <span style={{ color: TITANIUM_PUTTY, opacity: 0.4 }}>|</span>
               <span>GOOGLE STUDENT AMBASSADOR</span>
-              <span style={{ color: "var(--glass-border, rgba(205, 203, 214, 0.2))" }}>|</span>
+              <span style={{ color: TITANIUM_PUTTY, opacity: 0.4 }}>|</span>
               <a
                 href="https://github.com/Jay888-DARK"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: "var(--text-primary, #F4F3EF)", textDecoration: "none" }}
+                style={{ color: SILK_BONE, textDecoration: "none" }}
               >
-                GITHUB: <span style={{ color: "var(--accent-terracotta, #D96846)" }}>JAY888-DARK</span>
+                GITHUB: <span style={{ color: AKIRA_VERMILION }}>JAY888-DARK</span>
               </a>
-              <span style={{ color: "var(--glass-border, rgba(205, 203, 214, 0.2))" }}>|</span>
+              <span style={{ color: TITANIUM_PUTTY, opacity: 0.4 }}>|</span>
               <a
                 href="https://www.linkedin.com/in/jay-bhatt-19441637a/"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: "var(--text-primary, #F4F3EF)", textDecoration: "none" }}
+                style={{ color: SILK_BONE, textDecoration: "none" }}
               >
-                LINKEDIN: <span style={{ color: "var(--accent-terracotta, #D96846)" }}>JAY BHATT</span>
+                LINKEDIN: <span style={{ color: AKIRA_VERMILION }}>JAY BHATT</span>
               </a>
             </div>
           </div>
         </div>
-      </section>
+      </header>
 
       {/* ====================================================================
-          2. 3D SHOWCASE SECTION: ROUNDCAROUSEL + PROJECT LEDGER
+          2. SCROLLING EDITORIAL SHEET — wipes over the disappearing Hero
           ==================================================================== */}
-      <section
-        id="showcase"
+      <main
         style={{
-          borderBottom: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-          backgroundColor: "var(--bg-canvas, #14150E)",
+          marginTop: "100vh",
+          position: "relative",
+          zIndex: 10,
+          backgroundColor: SILK_BONE,
+          borderTop: "8px solid " + SUMI_OBSIDIAN,
         }}
       >
-        {/* Section Header Bar */}
-        <div
-          style={{
-            padding: "20px 48px",
-            borderBottom: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: "12px",
-            backgroundColor: "var(--glass-elevated, rgba(47, 48, 32, 0.78))",
-            backdropFilter: "blur(16px)",
-            WebkitBackdropFilter: "blur(16px)",
-          }}
-        >
+        {/* ================================================================
+            3. HARD LINES ANIME EDITORIAL HEADER & 4-COLUMN STRIP
+            ================================================================ */}
+        <section id="systems" style={{ borderBottom: "8px solid " + SUMI_OBSIDIAN }}>
+          {/* MONUMENTAL MASTHEAD */}
           <div
             style={{
-              fontSize: "12px",
-              fontWeight: 900,
-              letterSpacing: "0.14em",
-              color: "var(--text-primary, #F4F3EF)",
-              textTransform: "uppercase",
+              display: "flex",
+              width: "100%",
+              minHeight: "280px",
             }}
           >
-            01 <span style={{ color: "var(--accent-terracotta, #D96846)" }}>//</span> INTERACTIVE 3D PROJECT RING (DRAG TO ROTATE)
-          </div>
-          <div style={{ fontSize: "11px", color: "var(--text-muted, #9A99A2)", letterSpacing: "0.08em" }}>
-            CYLINDRICAL MATRIX <span style={{ color: "var(--accent-terracotta, #D96846)" }}>//</span> 3000px PERSPECTIVE
-          </div>
-        </div>
+            {/* LEFT BLOCK (40%) — Massive stacked title */}
+            <div
+              style={{
+                width: "40%",
+                backgroundColor: SILK_BONE,
+                padding: "40px 36px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                borderRight: "8px solid " + SUMI_OBSIDIAN,
+                boxSizing: "border-box",
+              }}
+            >
+              <div>
+                <h2
+                  style={{
+                    fontSize: "clamp(3.2rem, 7vw, 6.5rem)",
+                    fontWeight: 900,
+                    textTransform: "uppercase",
+                    letterSpacing: "-0.03em",
+                    lineHeight: 0.92,
+                    color: SUMI_OBSIDIAN,
+                    margin: 0,
+                  }}
+                >
+                  HARD<br />SYSTEMS<br /><span style={{ color: AKIRA_VERMILION }}>//</span> JAY<br />BHATT
+                </h2>
+              </div>
+              <div
+                style={{
+                  display: "inline-block",
+                  backgroundColor: AKIRA_VERMILION,
+                  color: SILK_BONE,
+                  padding: "8px 16px",
+                  fontSize: "11px",
+                  fontWeight: 900,
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  width: "fit-content",
+                  ...SLAB_BORDER,
+                  borderColor: AKIRA_VERMILION,
+                }}
+              >
+                VOL. 2026 // ARCHIVE 01
+              </div>
+            </div>
 
-        {/* CRITICAL HEIGHT RULE: 640px height on parent div to render 3D carousel */}
-        <div
-          style={{
-            width: "100%",
-            height: "640px",
-            position: "relative",
-            borderBottom: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-            backgroundColor: "transparent",
-          }}
-        >
-          <RoundCarousel />
-        </div>
+            {/* MIDDLE BLOCK (35%) — Ultramarine architectural panel */}
+            <div
+              style={{
+                width: "35%",
+                backgroundColor: ULTRAMARINE,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRight: "8px solid " + SUMI_OBSIDIAN,
+                boxSizing: "border-box",
+                padding: "24px",
+                overflow: "hidden",
+              }}
+            >
+              {/* Geometric SVG Mecha/Quant Schematic */}
+              <svg viewBox="0 0 300 200" style={{ width: "100%", maxWidth: "320px", height: "auto" }}>
+                {/* Structural grid */}
+                <line x1="0" y1="50" x2="300" y2="50" stroke={SILK_BONE} strokeWidth="0.5" strokeOpacity="0.3" />
+                <line x1="0" y1="100" x2="300" y2="100" stroke={SILK_BONE} strokeWidth="0.5" strokeOpacity="0.3" />
+                <line x1="0" y1="150" x2="300" y2="150" stroke={SILK_BONE} strokeWidth="0.5" strokeOpacity="0.3" />
+                <line x1="75" y1="0" x2="75" y2="200" stroke={SILK_BONE} strokeWidth="0.5" strokeOpacity="0.3" />
+                <line x1="150" y1="0" x2="150" y2="200" stroke={SILK_BONE} strokeWidth="0.5" strokeOpacity="0.3" />
+                <line x1="225" y1="0" x2="225" y2="200" stroke={SILK_BONE} strokeWidth="0.5" strokeOpacity="0.3" />
+                {/* Hexagonal mecha schematic */}
+                <polygon points="150,25 195,50 195,100 150,125 105,100 105,50" fill="none" stroke={SILK_BONE} strokeWidth="2" />
+                <polygon points="150,45 180,62 180,88 150,105 120,88 120,62" fill="none" stroke={MECHA_GOLD} strokeWidth="1.5" />
+                <circle cx="150" cy="75" r="12" fill="none" stroke={SILK_BONE} strokeWidth="1.5" />
+                <circle cx="150" cy="75" r="4" fill={MECHA_GOLD} />
+                {/* Connecting lines */}
+                <line x1="150" y1="125" x2="150" y2="175" stroke={SILK_BONE} strokeWidth="1.5" />
+                <line x1="105" y1="50" x2="55" y2="25" stroke={SILK_BONE} strokeWidth="1" />
+                <line x1="195" y1="50" x2="245" y2="25" stroke={SILK_BONE} strokeWidth="1" />
+                <line x1="105" y1="100" x2="55" y2="150" stroke={SILK_BONE} strokeWidth="1" />
+                <line x1="195" y1="100" x2="245" y2="150" stroke={SILK_BONE} strokeWidth="1" />
+                {/* Data nodes */}
+                <rect x="35" y="15" width="40" height="20" fill="none" stroke={MECHA_GOLD} strokeWidth="1" />
+                <text x="40" y="29" fill={SILK_BONE} fontSize="8" fontWeight="700" fontFamily="Arial Black, Arial, sans-serif">VaR</text>
+                <rect x="225" y="15" width="40" height="20" fill="none" stroke={AKIRA_VERMILION} strokeWidth="1" />
+                <text x="230" y="29" fill={SILK_BONE} fontSize="8" fontWeight="700" fontFamily="Arial Black, Arial, sans-serif">SDR</text>
+                <rect x="35" y="140" width="40" height="20" fill="none" stroke={SILK_BONE} strokeWidth="1" />
+                <text x="40" y="154" fill={SILK_BONE} fontSize="8" fontWeight="700" fontFamily="Arial Black, Arial, sans-serif">MCU</text>
+                <rect x="225" y="140" width="40" height="20" fill="none" stroke={MECHA_GOLD} strokeWidth="1" />
+                <text x="230" y="154" fill={SILK_BONE} fontSize="8" fontWeight="700" fontFamily="Arial Black, Arial, sans-serif">NET</text>
+                {/* Bottom label bar */}
+                <rect x="100" y="168" width="100" height="22" fill={SUMI_OBSIDIAN} />
+                <text x="115" y="183" fill={SILK_BONE} fontSize="9" fontWeight="900" fontFamily="Arial Black, Arial, sans-serif">CORE MATRIX</text>
+              </svg>
+            </div>
 
-        {/* 2-Column Architectural Project Specification Ledger */}
-        <div style={{ padding: "48px" }}>
+            {/* RIGHT BLOCK (25%) — Mecha Signal Gold manifesto */}
+            <div
+              style={{
+                width: "25%",
+                backgroundColor: MECHA_GOLD,
+                padding: "36px 28px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                boxSizing: "border-box",
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    fontSize: "11px",
+                    fontWeight: 900,
+                    letterSpacing: "0.14em",
+                    color: SUMI_OBSIDIAN,
+                    marginBottom: "16px",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  MANIFESTO //
+                </div>
+                <div
+                  style={{
+                    fontSize: "15px",
+                    fontWeight: 900,
+                    color: SUMI_OBSIDIAN,
+                    lineHeight: 1.3,
+                    textTransform: "uppercase",
+                    letterSpacing: "-0.01em",
+                  }}
+                >
+                  ENGINEERING IS NOT ABSTRACTION. IT IS THE PRECISE ARCHITECTURE OF CONSEQUENCE.
+                </div>
+              </div>
+              <a
+                href="#demos"
+                style={{
+                  display: "inline-block",
+                  backgroundColor: AKIRA_VERMILION,
+                  color: SILK_BONE,
+                  textDecoration: "none",
+                  padding: "12px 20px",
+                  fontSize: "11px",
+                  fontWeight: 900,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  ...SLAB_BORDER,
+                  borderColor: SUMI_OBSIDIAN,
+                  textAlign: "center",
+                }}
+              >
+                VIEW LIVE DEMOS
+              </a>
+            </div>
+          </div>
+
+          {/* ================================================================
+              4-COLUMN EDITORIAL STRIP (NEVER 3 cards, NEVER bento)
+              ================================================================ */}
           <div
-            style={{
-              fontSize: "12px",
-              fontWeight: 800,
-              letterSpacing: "0.14em",
-              color: "var(--accent-terracotta, #D96846)",
-              textTransform: "uppercase",
-              marginBottom: "24px",
-            }}
-          >
-            [ ARCHITECTURAL PROJECT SPECIFICATION LEDGER ]
-          </div>
-
-          {/* Strict 2-Column Grid */}
-          <div
-            className="ledger-grid"
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(2, 1fr)",
-              gap: "1.5rem",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              borderTop: "8px solid " + SUMI_OBSIDIAN,
             }}
           >
-            {/* 01 / OTAKUBAZAAR */}
-            <div
-              style={{
-                backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
-                backdropFilter: "blur(16px)",
-                WebkitBackdropFilter: "blur(16px)",
-                border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                padding: "24px",
-                borderRadius: 0,
-              }}
-            >
+            {[
+              { code: "01", name: "OTAKUBAZAAR", desc: "Multi-party escrow marketplace. Razorpay single-step checkout. Sub-12ms order processing.", accent: AKIRA_VERMILION },
+              { code: "02", name: "QUANT VaR ENGINE", desc: "GARCH(1,1) conditional volatility. 10,000 Monte Carlo paths. 99% tail risk quantification.", accent: ULTRAMARINE },
+              { code: "03", name: "SENTINEL AI", desc: "Real-time eBPF packet anomaly detection. Neural entropy classification. Top 20 Ingenious 7.0.", accent: MECHA_GOLD },
+              { code: "04", name: "GNU RADIO IPV6", desc: "ZeroMQ gr-zeromq dual-stack IPv6 socket binding. C++ out-of-tree signal processing block.", accent: AKIRA_VERMILION },
+            ].map((item, idx) => (
               <div
+                key={item.code}
                 style={{
-                  fontSize: "11px",
-                  fontWeight: 800,
-                  color: "var(--accent-terracotta, #D96846)",
-                  letterSpacing: "0.12em",
-                  marginBottom: "8px",
+                  backgroundColor: SILK_BONE,
+                  borderRight: idx < 3 ? "8px solid " + SUMI_OBSIDIAN : "none",
+                  padding: "28px 24px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  minHeight: "200px",
+                  boxSizing: "border-box",
                 }}
               >
-                01 / OTAKUBAZAAR
+                <div>
+                  <div
+                    style={{
+                      fontSize: "36px",
+                      fontWeight: 900,
+                      color: item.accent,
+                      lineHeight: 1,
+                      marginBottom: "8px",
+                    }}
+                  >
+                    {item.code}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: 900,
+                      color: SUMI_OBSIDIAN,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.04em",
+                      marginBottom: "12px",
+                      borderBottom: "3px solid " + item.accent,
+                      paddingBottom: "8px",
+                    }}
+                  >
+                    {item.name}
+                  </div>
+                </div>
+                <div
+                  style={{
+                    fontSize: "12px",
+                    fontWeight: 700,
+                    color: SUMI_OBSIDIAN,
+                    lineHeight: 1.5,
+                    opacity: 0.7,
+                  }}
+                >
+                  {item.desc}
+                </div>
               </div>
-              <h3
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 800,
-                  color: "var(--text-primary, #F4F3EF)",
-                  margin: "0 0 10px 0",
-                }}
-              >
-                E-Commerce &amp; Escrow Marketplace
-              </h3>
-              <p
-                style={{
-                  fontSize: "12px",
-                  color: "var(--text-secondary, #CDCBD6)",
-                  lineHeight: 1.6,
-                  margin: "0 0 16px 0",
-                }}
-              >
-                Brutalist editorial e-commerce and escrow marketplace with single-step guest checkout, Razorpay integration, two-phase settlement commit states, and sub-12ms order processing.
-              </p>
-              <div style={{ fontSize: "11px", color: "var(--text-muted, #9A99A2)" }}>
-                <span style={{ color: "var(--accent-terracotta, #D96846)", fontWeight: 800 }}>STACK:</span> PostgreSQL{" "}
-                <span style={{ color: "var(--accent-olive, #596235)" }}>//</span> Redis{" "}
-                <span style={{ color: "var(--accent-olive, #596235)" }}>//</span> Node.js{" "}
-                <span style={{ color: "var(--accent-olive, #596235)" }}>//</span> Razorpay API
-              </div>
-            </div>
-
-            {/* 02 / FINANCIAL RISK ENGINE */}
-            <div
-              style={{
-                backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
-                backdropFilter: "blur(16px)",
-                WebkitBackdropFilter: "blur(16px)",
-                border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                padding: "24px",
-                borderRadius: 0,
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "11px",
-                  fontWeight: 800,
-                  color: "var(--accent-terracotta, #D96846)",
-                  letterSpacing: "0.12em",
-                  marginBottom: "8px",
-                }}
-              >
-                02 / FINANCIAL RISK ENGINE
-              </div>
-              <h3
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 800,
-                  color: "var(--text-primary, #F4F3EF)",
-                  margin: "0 0 10px 0",
-                }}
-              >
-                Parametric GARCH &amp; Monte Carlo Solver
-              </h3>
-              <p
-                style={{
-                  fontSize: "12px",
-                  color: "var(--text-secondary, #CDCBD6)",
-                  lineHeight: 1.6,
-                  margin: "0 0 16px 0",
-                }}
-              >
-                Quantitative volatility modeling and portfolio tail-risk analysis using GARCH(1,1) and 100,000-path Monte Carlo simulations with Student-t copula distributions in Python.
-              </p>
-              <div style={{ fontSize: "11px", color: "var(--text-muted, #9A99A2)" }}>
-                <span style={{ color: "var(--accent-terracotta, #D96846)", fontWeight: 800 }}>STACK:</span> Python{" "}
-                <span style={{ color: "var(--accent-olive, #596235)" }}>//</span> NumPy{" "}
-                <span style={{ color: "var(--accent-olive, #596235)" }}>//</span> Numba JIT{" "}
-                <span style={{ color: "var(--accent-olive, #596235)" }}>//</span> SciPy Optimize
-              </div>
-            </div>
-
-            {/* 03 / SENTINEL */}
-            <div
-              style={{
-                backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
-                backdropFilter: "blur(16px)",
-                WebkitBackdropFilter: "blur(16px)",
-                border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                padding: "24px",
-                borderRadius: 0,
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "11px",
-                  fontWeight: 800,
-                  color: "var(--accent-terracotta, #D96846)",
-                  letterSpacing: "0.12em",
-                  marginBottom: "8px",
-                }}
-              >
-                03 / SENTINEL
-              </div>
-              <h3
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 800,
-                  color: "var(--text-primary, #F4F3EF)",
-                  margin: "0 0 10px 0",
-                }}
-              >
-                Edge Threat Detection &amp; Packet Entropy
-              </h3>
-              <p
-                style={{
-                  fontSize: "12px",
-                  color: "var(--text-secondary, #CDCBD6)",
-                  lineHeight: 1.6,
-                  margin: "0 0 16px 0",
-                }}
-              >
-                AI-powered cyber-threat and anomaly detection architecture running at the network interface via eBPF probes and quantized neural inference. Ranked Top 20 at Ingenious Hackathon 7.0.
-              </p>
-              <div style={{ fontSize: "11px", color: "var(--text-muted, #9A99A2)" }}>
-                <span style={{ color: "var(--accent-terracotta, #D96846)", fontWeight: 800 }}>STACK:</span> C++20{" "}
-                <span style={{ color: "var(--accent-olive, #596235)" }}>//</span> eBPF{" "}
-                <span style={{ color: "var(--accent-olive, #596235)" }}>//</span> ONNX Runtime INT8{" "}
-                <span style={{ color: "var(--accent-olive, #596235)" }}>//</span> Linux Kernel
-              </div>
-            </div>
-
-            {/* 04 / GNU RADIO ZEROMQ */}
-            <div
-              style={{
-                backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
-                backdropFilter: "blur(16px)",
-                WebkitBackdropFilter: "blur(16px)",
-                border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                padding: "24px",
-                borderRadius: 0,
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "11px",
-                  fontWeight: 800,
-                  color: "var(--accent-terracotta, #D96846)",
-                  letterSpacing: "0.12em",
-                  marginBottom: "8px",
-                }}
-              >
-                04 / GNU RADIO ZEROMQ
-              </div>
-              <h3
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 800,
-                  color: "var(--text-primary, #F4F3EF)",
-                  margin: "0 0 10px 0",
-                }}
-              >
-                IPv6 Socket Signal Processing Block
-              </h3>
-              <p
-                style={{
-                  fontSize: "12px",
-                  color: "var(--text-secondary, #CDCBD6)",
-                  lineHeight: 1.6,
-                  margin: "0 0 16px 0",
-                }}
-              >
-                C++ / Python digital signal processing contribution resolving IPv6 socket handling and multicast streaming bottlenecks in gr-zeromq source and sink blocks for SDR arrays.
-              </p>
-              <div style={{ fontSize: "11px", color: "var(--text-muted, #9A99A2)" }}>
-                <span style={{ color: "var(--accent-terracotta, #D96846)", fontWeight: 800 }}>STACK:</span> GNU Radio 3.10{" "}
-                <span style={{ color: "var(--accent-olive, #596235)" }}>//</span> ZeroMQ{" "}
-                <span style={{ color: "var(--accent-olive, #596235)" }}>//</span> IPv6 Multicast{" "}
-                <span style={{ color: "var(--accent-olive, #596235)" }}>//</span> C++
-              </div>
-            </div>
-
-            {/* 05 / FLASH JOULE HARD CARBON */}
-            <div
-              style={{
-                backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
-                backdropFilter: "blur(16px)",
-                WebkitBackdropFilter: "blur(16px)",
-                border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                padding: "24px",
-                borderRadius: 0,
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "11px",
-                  fontWeight: 800,
-                  color: "var(--accent-terracotta, #D96846)",
-                  letterSpacing: "0.12em",
-                  marginBottom: "8px",
-                }}
-              >
-                05 / FLASH JOULE HARD CARBON
-              </div>
-              <h3
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 800,
-                  color: "var(--text-primary, #F4F3EF)",
-                  margin: "0 0 10px 0",
-                }}
-              >
-                High-Throughput Biomass Anode Synthesis
-              </h3>
-              <p
-                style={{
-                  fontSize: "12px",
-                  color: "var(--text-secondary, #CDCBD6)",
-                  lineHeight: 1.6,
-                  margin: "0 0 16px 0",
-                }}
-              >
-                Millisecond electro-thermal Flash Joule Heating transforming biomass into hard carbon battery anodes with 312 mAh/g capacity for sodium-ion energy storage (IITGN Ideathon).
-              </p>
-              <div style={{ fontSize: "11px", color: "var(--text-muted, #9A99A2)" }}>
-                <span style={{ color: "var(--accent-terracotta, #D96846)", fontWeight: 800 }}>STACK:</span> Process Modeling{" "}
-                <span style={{ color: "var(--accent-olive, #596235)" }}>//</span> Pulse Power Circuitry{" "}
-                <span style={{ color: "var(--accent-olive, #596235)" }}>//</span> Industrial Pyrometry
-              </div>
-            </div>
-
-            {/* 06 / AVR ATMEGA32 TELEMETRY */}
-            <div
-              style={{
-                backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
-                backdropFilter: "blur(16px)",
-                WebkitBackdropFilter: "blur(16px)",
-                border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                padding: "24px",
-                borderRadius: 0,
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "11px",
-                  fontWeight: 800,
-                  color: "var(--accent-terracotta, #D96846)",
-                  letterSpacing: "0.12em",
-                  marginBottom: "8px",
-                }}
-              >
-                06 / AVR ATMEGA32 TELEMETRY
-              </div>
-              <h3
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 800,
-                  color: "var(--text-primary, #F4F3EF)",
-                  margin: "0 0 10px 0",
-                }}
-              >
-                Bare-Metal Microcontroller &amp; Hardware Telemetry
-              </h3>
-              <p
-                style={{
-                  fontSize: "12px",
-                  color: "var(--text-secondary, #CDCBD6)",
-                  lineHeight: 1.6,
-                  margin: "0 0 16px 0",
-                }}
-              >
-                Direct register-level C firmware interfacing multi-channel 10-bit ADC conversion, Timer0 PWM waveforms, SPI bus communications, and high-precision sensor telemetry.
-              </p>
-              <div style={{ fontSize: "11px", color: "var(--text-muted, #9A99A2)" }}>
-                <span style={{ color: "var(--accent-terracotta, #D96846)", fontWeight: 800 }}>STACK:</span> Embedded C{" "}
-                <span style={{ color: "var(--accent-olive, #596235)" }}>//</span> AVR ATmega32{" "}
-                <span style={{ color: "var(--accent-olive, #596235)" }}>//</span> Timers/PWM{" "}
-                <span style={{ color: "var(--accent-olive, #596235)" }}>//</span> ADC Telemetry
-              </div>
-            </div>
-
-            {/* 07 / DARE TO SIP POP-UP */}
-            <div
-              style={{
-                backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
-                backdropFilter: "blur(16px)",
-                WebkitBackdropFilter: "blur(16px)",
-                border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                padding: "24px",
-                borderRadius: 0,
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "11px",
-                  fontWeight: 800,
-                  color: "var(--accent-terracotta, #D96846)",
-                  letterSpacing: "0.12em",
-                  marginBottom: "8px",
-                }}
-              >
-                07 / DARE TO SIP POP-UP
-              </div>
-              <h3
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 800,
-                  color: "var(--text-primary, #F4F3EF)",
-                  margin: "0 0 10px 0",
-                }}
-              >
-                Gamified Physical Commerce &amp; Unit Economics
-              </h3>
-              <p
-                style={{
-                  fontSize: "12px",
-                  color: "var(--text-secondary, #CDCBD6)",
-                  lineHeight: 1.6,
-                  margin: "0 0 16px 0",
-                }}
-              >
-                High-throughput live campus retail prototype stress-testing dynamic pricing curves, inventory velocity algorithms, and rapid fulfillment pipelines over 48 hours.
-              </p>
-              <div style={{ fontSize: "11px", color: "var(--text-muted, #9A99A2)" }}>
-                <span style={{ color: "var(--accent-terracotta, #D96846)", fontWeight: 800 }}>STACK:</span> Unit Economics{" "}
-                <span style={{ color: "var(--accent-olive, #596235)" }}>//</span> Dynamic Pricing{" "}
-                <span style={{ color: "var(--accent-olive, #596235)" }}>//</span> Operations Logistics
-              </div>
-            </div>
-
-            {/* 08 / ANSYS TENSILE FEA */}
-            <div
-              style={{
-                backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
-                backdropFilter: "blur(16px)",
-                WebkitBackdropFilter: "blur(16px)",
-                border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                padding: "24px",
-                borderRadius: 0,
-              }}
-            >
-              <div
-                style={{
-                  fontSize: "11px",
-                  fontWeight: 800,
-                  color: "var(--accent-terracotta, #D96846)",
-                  letterSpacing: "0.12em",
-                  marginBottom: "8px",
-                }}
-              >
-                08 / ANSYS TENSILE FEA
-              </div>
-              <h3
-                style={{
-                  fontSize: "16px",
-                  fontWeight: 800,
-                  color: "var(--text-primary, #F4F3EF)",
-                  margin: "0 0 10px 0",
-                }}
-              >
-                Computational Solid Mechanics &amp; Stress Solver
-              </h3>
-              <p
-                style={{
-                  fontSize: "12px",
-                  color: "var(--text-secondary, #CDCBD6)",
-                  lineHeight: 1.6,
-                  margin: "0 0 16px 0",
-                }}
-              >
-                Non-linear finite element structural analysis verifying Von Mises stress concentrations, plastic deformation boundaries, and mesh convergence under axial tensile loads.
-              </p>
-              <div style={{ fontSize: "11px", color: "var(--text-muted, #9A99A2)" }}>
-                <span style={{ color: "var(--accent-terracotta, #D96846)", fontWeight: 800 }}>STACK:</span> ANSYS Workbench{" "}
-                <span style={{ color: "var(--accent-olive, #596235)" }}>//</span> Static Structural{" "}
-                <span style={{ color: "var(--accent-olive, #596235)" }}>//</span> Von Mises Solvers
-              </div>
-            </div>
+            ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ====================================================================
-          3. SYSTEMS ARCHITECTURE SECTION (#systems)
-          ==================================================================== */}
-      <section
-        id="systems"
-        style={{
-          borderBottom: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-          backgroundColor: "var(--bg-canvas, #14150E)",
-          padding: "48px",
-        }}
-      >
-        <div style={{ marginBottom: "28px" }}>
-          <div
-            style={{
-              fontSize: "11px",
-              fontWeight: 800,
-              letterSpacing: "0.14em",
-              color: "var(--accent-terracotta, #D96846)",
-              textTransform: "uppercase",
-              marginBottom: "8px",
-            }}
-          >
-            [ SECTION 02 // SYSTEMS ARCHITECTURE &amp; DISCIPLINES ]
-          </div>
-          <h2
-            style={{
-              fontSize: "28px",
-              fontWeight: 900,
-              textTransform: "uppercase",
-              color: "var(--text-primary, #F4F3EF)",
-              margin: 0,
-            }}
-          >
-            Computational Core Competencies
-          </h2>
-        </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "24px" }}>
-          <div
-            style={{
-              backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)",
-              border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-              padding: "24px",
-              borderRadius: 0,
-            }}
-          >
-            <div
-              style={{
-                fontSize: "12px",
-                fontWeight: 800,
-                color: "var(--accent-terracotta, #D96846)",
-                textTransform: "uppercase",
-                marginBottom: "8px",
-              }}
-            >
-              COMPUTATIONAL FINANCE &amp; RISK
-            </div>
-            <div style={{ fontSize: "12px", color: "var(--text-secondary, #CDCBD6)", lineHeight: 1.6 }}>
-              Parametric volatility engines, dynamic covariance estimation, and non-Gaussian tail risk metrics (VaR, Expected Shortfall) built with vectorized numerical algorithms in Python and Numba.
-            </div>
-          </div>
-
-          <div
-            style={{
-              backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)",
-              border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-              padding: "24px",
-              borderRadius: 0,
-            }}
-          >
-            <div
-              style={{
-                fontSize: "12px",
-                fontWeight: 800,
-                color: "var(--accent-terracotta, #D96846)",
-                textTransform: "uppercase",
-                marginBottom: "8px",
-              }}
-            >
-              EMBEDDED SYSTEMS &amp; SDR
-            </div>
-            <div style={{ fontSize: "12px", color: "var(--text-secondary, #CDCBD6)", lineHeight: 1.6 }}>
-              Bare-metal firmware design on 8-bit / 32-bit microcontrollers, ZeroMQ zero-copy IPC streaming, and GNU Radio software-defined radio I/Q digital signal processing blocks.
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ====================================================================
-          4. LIVE PRODUCT DEMOS & SKELETON LOADER SECTION (#demos)
-          ==================================================================== */}
-      <section
-        id="demos"
-        style={{
-          borderBottom: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-          backgroundColor: "var(--bg-canvas, #14150E)",
-          padding: "48px",
-        }}
-      >
-        <div
+        {/* ================================================================
+            4. SHOWCASE SECTION: 3D CAROUSEL
+            ================================================================ */}
+        <section
+          id="showcase"
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-end",
-            flexWrap: "wrap",
-            gap: "16px",
-            marginBottom: "32px",
+            borderBottom: "8px solid " + SUMI_OBSIDIAN,
+            backgroundColor: SUMI_OBSIDIAN,
           }}
         >
-          <div>
-            <div
-              style={{
-                fontSize: "11px",
-                fontWeight: 800,
-                letterSpacing: "0.14em",
-                color: "var(--accent-terracotta, #D96846)",
-                textTransform: "uppercase",
-                marginBottom: "8px",
-              }}
-            >
-              [ SECTION 03 // LIVE PRODUCT DEMOS &amp; WALKTHROUGHS ]
-            </div>
-            <h2
-              style={{
-                fontSize: "28px",
-                fontWeight: 900,
-                textTransform: "uppercase",
-                color: "var(--text-primary, #F4F3EF)",
-                margin: 0,
-              }}
-            >
-              Interactive System Demonstrators
-            </h2>
-          </div>
-
-          {/* Demo switcher buttons */}
-          <div style={{ display: "flex", gap: "8px" }}>
-            <button
-              onClick={() => handleSwitchDemo("otakubazaar")}
-              style={{
-                padding: "8px 16px",
-                backgroundColor: activeDemo === "otakubazaar" ? "var(--accent-terracotta, #D96846)" : "rgba(47, 48, 32, 0.58)",
-                color: activeDemo === "otakubazaar" ? "#14150E" : "var(--text-secondary, #CDCBD6)",
-                border: activeDemo === "otakubazaar" ? "1px solid var(--accent-terracotta, #D96846)" : "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                fontSize: "11px",
-                fontWeight: 800,
-                cursor: "pointer",
-                borderRadius: 0,
-              }}
-            >
-              OTAKUBAZAAR DEMO
-            </button>
-            <button
-              onClick={() => handleSwitchDemo("risk")}
-              style={{
-                padding: "8px 16px",
-                backgroundColor: activeDemo === "risk" ? "var(--accent-terracotta, #D96846)" : "rgba(47, 48, 32, 0.58)",
-                color: activeDemo === "risk" ? "#14150E" : "var(--text-secondary, #CDCBD6)",
-                border: activeDemo === "risk" ? "1px solid var(--accent-terracotta, #D96846)" : "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                fontSize: "11px",
-                fontWeight: 800,
-                cursor: "pointer",
-                borderRadius: 0,
-              }}
-            >
-              GARCH RISK SIMULATOR
-            </button>
-            <button
-              onClick={() => handleSwitchDemo("sentinel")}
-              style={{
-                padding: "8px 16px",
-                backgroundColor: activeDemo === "sentinel" ? "var(--accent-terracotta, #D96846)" : "rgba(47, 48, 32, 0.58)",
-                color: activeDemo === "sentinel" ? "#14150E" : "var(--text-secondary, #CDCBD6)",
-                border: activeDemo === "sentinel" ? "1px solid var(--accent-terracotta, #D96846)" : "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                fontSize: "11px",
-                fontWeight: 800,
-                cursor: "pointer",
-                borderRadius: 0,
-              }}
-            >
-              SENTINEL eBPF
-            </button>
-          </div>
-        </div>
-
-        {/* Dynamic Skeleton Loader Verification State */}
-        {isLoadingDemo ? (
+          {/* Section Header */}
           <div
             style={{
-              padding: "40px",
-              backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
-              backdropFilter: "blur(16px)",
-              WebkitBackdropFilter: "blur(16px)",
-              border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
+              padding: "20px 48px",
+              borderBottom: "3px solid " + SILK_BONE,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: "12px",
+              backgroundColor: SUMI_OBSIDIAN,
             }}
           >
-            <div className="skeleton-block" style={{ width: "35%", height: "24px", marginBottom: "20px" }} />
-            <div className="skeleton-block" style={{ width: "100%", height: "240px", marginBottom: "20px" }} />
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
-              <div className="skeleton-block" style={{ height: "60px" }} />
-              <div className="skeleton-block" style={{ height: "60px" }} />
+            <div
+              style={{
+                fontSize: "12px",
+                fontWeight: 900,
+                letterSpacing: "0.14em",
+                color: SILK_BONE,
+                textTransform: "uppercase",
+              }}
+            >
+              01 <span style={{ color: AKIRA_VERMILION }}>//</span> INTERACTIVE 3D PROJECT RING (DRAG TO ROTATE)
             </div>
-            <div style={{ fontSize: "10px", color: "var(--accent-terracotta, #D96846)", letterSpacing: "0.14em", marginTop: "16px", fontWeight: 700 }}>
-              [ SYNCHRONIZING ARTIFACT DEMONSTRATOR TELEMETRY ]
+            <div style={{ fontSize: "11px", color: TITANIUM_PUTTY, letterSpacing: "0.08em", fontWeight: 700 }}>
+              CYLINDRICAL MATRIX <span style={{ color: AKIRA_VERMILION }}>//</span> MECHA DOSSIER SLABS
             </div>
           </div>
-        ) : (
-          <div>
-            {/* OTAKUBAZAAR DEMO */}
-            {activeDemo === "otakubazaar" && (
+
+          {/* Carousel Container — 700px */}
+          <div
+            style={{
+              width: "100%",
+              height: "700px",
+              position: "relative",
+              backgroundColor: SUMI_OBSIDIAN,
+            }}
+          >
+            <RoundCarousel />
+          </div>
+        </section>
+
+        {/* ================================================================
+            5. LIVE PRODUCT DEMOS, SKELETON LOADERS (#demos)
+            ================================================================ */}
+        <section
+          id="demos"
+          style={{
+            borderBottom: "8px solid " + SUMI_OBSIDIAN,
+            backgroundColor: SILK_BONE,
+            padding: "48px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-end",
+              flexWrap: "wrap",
+              gap: "16px",
+              marginBottom: "32px",
+            }}
+          >
+            <div>
               <div
                 style={{
-                  backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
-                  backdropFilter: "blur(16px)",
-                  WebkitBackdropFilter: "blur(16px)",
-                  border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                  padding: "32px",
+                  fontSize: "11px",
+                  fontWeight: 900,
+                  letterSpacing: "0.14em",
+                  color: AKIRA_VERMILION,
+                  textTransform: "uppercase",
+                  marginBottom: "8px",
                 }}
               >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: "16px",
-                    borderBottom: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                    paddingBottom: "12px",
-                  }}
-                >
-                  <div style={{ fontSize: "16px", fontWeight: 800, color: "var(--text-primary, #F4F3EF)" }}>
-                    OTAKUBAZAAR <span style={{ color: "var(--accent-terracotta, #D96846)" }}>//</span> MULTI-PARTY ESCROW STATE MACHINE DEMO
-                  </div>
-                  <div style={{ fontSize: "11px", color: "var(--accent-terracotta, #D96846)", fontWeight: 700 }}>
-                    STATUS: PRODUCTION TESTED
-                  </div>
-                </div>
-
-                <p style={{ fontSize: "12px", color: "var(--text-secondary, #CDCBD6)", lineHeight: 1.6, marginBottom: "24px" }}>
-                  Single-step guest checkout pipeline with Razorpay integration and automated 2-phase cryptographic escrow lock.
-                </p>
-
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "12px" }}>
-                  <div
-                    style={{
-                      backgroundColor: "var(--bg-surface-solid, #1E2015)",
-                      border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                      padding: "16px",
-                    }}
-                  >
-                    <div style={{ fontSize: "10px", color: "var(--accent-terracotta, #D96846)", fontWeight: 700 }}>PHASE 1</div>
-                    <div style={{ fontSize: "13px", fontWeight: 800, color: "var(--text-primary, #F4F3EF)", marginTop: "4px" }}>GUEST CART INIT</div>
-                    <div style={{ fontSize: "11px", color: "var(--text-muted, #9A99A2)", marginTop: "2px" }}>Zero-Auth State Lock</div>
-                  </div>
-                  <div
-                    style={{
-                      backgroundColor: "var(--bg-surface-solid, #1E2015)",
-                      border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                      padding: "16px",
-                    }}
-                  >
-                    <div style={{ fontSize: "10px", color: "var(--accent-terracotta, #D96846)", fontWeight: 700 }}>PHASE 2</div>
-                    <div style={{ fontSize: "13px", fontWeight: 800, color: "var(--text-primary, #F4F3EF)", marginTop: "4px" }}>RAZORPAY WEBHOOK</div>
-                    <div style={{ fontSize: "11px", color: "var(--text-muted, #9A99A2)", marginTop: "2px" }}>HMAC SHA256 Signature</div>
-                  </div>
-                  <div
-                    style={{
-                      backgroundColor: "var(--bg-surface-solid, #1E2015)",
-                      border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                      padding: "16px",
-                    }}
-                  >
-                    <div style={{ fontSize: "10px", color: "var(--accent-terracotta, #D96846)", fontWeight: 700 }}>PHASE 3</div>
-                    <div style={{ fontSize: "13px", fontWeight: 800, color: "var(--text-primary, #F4F3EF)", marginTop: "4px" }}>ESCROW VAULT LOCK</div>
-                    <div style={{ fontSize: "11px", color: "var(--text-muted, #9A99A2)", marginTop: "2px" }}>Redis Redlock Isolation</div>
-                  </div>
-                  <div
-                    style={{
-                      backgroundColor: "var(--bg-surface-solid, #1E2015)",
-                      border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                      padding: "16px",
-                    }}
-                  >
-                    <div style={{ fontSize: "10px", color: "var(--accent-terracotta, #D96846)", fontWeight: 700 }}>PHASE 4</div>
-                    <div style={{ fontSize: "13px", fontWeight: 800, color: "var(--text-primary, #F4F3EF)", marginTop: "4px" }}>POST-DELIVERY RELEASE</div>
-                    <div style={{ fontSize: "11px", color: "var(--text-muted, #9A99A2)", marginTop: "2px" }}>ACID Ledger Commit</div>
-                  </div>
-                </div>
+                [ SECTION 03 // LIVE ENGINEERING WORKBENCH ]
               </div>
-            )}
+              <h2
+                style={{
+                  fontSize: "clamp(1.8rem, 4vw, 3rem)",
+                  fontWeight: 900,
+                  textTransform: "uppercase",
+                  color: SUMI_OBSIDIAN,
+                  margin: 0,
+                  letterSpacing: "-0.03em",
+                  lineHeight: 0.92,
+                }}
+              >
+                INTERACTIVE SYSTEM DEMONSTRATORS
+              </h2>
+            </div>
 
-            {/* GARCH RISK SIMULATOR DEMO */}
-            {activeDemo === "risk" && (
+            {/* Demo Switcher Buttons */}
+            <div style={{ display: "flex", gap: "8px" }}>
+              {([
+                { key: "otakubazaar" as const, label: "OTAKUBAZAAR DEMO" },
+                { key: "risk" as const, label: "GARCH VaR SIMULATOR" },
+                { key: "sentinel" as const, label: "SENTINEL eBPF" },
+              ]).map((btn) => (
+                <button
+                  key={btn.key}
+                  onClick={() => handleSwitchDemo(btn.key)}
+                  style={{
+                    padding: "10px 18px",
+                    backgroundColor: activeDemo === btn.key ? AKIRA_VERMILION : SILK_BONE,
+                    color: activeDemo === btn.key ? SILK_BONE : SUMI_OBSIDIAN,
+                    ...SLAB_BORDER,
+                    fontSize: "10px",
+                    fontWeight: 900,
+                    cursor: "pointer",
+                    fontFamily: FONT_STACK,
+                    letterSpacing: "0.06em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {btn.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* SKELETON LOADER */}
+          {isLoadingDemo ? (
+            <div
+              style={{
+                padding: "40px",
+                backgroundColor: SILK_BONE,
+                ...SLAB_BORDER,
+              }}
+            >
+              <div style={{ width: "35%", height: "24px", marginBottom: "20px", backgroundColor: TITANIUM_PUTTY, ...SLAB_BORDER }} />
+              <div style={{ width: "100%", height: "240px", marginBottom: "20px", backgroundColor: TITANIUM_PUTTY, ...SLAB_BORDER }} />
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+                <div style={{ height: "60px", backgroundColor: TITANIUM_PUTTY, ...SLAB_BORDER }} />
+                <div style={{ height: "60px", backgroundColor: TITANIUM_PUTTY, ...SLAB_BORDER }} />
+              </div>
               <div
                 style={{
-                  backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
-                  backdropFilter: "blur(16px)",
-                  WebkitBackdropFilter: "blur(16px)",
-                  border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
+                  fontSize: "10px",
+                  color: AKIRA_VERMILION,
+                  letterSpacing: "0.14em",
+                  marginTop: "16px",
+                  fontWeight: 900,
+                }}
+              >
+                [ SYNCHRONIZING ARTIFACT DEMONSTRATOR TELEMETRY ]
+              </div>
+            </div>
+          ) : (
+            /* 2-COLUMN WORKBENCH */
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0px" }}>
+              {/* LEFT: Demo Description */}
+              <div
+                style={{
+                  backgroundColor: SILK_BONE,
+                  ...SLAB_BORDER,
                   padding: "32px",
                 }}
               >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: "16px",
-                    borderBottom: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                    paddingBottom: "12px",
-                  }}
-                >
-                  <div style={{ fontSize: "16px", fontWeight: 800, color: "var(--text-primary, #F4F3EF)" }}>
-                    PARAMETRIC VALUE-AT-RISK (VaR) &amp; STOCHASTIC SOLVER
-                  </div>
-                  <div style={{ fontSize: "11px", color: "var(--accent-terracotta, #D96846)", fontWeight: 700 }}>
-                    MODEL: GARCH(1,1) + STUDENT-T
-                  </div>
-                </div>
+                {activeDemo === "otakubazaar" && (
+                  <>
+                    <div
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: 900,
+                        color: SUMI_OBSIDIAN,
+                        marginBottom: "12px",
+                        borderBottom: "3px solid " + AKIRA_VERMILION,
+                        paddingBottom: "10px",
+                      }}
+                    >
+                      OTAKUBAZAAR <span style={{ color: AKIRA_VERMILION }}>//</span> MULTI-PARTY ESCROW STATE MACHINE
+                    </div>
+                    <p style={{ fontSize: "12px", color: SUMI_OBSIDIAN, lineHeight: 1.6, marginBottom: "24px", fontWeight: 700, opacity: 0.7 }}>
+                      Single-step guest checkout pipeline with Razorpay integration and automated 2-phase cryptographic escrow lock.
+                    </p>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+                      {[
+                        { phase: "PHASE 1", title: "GUEST CART INIT", sub: "Zero-Auth State Lock" },
+                        { phase: "PHASE 2", title: "RAZORPAY WEBHOOK", sub: "HMAC SHA256 Signature" },
+                        { phase: "PHASE 3", title: "ESCROW VAULT LOCK", sub: "Redis Redlock Isolation" },
+                        { phase: "PHASE 4", title: "POST-DELIVERY RELEASE", sub: "ACID Ledger Commit" },
+                      ].map((p) => (
+                        <div key={p.phase} style={{ backgroundColor: TITANIUM_PUTTY, ...SLAB_BORDER, padding: "14px" }}>
+                          <div style={{ fontSize: "10px", color: AKIRA_VERMILION, fontWeight: 900 }}>{p.phase}</div>
+                          <div style={{ fontSize: "12px", fontWeight: 900, color: SUMI_OBSIDIAN, marginTop: "4px" }}>{p.title}</div>
+                          <div style={{ fontSize: "10px", color: SUMI_OBSIDIAN, marginTop: "2px", opacity: 0.6, fontWeight: 700 }}>{p.sub}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
 
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "24px" }}>
-                  <div>
+                {activeDemo === "risk" && (
+                  <>
+                    <div
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: 900,
+                        color: SUMI_OBSIDIAN,
+                        marginBottom: "12px",
+                        borderBottom: "3px solid " + ULTRAMARINE,
+                        paddingBottom: "10px",
+                      }}
+                    >
+                      PARAMETRIC VALUE-AT-RISK (VaR) <span style={{ color: ULTRAMARINE }}>//</span> STOCHASTIC SOLVER
+                    </div>
                     <div style={{ marginBottom: "16px" }}>
-                      <label style={{ display: "block", fontSize: "10px", color: "var(--text-muted, #9A99A2)", textTransform: "uppercase", marginBottom: "6px" }}>
+                      <label style={{ display: "block", fontSize: "10px", color: SUMI_OBSIDIAN, textTransform: "uppercase", marginBottom: "6px", fontWeight: 900, opacity: 0.6 }}>
                         PORTFOLIO VALUE ($ USD)
                       </label>
                       <input
@@ -1070,20 +790,20 @@ export default function HomePage() {
                         onChange={(e) => setPortfolioValue(Math.max(10000, Number(e.target.value)))}
                         style={{
                           width: "100%",
-                          padding: "8px 12px",
-                          backgroundColor: "var(--bg-surface-solid, #1E2015)",
-                          border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                          color: "var(--text-primary, #F4F3EF)",
+                          padding: "10px 14px",
+                          backgroundColor: TITANIUM_PUTTY,
+                          color: SUMI_OBSIDIAN,
                           fontSize: "13px",
-                          fontWeight: 700,
-                          borderRadius: 0,
+                          fontWeight: 900,
+                          ...SLAB_BORDER,
+                          fontFamily: FONT_STACK,
+                          boxSizing: "border-box",
                         }}
                       />
                     </div>
-
                     <div style={{ marginBottom: "16px" }}>
-                      <label style={{ display: "block", fontSize: "10px", color: "var(--text-muted, #9A99A2)", textTransform: "uppercase", marginBottom: "6px" }}>
-                        DAILY CONDITIONAL VOLATILITY: <span style={{ color: "var(--accent-terracotta-bright, #E88364)" }}>{dailyVol.toFixed(2)}%</span>
+                      <label style={{ display: "block", fontSize: "10px", color: SUMI_OBSIDIAN, textTransform: "uppercase", marginBottom: "6px", fontWeight: 900, opacity: 0.6 }}>
+                        DAILY CONDITIONAL VOLATILITY: <span style={{ color: AKIRA_VERMILION }}>{dailyVol.toFixed(2)}%</span>
                       </label>
                       <input
                         type="range"
@@ -1092,266 +812,308 @@ export default function HomePage() {
                         step="0.05"
                         value={dailyVol}
                         onChange={(e) => setDailyVol(parseFloat(e.target.value))}
-                        style={{ width: "100%", accentColor: "var(--accent-terracotta, #D96846)" }}
+                        style={{ width: "100%", accentColor: AKIRA_VERMILION }}
                       />
                     </div>
-
                     <div>
-                      <label style={{ display: "block", fontSize: "10px", color: "var(--text-muted, #9A99A2)", textTransform: "uppercase", marginBottom: "6px" }}>
+                      <label style={{ display: "block", fontSize: "10px", color: SUMI_OBSIDIAN, textTransform: "uppercase", marginBottom: "6px", fontWeight: 900, opacity: 0.6 }}>
                         CONFIDENCE LEVEL
                       </label>
                       <div style={{ display: "flex", gap: "8px" }}>
-                        <button
-                          onClick={() => setConfidenceLevel(0.95)}
-                          style={{
-                            flex: 1,
-                            padding: "8px",
-                            backgroundColor: confidenceLevel === 0.95 ? "var(--accent-terracotta, #D96846)" : "rgba(47, 48, 32, 0.58)",
-                            color: confidenceLevel === 0.95 ? "#14150E" : "var(--text-secondary, #CDCBD6)",
-                            border: confidenceLevel === 0.95 ? "1px solid var(--accent-terracotta, #D96846)" : "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                            fontSize: "11px",
-                            fontWeight: 800,
-                            cursor: "pointer",
-                            borderRadius: 0,
-                          }}
-                        >
-                          95% (1.645 σ)
-                        </button>
-                        <button
-                          onClick={() => setConfidenceLevel(0.99)}
-                          style={{
-                            flex: 1,
-                            padding: "8px",
-                            backgroundColor: confidenceLevel === 0.99 ? "var(--accent-terracotta, #D96846)" : "rgba(47, 48, 32, 0.58)",
-                            color: confidenceLevel === 0.99 ? "#14150E" : "var(--text-secondary, #CDCBD6)",
-                            border: confidenceLevel === 0.99 ? "1px solid var(--accent-terracotta, #D96846)" : "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                            fontSize: "11px",
-                            fontWeight: 800,
-                            cursor: "pointer",
-                            borderRadius: 0,
-                          }}
-                        >
-                          99% (2.326 σ)
-                        </button>
+                        {([0.95, 0.99] as const).map((cl) => (
+                          <button
+                            key={cl}
+                            onClick={() => setConfidenceLevel(cl)}
+                            style={{
+                              flex: 1,
+                              padding: "10px",
+                              backgroundColor: confidenceLevel === cl ? ULTRAMARINE : TITANIUM_PUTTY,
+                              color: confidenceLevel === cl ? SILK_BONE : SUMI_OBSIDIAN,
+                              ...SLAB_BORDER,
+                              fontSize: "11px",
+                              fontWeight: 900,
+                              cursor: "pointer",
+                              fontFamily: FONT_STACK,
+                            }}
+                          >
+                            {cl * 100}% ({cl === 0.95 ? "1.645" : "2.326"} σ)
+                          </button>
+                        ))}
                       </div>
                     </div>
-                  </div>
+                  </>
+                )}
 
-                  <div
-                    style={{
-                      backgroundColor: "var(--bg-surface-solid, #1E2015)",
-                      border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                      padding: "20px",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                    }}
-                  >
+                {activeDemo === "sentinel" && (
+                  <>
+                    <div
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: 900,
+                        color: SUMI_OBSIDIAN,
+                        marginBottom: "12px",
+                        borderBottom: "3px solid " + MECHA_GOLD,
+                        paddingBottom: "10px",
+                      }}
+                    >
+                      SENTINEL <span style={{ color: MECHA_GOLD }}>//</span> eBPF PACKET ENTROPY STREAM
+                    </div>
+                    <div style={{ overflowX: "auto" }}>
+                      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "11px", textAlign: "left" }}>
+                        <thead>
+                          <tr style={{ borderBottom: "3px solid " + SUMI_OBSIDIAN, color: SUMI_OBSIDIAN }}>
+                            <th style={{ padding: "8px", fontWeight: 900 }}>TIMESTAMP</th>
+                            <th style={{ padding: "8px", fontWeight: 900 }}>PROTOCOL</th>
+                            <th style={{ padding: "8px", fontWeight: 900 }}>SOURCE</th>
+                            <th style={{ padding: "8px", fontWeight: 900 }}>ENTROPY</th>
+                            <th style={{ padding: "8px", fontWeight: 900 }}>ACTION</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr style={{ borderBottom: "1px solid " + TITANIUM_PUTTY }}>
+                            <td style={{ padding: "8px", color: SUMI_OBSIDIAN, opacity: 0.6 }}>17:10:04.102</td>
+                            <td style={{ padding: "8px", fontWeight: 700 }}>TCP TLS 1.3</td>
+                            <td style={{ padding: "8px", fontWeight: 700 }}>192.168.1.104:443</td>
+                            <td style={{ padding: "8px", fontWeight: 700 }}>7.82 bits</td>
+                            <td style={{ padding: "8px", fontWeight: 900, color: ULTRAMARINE }}>[ XDP_PASS ]</td>
+                          </tr>
+                          <tr style={{ borderBottom: "1px solid " + TITANIUM_PUTTY, backgroundColor: "rgba(217,30,42,0.08)" }}>
+                            <td style={{ padding: "8px", color: AKIRA_VERMILION }}>17:10:04.108</td>
+                            <td style={{ padding: "8px", fontWeight: 700 }}>RAW IPv6</td>
+                            <td style={{ padding: "8px", fontWeight: 700 }}>[2001:db8::88]:9000</td>
+                            <td style={{ padding: "8px", color: AKIRA_VERMILION, fontWeight: 900 }}>7.99 bits</td>
+                            <td style={{ padding: "8px", fontWeight: 900, color: AKIRA_VERMILION }}>[ XDP_DROP ]</td>
+                          </tr>
+                          {sentinelBurst > 0 && Array.from({ length: Math.min(sentinelBurst, 4) }).map((_, bIdx) => (
+                            <tr key={bIdx} style={{ borderBottom: "1px solid " + TITANIUM_PUTTY, backgroundColor: bIdx % 2 === 0 ? "rgba(217,30,42,0.06)" : "transparent" }}>
+                              <td style={{ padding: "8px", color: AKIRA_VERMILION }}>17:10:04.{112 + bIdx * 3}</td>
+                              <td style={{ padding: "8px", fontWeight: 700 }}>{bIdx % 2 === 0 ? "UDP FLOOD" : "SYN ACK"}</td>
+                              <td style={{ padding: "8px", fontWeight: 700 }}>10.0.{bIdx}.{42 + bIdx * 7}:{5000 + bIdx}</td>
+                              <td style={{ padding: "8px", color: AKIRA_VERMILION, fontWeight: 900 }}>{(7.85 + bIdx * 0.04).toFixed(2)} bits</td>
+                              <td style={{ padding: "8px", fontWeight: 900, color: AKIRA_VERMILION }}>[ XDP_DROP ]</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    <button
+                      onClick={() => setSentinelBurst(prev => prev >= 4 ? 0 : prev + 1)}
+                      style={{
+                        marginTop: "16px",
+                        padding: "10px 18px",
+                        backgroundColor: MECHA_GOLD,
+                        color: SUMI_OBSIDIAN,
+                        ...SLAB_BORDER,
+                        fontSize: "10px",
+                        fontWeight: 900,
+                        cursor: "pointer",
+                        fontFamily: FONT_STACK,
+                        letterSpacing: "0.06em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      INJECT ANOMALY BURST ({sentinelBurst}/4)
+                    </button>
+                  </>
+                )}
+              </div>
+
+              {/* RIGHT: Results / Output Panel */}
+              <div
+                style={{
+                  backgroundColor: SUMI_OBSIDIAN,
+                  ...SLAB_BORDER,
+                  borderColor: SUMI_OBSIDIAN,
+                  padding: "32px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                }}
+              >
+                {activeDemo === "otakubazaar" && (
+                  <>
                     <div>
-                      <div style={{ fontSize: "10px", color: "var(--accent-terracotta, #D96846)", textTransform: "uppercase", fontWeight: 700 }}>
+                      <div style={{ fontSize: "10px", color: AKIRA_VERMILION, textTransform: "uppercase", fontWeight: 900, letterSpacing: "0.12em" }}>
+                        ESCROW SETTLEMENT STATUS
+                      </div>
+                      <div style={{ fontSize: "48px", fontWeight: 900, color: SILK_BONE, letterSpacing: "-0.03em", marginTop: "8px", lineHeight: 1 }}>
+                        COMMITTED
+                      </div>
+                      <div style={{ fontSize: "11px", color: TITANIUM_PUTTY, marginTop: "12px", fontWeight: 700 }}>
+                        4-stage escrow verified. HMAC SHA256 webhook signature validated. Redis Redlock isolation confirmed. ACID ledger committed.
+                      </div>
+                    </div>
+                    <div style={{ borderTop: "3px solid " + SILK_BONE, paddingTop: "16px", marginTop: "24px" }}>
+                      <div style={{ fontSize: "10px", color: MECHA_GOLD, fontWeight: 900, letterSpacing: "0.08em" }}>SETTLEMENT LATENCY</div>
+                      <div style={{ fontSize: "28px", fontWeight: 900, color: MECHA_GOLD }}>142ms</div>
+                    </div>
+                  </>
+                )}
+
+                {activeDemo === "risk" && (
+                  <>
+                    <div>
+                      <div style={{ fontSize: "10px", color: ULTRAMARINE, textTransform: "uppercase", fontWeight: 900, letterSpacing: "0.12em" }}>
                         CALCULATED VALUE-AT-RISK (VaR {confidenceLevel * 100}%)
                       </div>
-                      <div style={{ fontSize: "32px", fontWeight: 900, color: "var(--text-primary, #F4F3EF)", letterSpacing: "-0.03em", marginTop: "4px" }}>
+                      <div style={{ fontSize: "48px", fontWeight: 900, color: SILK_BONE, letterSpacing: "-0.03em", marginTop: "8px", lineHeight: 1 }}>
                         ${Math.round(calculatedVaR).toLocaleString()}
                       </div>
-                      <div style={{ fontSize: "11px", color: "var(--text-muted, #9A99A2)", marginTop: "6px" }}>
+                      <div style={{ fontSize: "11px", color: TITANIUM_PUTTY, marginTop: "12px", fontWeight: 700 }}>
                         Maximum expected portfolio loss over {horizonDays} trading session(s).
                       </div>
                     </div>
-
-                    <div style={{ borderTop: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))", paddingTop: "14px" }}>
-                      <div style={{ fontSize: "10px", color: "var(--accent-terracotta, #D96846)", textTransform: "uppercase", fontWeight: 700 }}>
-                        EXPECTED SHORTFALL (CVaR)
-                      </div>
-                      <div style={{ fontSize: "20px", fontWeight: 800, color: "var(--accent-terracotta-bright, #E88364)" }}>
+                    <div style={{ borderTop: "3px solid " + SILK_BONE, paddingTop: "16px", marginTop: "24px" }}>
+                      <div style={{ fontSize: "10px", color: AKIRA_VERMILION, fontWeight: 900, letterSpacing: "0.08em" }}>EXPECTED SHORTFALL (CVaR)</div>
+                      <div style={{ fontSize: "28px", fontWeight: 900, color: AKIRA_VERMILION }}>
                         ${Math.round(expectedShortfall).toLocaleString()}
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </>
+                )}
+
+                {activeDemo === "sentinel" && (
+                  <>
+                    <div>
+                      <div style={{ fontSize: "10px", color: MECHA_GOLD, textTransform: "uppercase", fontWeight: 900, letterSpacing: "0.12em" }}>
+                        INGRESS INSPECTION RATE
+                      </div>
+                      <div style={{ fontSize: "48px", fontWeight: 900, color: SILK_BONE, letterSpacing: "-0.03em", marginTop: "8px", lineHeight: 1 }}>
+                        1.2M PKTS/S
+                      </div>
+                      <div style={{ fontSize: "11px", color: TITANIUM_PUTTY, marginTop: "12px", fontWeight: 700 }}>
+                        Shannon entropy threshold: 7.95 bits. XDP fast-path inline drop. Zero-copy eBPF ring buffer.
+                      </div>
+                    </div>
+                    <div style={{ borderTop: "3px solid " + SILK_BONE, paddingTop: "16px", marginTop: "24px" }}>
+                      <div style={{ fontSize: "10px", color: AKIRA_VERMILION, fontWeight: 900, letterSpacing: "0.08em" }}>ANOMALIES QUARANTINED</div>
+                      <div style={{ fontSize: "28px", fontWeight: 900, color: AKIRA_VERMILION }}>{1 + sentinelBurst} THREATS</div>
+                    </div>
+                  </>
+                )}
               </div>
-            )}
-
-            {/* SENTINEL DEMO */}
-            {activeDemo === "sentinel" && (
-              <div
-                style={{
-                  backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
-                  backdropFilter: "blur(16px)",
-                  WebkitBackdropFilter: "blur(16px)",
-                  border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                  padding: "32px",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: "16px",
-                    borderBottom: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                    paddingBottom: "12px",
-                  }}
-                >
-                  <div style={{ fontSize: "16px", fontWeight: 800, color: "var(--text-primary, #F4F3EF)" }}>
-                    SENTINEL <span style={{ color: "var(--accent-terracotta, #D96846)" }}>//</span> eBPF PACKET ENTROPY INSPECTION STREAM
-                  </div>
-                  <div style={{ fontSize: "11px", color: "var(--accent-terracotta, #D96846)", fontWeight: 700 }}>
-                    INGRESS RATE: 1.2M PKTS/SEC
-                  </div>
-                </div>
-
-                <div style={{ overflowX: "auto" }}>
-                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "11px", textAlign: "left" }}>
-                    <thead>
-                      <tr style={{ borderBottom: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))", color: "var(--text-muted, #9A99A2)" }}>
-                        <th style={{ padding: "8px" }}>TIMESTAMP</th>
-                        <th style={{ padding: "8px" }}>PROTOCOL</th>
-                        <th style={{ padding: "8px" }}>SOURCE</th>
-                        <th style={{ padding: "8px" }}>SHANNON ENTROPY</th>
-                        <th style={{ padding: "8px" }}>ACTION</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr style={{ borderBottom: "1px solid var(--glass-border, rgba(205, 203, 214, 0.1))" }}>
-                        <td style={{ padding: "8px", color: "var(--text-muted, #9A99A2)" }}>17:10:04.102</td>
-                        <td style={{ padding: "8px", color: "var(--text-secondary, #CDCBD6)" }}>TCP TLS 1.3</td>
-                        <td style={{ padding: "8px", color: "var(--text-secondary, #CDCBD6)" }}>192.168.1.104:443</td>
-                        <td style={{ padding: "8px", color: "var(--text-secondary, #CDCBD6)" }}>7.82 bits</td>
-                        <td style={{ padding: "8px", fontWeight: 800, color: "var(--accent-olive, #596235)" }}>
-                          [ XDP_PASS ]
-                        </td>
-                      </tr>
-                      <tr style={{ borderBottom: "1px solid var(--glass-border, rgba(205, 203, 214, 0.1))", backgroundColor: "rgba(217, 104, 70, 0.15)" }}>
-                        <td style={{ padding: "8px", color: "var(--accent-terracotta, #D96846)" }}>17:10:04.108</td>
-                        <td style={{ padding: "8px", color: "var(--text-primary, #F4F3EF)" }}>RAW IPv6</td>
-                        <td style={{ padding: "8px", color: "var(--text-primary, #F4F3EF)" }}>[2001:db8::88]:9000</td>
-                        <td style={{ padding: "8px", color: "var(--accent-terracotta-bright, #E88364)", fontWeight: 700 }}>7.99 bits</td>
-                        <td style={{ padding: "8px", fontWeight: 900, color: "var(--accent-terracotta, #D96846)" }}>
-                          [ XDP_DROP ]
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-      </section>
-
-      {/* ====================================================================
-          5. LEGAL & CONTACT FOOTER (#contact)
-          ==================================================================== */}
-      <footer
-        id="contact"
-        style={{
-          backgroundColor: "var(--bg-canvas, #14150E)",
-          borderTop: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-          padding: "48px",
-        }}
-      >
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "36px", marginBottom: "40px" }}>
-          <div>
-            <div style={{ fontSize: "14px", fontWeight: 900, textTransform: "uppercase", color: "var(--text-primary, #F4F3EF)", marginBottom: "8px" }}>
-              Jay Bhatt
             </div>
-            <div style={{ fontSize: "11px", color: "var(--text-secondary, #CDCBD6)", lineHeight: 1.6, maxWidth: "300px" }}>
-              Computer Science scholar specializing in Quantitative Finance &amp; Risk Architecture, Embedded Systems, and Web Engineering. Ahmedabad University.
-            </div>
-          </div>
+          )}
+        </section>
 
-          <div>
-            <div style={{ fontSize: "10px", fontWeight: 800, letterSpacing: "0.14em", color: "var(--accent-terracotta, #D96846)", textTransform: "uppercase", marginBottom: "12px" }}>
-              [ DIRECT COMMUNICATION ]
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              <a
-                href="mailto:jay.b@ahduni.edu.in"
-                style={{ color: "var(--text-secondary, #CDCBD6)", textDecoration: "none", fontSize: "11px", fontWeight: 700 }}
-              >
-                EMAIL: <span style={{ color: "var(--text-primary, #F4F3EF)" }}>jay.b@ahduni.edu.in</span>
-              </a>
-              <a
-                href="https://github.com/Jay888-DARK"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: "var(--text-secondary, #CDCBD6)", textDecoration: "none", fontSize: "11px", fontWeight: 700 }}
-              >
-                GITHUB: <span style={{ color: "var(--accent-terracotta, #D96846)" }}>Jay888-DARK</span>
-              </a>
-              <a
-                href="https://www.linkedin.com/in/jay-bhatt-19441637a/"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: "var(--text-secondary, #CDCBD6)", textDecoration: "none", fontSize: "11px", fontWeight: 700 }}
-              >
-                LINKEDIN: <span style={{ color: "var(--accent-terracotta, #D96846)" }}>Jay Bhatt</span>
-              </a>
-            </div>
-          </div>
-
-          <div>
-            <div style={{ fontSize: "10px", fontWeight: 800, letterSpacing: "0.14em", color: "var(--accent-terracotta, #D96846)", textTransform: "uppercase", marginBottom: "12px" }}>
-              [ LEGAL &amp; GOVERNANCE ]
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              <button
-                onClick={() => setLegalModal("tos")}
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: "var(--text-secondary, #CDCBD6)",
-                  textAlign: "left",
-                  fontSize: "11px",
-                  fontWeight: 700,
-                  cursor: "pointer",
-                  padding: 0,
-                  fontFamily: "Arial, Helvetica, sans-serif",
-                }}
-              >
-                TERMS OF SERVICE (TOS)
-              </button>
-              <button
-                onClick={() => setLegalModal("privacy")}
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: "var(--text-secondary, #CDCBD6)",
-                  textAlign: "left",
-                  fontSize: "11px",
-                  fontWeight: 700,
-                  cursor: "pointer",
-                  padding: 0,
-                  fontFamily: "Arial, Helvetica, sans-serif",
-                }}
-              >
-                PRIVACY POLICY
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div
+        {/* ================================================================
+            6. LEGAL & CONTACT FOOTER (#contact)
+            ================================================================ */}
+        <footer
+          id="contact"
           style={{
-            borderTop: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-            paddingTop: "20px",
-            display: "flex",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: "12px",
-            fontSize: "10px",
-            color: "var(--text-muted, #9A99A2)",
+            backgroundColor: SUMI_OBSIDIAN,
+            borderTop: "8px solid " + SUMI_OBSIDIAN,
+            padding: "48px",
           }}
         >
-          <div>
-            &copy; {new Date().getFullYear()} JAY BHATT. SMOKED OLIVE-CHARCOAL GLASS <span style={{ color: "var(--accent-terracotta, #D96846)" }}>//</span> ORGANIC INDUSTRIAL &amp; TACTICAL EDITORIAL.
-          </div>
-          <div>0px BORDER RADIUS // SPECULAR HAIRLINES // TACTICAL ARCHITECTURAL PALETTE</div>
-        </div>
-      </footer>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "36px", marginBottom: "40px" }}>
+            <div>
+              <div style={{ fontSize: "14px", fontWeight: 900, textTransform: "uppercase", color: SILK_BONE, marginBottom: "8px" }}>
+                Jay Bhatt
+              </div>
+              <div style={{ fontSize: "11px", color: TITANIUM_PUTTY, lineHeight: 1.6, fontWeight: 700 }}>
+                Computer Science scholar specializing in Quantitative Finance &amp; Risk Architecture, Embedded Systems, and Web Engineering. Ahmedabad University.
+              </div>
+            </div>
 
-      {/* Complete Legal Modal (Terms of Service & Privacy Policy) */}
+            <div>
+              <div style={{ fontSize: "10px", fontWeight: 900, letterSpacing: "0.14em", color: AKIRA_VERMILION, textTransform: "uppercase", marginBottom: "12px" }}>
+                [ DIRECT COMMUNICATION ]
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <a href="mailto:jay.b@ahduni.edu.in" style={{ color: TITANIUM_PUTTY, textDecoration: "none", fontSize: "11px", fontWeight: 900 }}>
+                  EMAIL: <span style={{ color: SILK_BONE }}>jay.b@ahduni.edu.in</span>
+                </a>
+                <a href="https://github.com/Jay888-DARK" target="_blank" rel="noopener noreferrer" style={{ color: TITANIUM_PUTTY, textDecoration: "none", fontSize: "11px", fontWeight: 900 }}>
+                  GITHUB: <span style={{ color: AKIRA_VERMILION }}>Jay888-DARK</span>
+                </a>
+                <a href="https://www.linkedin.com/in/jay-bhatt-19441637a/" target="_blank" rel="noopener noreferrer" style={{ color: TITANIUM_PUTTY, textDecoration: "none", fontSize: "11px", fontWeight: 900 }}>
+                  LINKEDIN: <span style={{ color: AKIRA_VERMILION }}>Jay Bhatt</span>
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <div style={{ fontSize: "10px", fontWeight: 900, letterSpacing: "0.14em", color: AKIRA_VERMILION, textTransform: "uppercase", marginBottom: "12px" }}>
+                [ LEGAL &amp; GOVERNANCE ]
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <button
+                  onClick={() => setLegalModal("tos")}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: TITANIUM_PUTTY,
+                    textAlign: "left",
+                    fontSize: "11px",
+                    fontWeight: 900,
+                    cursor: "pointer",
+                    padding: 0,
+                    fontFamily: FONT_STACK,
+                    textDecoration: "underline",
+                    textDecorationColor: AKIRA_VERMILION,
+                    textUnderlineOffset: "3px",
+                  }}
+                >
+                  TERMS OF SERVICE (TOS)
+                </button>
+                <button
+                  onClick={() => setLegalModal("privacy")}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: TITANIUM_PUTTY,
+                    textAlign: "left",
+                    fontSize: "11px",
+                    fontWeight: 900,
+                    cursor: "pointer",
+                    padding: 0,
+                    fontFamily: FONT_STACK,
+                    textDecoration: "underline",
+                    textDecorationColor: AKIRA_VERMILION,
+                    textUnderlineOffset: "3px",
+                  }}
+                >
+                  PRIVACY POLICY
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <div style={{ fontSize: "10px", fontWeight: 900, letterSpacing: "0.14em", color: MECHA_GOLD, textTransform: "uppercase", marginBottom: "12px" }}>
+                [ ARCHITECTURE SPEC ]
+              </div>
+              <div style={{ fontSize: "11px", color: TITANIUM_PUTTY, lineHeight: 1.6, fontWeight: 700 }}>
+                HARD LINES Neo-Brutalist editorial layout. Curated anime studio palette. 0px border radius. Asymmetric slab borders. Zero box-shadow.
+              </div>
+            </div>
+          </div>
+
+          <div
+            style={{
+              borderTop: "3px solid " + SILK_BONE,
+              paddingTop: "20px",
+              display: "flex",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+              gap: "12px",
+              fontSize: "10px",
+              color: TITANIUM_PUTTY,
+              fontWeight: 700,
+            }}
+          >
+            <div>
+              &copy; {new Date().getFullYear()} JAY BHATT. HARD LINES <span style={{ color: AKIRA_VERMILION }}>//</span> ANIME NEO-BRUTALIST EDITORIAL.
+            </div>
+            <div>0px BORDER RADIUS // ASYMMETRIC SLAB DEPTH // SUMI OBSIDIAN INK</div>
+          </div>
+        </footer>
+      </main>
+
+      {/* ================================================================
+          LEGAL MODALS (Terms of Service & Privacy Policy)
+          ================================================================ */}
       {legalModal && (
         <div
           role="dialog"
@@ -1359,9 +1121,7 @@ export default function HomePage() {
           style={{
             position: "fixed",
             inset: 0,
-            backgroundColor: "rgba(20, 21, 14, 0.88)",
-            backdropFilter: "blur(16px)",
-            WebkitBackdropFilter: "blur(16px)",
+            backgroundColor: "rgba(11, 11, 14, 0.92)",
             zIndex: 9999,
             display: "flex",
             alignItems: "center",
@@ -1375,20 +1135,19 @@ export default function HomePage() {
               width: "100%",
               maxWidth: "760px",
               maxHeight: "80vh",
-              backgroundColor: "var(--bg-canvas, #14150E)",
-              border: "1px solid var(--accent-terracotta, #D96846)",
+              backgroundColor: SILK_BONE,
+              ...SLAB_BORDER,
               display: "flex",
               flexDirection: "column",
               overflow: "hidden",
-              borderRadius: 0,
             }}
             onClick={(e) => e.stopPropagation()}
           >
             <div
               style={{
                 padding: "16px 20px",
-                backgroundColor: "var(--glass-elevated, rgba(47, 48, 32, 0.78))",
-                borderBottom: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
+                backgroundColor: SUMI_OBSIDIAN,
+                borderBottom: "3px solid " + AKIRA_VERMILION,
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
@@ -1397,9 +1156,9 @@ export default function HomePage() {
               <div
                 style={{
                   fontSize: "11px",
-                  fontWeight: 800,
+                  fontWeight: 900,
                   letterSpacing: "0.12em",
-                  color: "var(--accent-terracotta-bright, #E88364)",
+                  color: AKIRA_VERMILION,
                   textTransform: "uppercase",
                 }}
               >
@@ -1408,52 +1167,52 @@ export default function HomePage() {
               <button
                 onClick={() => setLegalModal(null)}
                 style={{
-                  padding: "4px 12px",
-                  backgroundColor: "var(--accent-terracotta, #D96846)",
-                  color: "#14150E",
-                  border: "1px solid var(--accent-terracotta, #D96846)",
+                  padding: "6px 14px",
+                  backgroundColor: AKIRA_VERMILION,
+                  color: SILK_BONE,
+                  ...SLAB_BORDER,
                   fontSize: "11px",
-                  fontWeight: 800,
+                  fontWeight: 900,
                   cursor: "pointer",
-                  borderRadius: 0,
+                  fontFamily: FONT_STACK,
                 }}
               >
                 [ CLOSE ]
               </button>
             </div>
 
-            <div style={{ padding: "28px", overflowY: "auto", fontSize: "12px", lineHeight: 1.7, color: "var(--text-secondary, #CDCBD6)" }}>
+            <div style={{ padding: "28px", overflowY: "auto", fontSize: "12px", lineHeight: 1.7, color: SUMI_OBSIDIAN, fontWeight: 700 }}>
               {legalModal === "tos" ? (
                 <div>
-                  <div style={{ fontSize: "16px", fontWeight: 900, color: "var(--text-primary, #F4F3EF)", marginBottom: "16px" }}>
+                  <div style={{ fontSize: "16px", fontWeight: 900, color: SUMI_OBSIDIAN, marginBottom: "16px" }}>
                     TERMS OF SERVICE &amp; RESEARCH USE COVENANT
                   </div>
                   <p style={{ marginBottom: "14px" }}>
-                    <strong style={{ color: "var(--text-primary, #F4F3EF)" }}>1. Scope:</strong> This website represents the personal academic portfolio and technical monograph of Jay Bhatt (Ahmedabad University). By accessing this site, you agree to these Terms.
+                    <strong>1. Scope:</strong> This website represents the personal academic portfolio and technical monograph of Jay Bhatt (Ahmedabad University). By accessing this site, you agree to these Terms.
                   </p>
                   <p style={{ marginBottom: "14px" }}>
-                    <strong style={{ color: "var(--text-primary, #F4F3EF)" }}>2. Intellectual Property:</strong> All algorithms, simulation models, and architecture documents are the intellectual property of Jay Bhatt unless governed by open-source licenses referenced in the respective GitHub repositories.
+                    <strong>2. Intellectual Property:</strong> All algorithms, simulation models, and architecture documents are the intellectual property of Jay Bhatt unless governed by open-source licenses referenced in the respective GitHub repositories.
                   </p>
                   <p style={{ marginBottom: "14px" }}>
-                    <strong style={{ color: "var(--text-primary, #F4F3EF)" }}>3. No Investment Advice:</strong> All quantitative finance and risk metrics are for demonstration purposes only and do not constitute financial advice.
+                    <strong>3. No Investment Advice:</strong> All quantitative finance and risk metrics are for demonstration purposes only and do not constitute financial advice.
                   </p>
                   <p>
-                    <strong style={{ color: "var(--text-primary, #F4F3EF)" }}>4. Contact:</strong> For formal inquiries, reach out to jay.b@ahduni.edu.in.
+                    <strong>4. Contact:</strong> For formal inquiries, reach out to jay.b@ahduni.edu.in.
                   </p>
                 </div>
               ) : (
                 <div>
-                  <div style={{ fontSize: "16px", fontWeight: 900, color: "var(--text-primary, #F4F3EF)", marginBottom: "16px" }}>
+                  <div style={{ fontSize: "16px", fontWeight: 900, color: SUMI_OBSIDIAN, marginBottom: "16px" }}>
                     PRIVACY POLICY &amp; DATA DISCLOSURE
                   </div>
                   <p style={{ marginBottom: "14px" }}>
-                    <strong style={{ color: "var(--text-primary, #F4F3EF)" }}>1. Zero Tracking:</strong> This website does not use tracking cookies, marketing beacons, or third-party behavioral profiling.
+                    <strong>1. Zero Tracking:</strong> This website does not use tracking cookies, marketing beacons, or third-party behavioral profiling.
                   </p>
                   <p style={{ marginBottom: "14px" }}>
-                    <strong style={{ color: "var(--text-primary, #F4F3EF)" }}>2. Local Sandbox Execution:</strong> All WebGL shaders and financial calculation solvers run strictly on the client device.
+                    <strong>2. Local Sandbox Execution:</strong> All WebGL shaders and financial calculation solvers run strictly on the client device.
                   </p>
                   <p>
-                    <strong style={{ color: "var(--text-primary, #F4F3EF)" }}>3. Inquiries:</strong> Direct data privacy inquiries to jay.b@ahduni.edu.in.
+                    <strong>3. Inquiries:</strong> Direct data privacy inquiries to jay.b@ahduni.edu.in.
                   </p>
                 </div>
               )}

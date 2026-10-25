@@ -2,6 +2,31 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
+/* ================================================================
+   PALETTE CONSTANTS (MANDATORY — Zero deviation)
+   ================================================================ */
+const SILK_BONE     = "#F5F2EB";
+const TITANIUM_PUTTY = "#E4DFD3";
+const SUMI_OBSIDIAN = "#0B0B0E";
+const AKIRA_VERMILION = "#D91E2A";
+const ULTRAMARINE   = "#1436B8";
+const MECHA_GOLD    = "#F2B705";
+
+/* Accent cycle for card header bars */
+const ACCENT_CYCLE = [
+  AKIRA_VERMILION,
+  ULTRAMARINE,
+  MECHA_GOLD,
+  AKIRA_VERMILION,
+  ULTRAMARINE,
+  MECHA_GOLD,
+  AKIRA_VERMILION,
+  ULTRAMARINE,
+];
+
+/* ================================================================
+   DATA TYPES & PROJECT NODES
+   ================================================================ */
 export interface ProjectNode {
   id: string;
   code: string;
@@ -157,156 +182,124 @@ const PORTFOLIO_PROJECTS: ProjectNode[] = [
   },
 ];
 
+/* ================================================================
+   SVG TELEMETRY DIAGRAMS — High-contrast anime palette
+   ================================================================ */
 function TechnicalDiagram({ type }: { type: ProjectNode["svgType"] }) {
   return (
     <svg
       viewBox="0 0 240 110"
       style={{
         width: "100%",
-        height: "110px",
-        backgroundColor: "var(--bg-surface-solid, #1E2015)",
-        border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
+        height: "100px",
+        backgroundColor: SUMI_OBSIDIAN,
+        borderTop: "3px solid " + SUMI_OBSIDIAN,
+        borderLeft: "3px solid " + SUMI_OBSIDIAN,
+        borderRight: "7px solid " + SUMI_OBSIDIAN,
+        borderBottom: "7px solid " + SUMI_OBSIDIAN,
+        borderRadius: "0px",
         display: "block",
       }}
     >
-      {/* Precision Grid Hairlines */}
-      <line x1="0" y1="27" x2="240" y2="27" stroke="rgba(205, 203, 214, 0.08)" strokeWidth="1" />
-      <line x1="0" y1="55" x2="240" y2="55" stroke="rgba(205, 203, 214, 0.08)" strokeWidth="1" />
-      <line x1="0" y1="82" x2="240" y2="82" stroke="rgba(205, 203, 214, 0.08)" strokeWidth="1" />
-      <line x1="60" y1="0" x2="60" y2="110" stroke="rgba(205, 203, 214, 0.08)" strokeWidth="1" />
-      <line x1="120" y1="0" x2="120" y2="110" stroke="rgba(205, 203, 214, 0.08)" strokeWidth="1" />
-      <line x1="180" y1="0" x2="180" y2="110" stroke="rgba(205, 203, 214, 0.08)" strokeWidth="1" />
+      {/* Grid hairlines */}
+      <line x1="0" y1="27" x2="240" y2="27" stroke={TITANIUM_PUTTY} strokeWidth="0.5" strokeOpacity="0.15" />
+      <line x1="0" y1="55" x2="240" y2="55" stroke={TITANIUM_PUTTY} strokeWidth="0.5" strokeOpacity="0.15" />
+      <line x1="0" y1="82" x2="240" y2="82" stroke={TITANIUM_PUTTY} strokeWidth="0.5" strokeOpacity="0.15" />
+      <line x1="60" y1="0" x2="60" y2="110" stroke={TITANIUM_PUTTY} strokeWidth="0.5" strokeOpacity="0.15" />
+      <line x1="120" y1="0" x2="120" y2="110" stroke={TITANIUM_PUTTY} strokeWidth="0.5" strokeOpacity="0.15" />
+      <line x1="180" y1="0" x2="180" y2="110" stroke={TITANIUM_PUTTY} strokeWidth="0.5" strokeOpacity="0.15" />
 
-      {/* 01 // OTAKUBAZAAR ESCROW: Terracotta Primary & Tactical Olive Secondary */}
       {type === "escrow" && (
         <>
-          <rect x="14" y="35" width="52" height="40" fill="rgba(89, 98, 53, 0.22)" stroke="#596235" strokeWidth="1.2" />
-          <rect x="94" y="35" width="52" height="40" fill="rgba(217, 104, 70, 0.2)" stroke="#D96846" strokeWidth="2" />
-          <rect x="174" y="35" width="52" height="40" fill="rgba(89, 98, 53, 0.22)" stroke="#596235" strokeWidth="1.2" />
-          <line x1="66" y1="55" x2="94" y2="55" stroke="#D96846" strokeWidth="1.5" />
-          <line x1="146" y1="55" x2="174" y2="55" stroke="#596235" strokeWidth="1.5" />
-          <text x="22" y="59" fill="#CDCBD6" fontSize="9" fontWeight="700" fontFamily="Arial, sans-serif">AUTH</text>
-          <text x="100" y="59" fill="#E88364" fontSize="9" fontWeight="800" fontFamily="Arial, sans-serif">ESCROW</text>
-          <text x="180" y="59" fill="#CDCBD6" fontSize="9" fontWeight="700" fontFamily="Arial, sans-serif">SETTLE</text>
+          <rect x="14" y="35" width="52" height="40" fill="rgba(217,30,42,0.12)" stroke={AKIRA_VERMILION} strokeWidth="2" />
+          <rect x="94" y="35" width="52" height="40" fill="rgba(20,54,184,0.15)" stroke={ULTRAMARINE} strokeWidth="2" />
+          <rect x="174" y="35" width="52" height="40" fill="rgba(242,183,5,0.12)" stroke={MECHA_GOLD} strokeWidth="2" />
+          <line x1="66" y1="55" x2="94" y2="55" stroke={AKIRA_VERMILION} strokeWidth="1.5" />
+          <line x1="146" y1="55" x2="174" y2="55" stroke={ULTRAMARINE} strokeWidth="1.5" />
+          <text x="22" y="59" fill={SILK_BONE} fontSize="9" fontWeight="700" fontFamily="Arial Black, Arial, sans-serif">AUTH</text>
+          <text x="100" y="59" fill={SILK_BONE} fontSize="9" fontWeight="800" fontFamily="Arial Black, Arial, sans-serif">ESCROW</text>
+          <text x="180" y="59" fill={MECHA_GOLD} fontSize="9" fontWeight="700" fontFamily="Arial Black, Arial, sans-serif">SETTLE</text>
         </>
       )}
 
-      {/* 02 // GARCH VOLATILITY: Terracotta Key Path + Tactical Olive Secondary + Muted Baseline */}
       {type === "garch" && (
         <>
-          <polyline
-            fill="none"
-            stroke="#9A99A2"
-            strokeWidth="1"
-            strokeOpacity="0.4"
-            points="0,85 30,80 60,72 90,45 120,25 150,60 180,50 210,30 240,20"
-          />
-          <polyline
-            fill="none"
-            stroke="#596235"
-            strokeWidth="1.4"
-            points="0,90 30,88 60,84 90,70 120,62 150,78 180,74 210,66 240,60"
-          />
-          <polyline
-            fill="none"
-            stroke="#D96846"
-            strokeWidth="2"
-            points="0,88 25,82 50,76 75,38 100,18 125,54 150,48 175,28 200,42 240,14"
-          />
+          <polyline fill="none" stroke={TITANIUM_PUTTY} strokeWidth="1" strokeOpacity="0.3" points="0,85 30,80 60,72 90,45 120,25 150,60 180,50 210,30 240,20" />
+          <polyline fill="none" stroke={ULTRAMARINE} strokeWidth="1.4" points="0,90 30,88 60,84 90,70 120,62 150,78 180,74 210,66 240,60" />
+          <polyline fill="none" stroke={AKIRA_VERMILION} strokeWidth="2" points="0,88 25,82 50,76 75,38 100,18 125,54 150,48 175,28 200,42 240,14" />
+          <text x="155" y="22" fill={MECHA_GOLD} fontSize="8" fontWeight="800" fontFamily="Arial Black, Arial, sans-serif">TAIL RISK</text>
         </>
       )}
 
-      {/* 03 // SENTINEL ANOMALY: Terracotta Threat Stream + Elevated Olive eBPF Window */}
       {type === "sentinel" && (
         <>
-          <polyline
-            fill="none"
-            stroke="#D96846"
-            strokeWidth="1.8"
-            points="10,55 45,55 55,20 65,90 75,55 115,55 125,14 135,96 145,55 230,55"
-          />
-          <rect x="115" y="10" width="30" height="90" fill="rgba(89, 98, 53, 0.25)" stroke="#849250" strokeWidth="1" strokeDasharray="3,3" />
-          <text x="119" y="24" fill="#E88364" fontSize="8" fontWeight="700" fontFamily="Arial, sans-serif">eBPF</text>
+          <polyline fill="none" stroke={AKIRA_VERMILION} strokeWidth="1.8" points="10,55 45,55 55,20 65,90 75,55 115,55 125,14 135,96 145,55 230,55" />
+          <rect x="115" y="10" width="30" height="90" fill="rgba(20,54,184,0.18)" stroke={ULTRAMARINE} strokeWidth="1" strokeDasharray="3,3" />
+          <text x="119" y="24" fill={MECHA_GOLD} fontSize="8" fontWeight="700" fontFamily="Arial Black, Arial, sans-serif">eBPF</text>
         </>
       )}
 
-      {/* 04 // GNU RADIO: Terracotta In-Phase + Tactical Olive Quadrature Carrier */}
       {type === "gnuradio" && (
         <>
-          <polyline
-            fill="none"
-            stroke="#D96846"
-            strokeWidth="1.8"
-            points="0,55 15,25 30,55 45,85 60,55 75,25 90,55 105,85 120,55 135,25 150,55 165,85 180,55 195,25 210,55 225,85 240,55"
-          />
-          <polyline
-            fill="none"
-            stroke="#596235"
-            strokeWidth="1.3"
-            points="0,25 15,55 30,85 45,55 60,25 75,55 90,85 105,55 120,25 135,55 150,85 165,55 180,25 195,55 210,85 225,55 240,25"
-          />
+          <polyline fill="none" stroke={AKIRA_VERMILION} strokeWidth="1.8" points="0,55 15,25 30,55 45,85 60,55 75,25 90,55 105,85 120,55 135,25 150,55 165,85 180,55 195,25 210,55 225,85 240,55" />
+          <polyline fill="none" stroke={ULTRAMARINE} strokeWidth="1.3" points="0,25 15,55 30,85 45,55 60,25 75,55 90,85 105,55 120,25 135,55 150,85 165,55 180,25 195,55 210,85 225,55 240,25" />
         </>
       )}
 
-      {/* 05 // FLASH JOULE HEATING: High-Current Discharge Pulse */}
       {type === "hardcarbon" && (
         <>
-          <polyline
-            fill="none"
-            stroke="#D96846"
-            strokeWidth="2"
-            points="0,95 40,95 48,12 65,12 75,95 115,95 123,18 140,18 150,95 240,95"
-          />
-          <text x="80" y="34" fill="#E88364" fontSize="9" fontWeight="800" fontFamily="Arial, sans-serif">3000K FLASH PULSE</text>
+          <polyline fill="none" stroke={MECHA_GOLD} strokeWidth="2" points="0,95 40,95 48,12 65,12 75,95 115,95 123,18 140,18 150,95 240,95" />
+          <text x="80" y="34" fill={AKIRA_VERMILION} fontSize="9" fontWeight="800" fontFamily="Arial Black, Arial, sans-serif">3000K FLASH</text>
         </>
       )}
 
-      {/* 06 // ATMEGA32 TELEMETRY: Clock Edge & PWM Actuation */}
       {type === "atmega" && (
         <>
-          <polyline
-            fill="none"
-            stroke="#D96846"
-            strokeWidth="1.8"
-            points="0,80 0,30 30,30 30,80 60,80 60,30 110,30 110,80 130,80 130,30 190,30 190,80 210,80 210,30 240,30"
-          />
-          <line x1="0" y1="80" x2="240" y2="80" stroke="#596235" strokeWidth="1" strokeDasharray="2,2" />
-          <text x="140" y="24" fill="#CDCBD6" fontSize="8" fontWeight="700" fontFamily="Arial, sans-serif">PWM CH-0</text>
+          <polyline fill="none" stroke={ULTRAMARINE} strokeWidth="1.8" points="0,80 0,30 30,30 30,80 60,80 60,30 110,30 110,80 130,80 130,30 190,30 190,80 210,80 210,30 240,30" />
+          <line x1="0" y1="80" x2="240" y2="80" stroke={MECHA_GOLD} strokeWidth="1" strokeDasharray="2,2" />
+          <text x="140" y="24" fill={SILK_BONE} fontSize="8" fontWeight="700" fontFamily="Arial Black, Arial, sans-serif">PWM CH-0</text>
         </>
       )}
 
-      {/* 07 // DARE TO SIP POP-UP: Terracotta Primary & Tactical Olive Secondary Bars */}
       {type === "daretosip" && (
         <>
-          <rect x="20" y="65" width="24" height="35" fill="#596235" />
-          <rect x="60" y="48" width="24" height="52" fill="#D96846" />
-          <rect x="100" y="32" width="24" height="68" fill="#596235" />
-          <rect x="140" y="18" width="24" height="82" fill="#D96846" />
-          <rect x="180" y="26" width="24" height="74" fill="#596235" />
+          <rect x="20" y="65" width="24" height="35" fill={ULTRAMARINE} />
+          <rect x="60" y="48" width="24" height="52" fill={AKIRA_VERMILION} />
+          <rect x="100" y="32" width="24" height="68" fill={MECHA_GOLD} />
+          <rect x="140" y="18" width="24" height="82" fill={AKIRA_VERMILION} />
+          <rect x="180" y="26" width="24" height="74" fill={ULTRAMARINE} />
         </>
       )}
 
-      {/* 08 // ANSYS TENSILE FEA: Terracotta Curve + Warm Champagne Sand Threshold */}
       {type === "ansys" && (
         <>
-          <polyline
-            fill="none"
-            stroke="#D96846"
-            strokeWidth="2"
-            points="10,98 55,28 95,24 145,16 195,22 225,45"
-          />
-          <line x1="55" y1="28" x2="55" y2="98" stroke="#D4B483" strokeWidth="1.2" strokeDasharray="3,3" />
-          <text x="62" y="90" fill="#D4B483" fontSize="9" fontWeight="700" fontFamily="Arial, sans-serif">YIELD LIMIT</text>
+          <polyline fill="none" stroke={AKIRA_VERMILION} strokeWidth="2" points="10,98 55,28 95,24 145,16 195,22 225,45" />
+          <line x1="55" y1="28" x2="55" y2="98" stroke={MECHA_GOLD} strokeWidth="1.2" strokeDasharray="3,3" />
+          <text x="62" y="90" fill={MECHA_GOLD} fontSize="9" fontWeight="700" fontFamily="Arial Black, Arial, sans-serif">YIELD LIMIT</text>
         </>
       )}
     </svg>
   );
 }
 
+/* ================================================================
+   SLAB BORDER MIXIN — Asymmetric Neo-Brutalist depth (no box-shadow)
+   ================================================================ */
+const SLAB_BORDER: React.CSSProperties = {
+  borderTop: "3px solid " + SUMI_OBSIDIAN,
+  borderLeft: "3px solid " + SUMI_OBSIDIAN,
+  borderRight: "7px solid " + SUMI_OBSIDIAN,
+  borderBottom: "7px solid " + SUMI_OBSIDIAN,
+  borderRadius: "0px",
+};
+
+/* ================================================================
+   MAIN COMPONENT
+   ================================================================ */
 export default function RoundCarousel({
   projects = PORTFOLIO_PROJECTS,
   imageWidth = 290,
-  imageHeight = 350,
+  imageHeight = 380,
   spacing = 3,
   speed = 3.5,
   direction = "right",
@@ -420,23 +413,21 @@ export default function RoundCarousel({
     activeProject.simBase % 1 === 0 ? 0 : 2
   );
 
-  // Smoked Olive-Charcoal Glass Panel Face
+  /* Mecha Dossier Slab Card Face */
   const cardFaceStyle: React.CSSProperties = {
     position: "absolute",
     inset: 0,
-    borderRadius: 0,
+    borderRadius: "0px",
     overflow: "hidden",
     backfaceVisibility: "hidden",
-    backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
-    backdropFilter: "blur(16px)",
-    WebkitBackdropFilter: "blur(16px)",
-    border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-    padding: "18px",
+    backgroundColor: SILK_BONE,
+    ...SLAB_BORDER,
+    padding: "0",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    fontFamily: "Arial, Helvetica, sans-serif",
-    color: "var(--text-primary, #F4F3EF)",
+    fontFamily: '"Arial Black", Impact, Arial, Helvetica, sans-serif',
+    color: SUMI_OBSIDIAN,
     userSelect: "none",
   };
 
@@ -449,7 +440,7 @@ export default function RoundCarousel({
         display: "flex",
         flexDirection: "column",
         backgroundColor: background,
-        fontFamily: "Arial, Helvetica, sans-serif",
+        fontFamily: '"Arial Black", Impact, Arial, Helvetica, sans-serif',
         overflow: "hidden",
       }}
     >
@@ -490,6 +481,7 @@ export default function RoundCarousel({
           >
             {items.map((proj, i) => {
               const isSelected = i === selectedIndex;
+              const accentColor = ACCENT_CYCLE[i % ACCENT_CYCLE.length];
               return (
                 <div
                   key={proj.id}
@@ -506,115 +498,122 @@ export default function RoundCarousel({
                     cursor: "pointer",
                   }}
                 >
-                  {/* FRONT TECHNICAL DOSSIER FACE: Smoked Olive-Charcoal Glass Panel */}
+                  {/* FRONT — MECHA DOSSIER SLAB */}
                   <div
                     style={{
                       ...cardFaceStyle,
-                      borderColor: isSelected ? "var(--accent-terracotta, #D96846)" : "var(--glass-border, rgba(205, 203, 214, 0.16))",
-                      backgroundColor: isSelected ? "var(--glass-elevated, rgba(47, 48, 32, 0.78))" : "var(--glass-surface, rgba(47, 48, 32, 0.58))",
+                      borderColor: isSelected ? accentColor : SUMI_OBSIDIAN,
                       position: "relative",
                     }}
                   >
-                    {/* Active 3D Card Top Bar */}
-                    {isSelected && (
-                      <div
-                        style={{
-                          position: "absolute",
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          height: "3px",
-                          backgroundColor: "var(--accent-terracotta-bright, #E88364)",
-                          zIndex: 10,
-                        }}
-                      />
-                    )}
+                    {/* Colored Header Bar */}
+                    <div
+                      style={{
+                        width: "100%",
+                        height: "6px",
+                        backgroundColor: accentColor,
+                      }}
+                    />
 
-                    <div>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          borderBottom: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                          paddingBottom: "8px",
-                          marginBottom: "10px",
-                          fontSize: "10px",
-                          letterSpacing: "0.08em",
-                          color: "var(--text-muted, #9A99A2)",
-                        }}
-                      >
-                        <span>
-                          {proj.code} <span style={{ color: "var(--accent-terracotta, #D96846)" }}>//</span> {proj.domain}
-                        </span>
-                        <span style={{ color: isSelected ? "var(--accent-terracotta-bright, #E88364)" : "var(--text-muted, #9A99A2)", fontWeight: 700 }}>
-                          {isSelected ? "[ACTIVE]" : "[SELECT]"}
-                        </span>
-                      </div>
-
-                      <div
-                        style={{
-                          fontSize: "15px",
-                          fontWeight: 700,
-                          letterSpacing: "0.02em",
-                          marginBottom: "10px",
-                          color: "var(--text-primary, #F4F3EF)",
-                        }}
-                      >
-                        {proj.title}
-                      </div>
-
-                      <TechnicalDiagram type={proj.svgType} />
-                    </div>
-
-                    <div>
-                      <div
-                        style={{
-                          borderTop: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                          borderBottom: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                          padding: "8px 0",
-                          marginBottom: "8px",
-                        }}
-                      >
-                        <div style={{ fontSize: "9px", color: "var(--text-muted, #9A99A2)", letterSpacing: "0.08em" }}>
-                          {proj.metricLabel}
+                    <div style={{ padding: "14px 16px", flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                      <div>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            borderBottom: "2px solid " + SUMI_OBSIDIAN,
+                            paddingBottom: "6px",
+                            marginBottom: "8px",
+                            fontSize: "9px",
+                            letterSpacing: "0.08em",
+                            color: SUMI_OBSIDIAN,
+                          }}
+                        >
+                          <span style={{ fontWeight: 900 }}>
+                            {proj.code} <span style={{ color: accentColor }}>//</span> {proj.domain}
+                          </span>
+                          <span
+                            style={{
+                              color: isSelected ? accentColor : SUMI_OBSIDIAN,
+                              fontWeight: 900,
+                              fontSize: "8px",
+                            }}
+                          >
+                            {isSelected ? "[ACTIVE]" : "[SELECT]"}
+                          </span>
                         </div>
-                        <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-primary, #F4F3EF)", marginTop: "2px" }}>
-                          {proj.metricValue}
+
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            fontWeight: 900,
+                            letterSpacing: "0.02em",
+                            marginBottom: "8px",
+                            color: SUMI_OBSIDIAN,
+                            textTransform: "uppercase",
+                            lineHeight: 1.1,
+                          }}
+                        >
+                          {proj.title}
                         </div>
+
+                        <TechnicalDiagram type={proj.svgType} />
                       </div>
 
-                      <div
-                        style={{
-                          fontSize: "10px",
-                          color: "var(--text-secondary, #CDCBD6)",
-                          letterSpacing: "0.04em",
-                        }}
-                      >
-                        {proj.stack.split(" / ").map((tech, idx, arr) => (
-                          <React.Fragment key={idx}>
-                            <span>{tech}</span>
-                            {idx < arr.length - 1 && <span style={{ color: "var(--accent-terracotta, #D96846)" }}> / </span>}
-                          </React.Fragment>
-                        ))}
+                      <div>
+                        <div
+                          style={{
+                            borderTop: "2px solid " + SUMI_OBSIDIAN,
+                            borderBottom: "2px solid " + SUMI_OBSIDIAN,
+                            padding: "6px 0",
+                            marginTop: "6px",
+                            marginBottom: "6px",
+                          }}
+                        >
+                          <div style={{ fontSize: "8px", color: SUMI_OBSIDIAN, letterSpacing: "0.08em", fontWeight: 700, opacity: 0.6 }}>
+                            {proj.metricLabel}
+                          </div>
+                          <div style={{ fontSize: "11px", fontWeight: 900, color: SUMI_OBSIDIAN, marginTop: "2px" }}>
+                            {proj.metricValue}
+                          </div>
+                        </div>
+
+                        <div
+                          style={{
+                            fontSize: "9px",
+                            color: SUMI_OBSIDIAN,
+                            letterSpacing: "0.04em",
+                            fontWeight: 700,
+                            opacity: 0.7,
+                          }}
+                        >
+                          {proj.stack.split(" / ").map((tech, idx, arr) => (
+                            <React.Fragment key={idx}>
+                              <span>{tech}</span>
+                              {idx < arr.length - 1 && <span style={{ color: accentColor }}> / </span>}
+                            </React.Fragment>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* BACK ARCHITECTURAL FACE */}
+                  {/* BACK FACE */}
                   <div
                     style={{
                       ...cardFaceStyle,
                       transform: "rotateY(180deg)",
-                      backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
-                      borderColor: "var(--glass-border, rgba(205, 203, 214, 0.16))",
+                      backgroundColor: TITANIUM_PUTTY,
                       filter: `brightness(${innerDim / 10})`,
                       justifyContent: "center",
                       alignItems: "center",
                     }}
                   >
-                    <div style={{ fontSize: "20px", fontWeight: 700, color: "var(--text-muted, #9A99A2)", letterSpacing: "0.08em" }}>
-                      {proj.code} <span style={{ color: "var(--accent-terracotta, #D96846)" }}>//</span> {proj.id.toUpperCase()}
+                    <div style={{ padding: "20px", textAlign: "center" }}>
+                      <div style={{ fontSize: "18px", fontWeight: 900, color: SUMI_OBSIDIAN, letterSpacing: "0.08em" }}>
+                        {proj.code} <span style={{ color: accentColor }}>//</span> {proj.id.toUpperCase()}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -624,15 +623,14 @@ export default function RoundCarousel({
         </div>
       </div>
 
-      {/* SMOKED OLIVE-CHARCOAL TELEMETRY BAR & SELECTOR INDEX DOCK */}
+      {/* ================================================================
+          LIVE TELEMETRY & STRESS-TEST DOCK
+          ================================================================ */}
       <div
         style={{
           height: "165px",
-          backgroundColor: "var(--glass-elevated, rgba(47, 48, 32, 0.78))",
-          backdropFilter: "blur(16px)",
-          WebkitBackdropFilter: "blur(16px)",
-          borderTop: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-          borderBottom: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
+          backgroundColor: SUMI_OBSIDIAN,
+          borderTop: "8px solid " + SUMI_OBSIDIAN,
           padding: "16px 32px",
           display: "flex",
           flexDirection: "column",
@@ -646,52 +644,42 @@ export default function RoundCarousel({
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            borderBottom: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
+            borderBottom: "2px solid " + SILK_BONE,
             paddingBottom: "10px",
           }}
         >
           <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
             {items.map((item, idx) => {
               const isActive = idx === selectedIndex;
+              const btnAccent = ACCENT_CYCLE[idx % ACCENT_CYCLE.length];
               return (
                 <button
                   key={item.id}
                   onClick={() => selectProject(idx)}
                   style={{
-                    backgroundColor: isActive ? "var(--accent-terracotta, #D96846)" : "rgba(47, 48, 32, 0.58)",
-                    color: isActive ? "#14150E" : "var(--text-secondary, #CDCBD6)",
-                    border: isActive
-                      ? "1px solid var(--accent-terracotta, #D96846)"
-                      : "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
-                    borderRadius: 0,
+                    backgroundColor: isActive ? btnAccent : "transparent",
+                    color: isActive ? (btnAccent === MECHA_GOLD ? SUMI_OBSIDIAN : SILK_BONE) : SILK_BONE,
+                    borderTop: "3px solid " + (isActive ? btnAccent : SILK_BONE),
+                    borderLeft: "3px solid " + (isActive ? btnAccent : SILK_BONE),
+                    borderRight: "7px solid " + (isActive ? btnAccent : SILK_BONE),
+                    borderBottom: "7px solid " + (isActive ? btnAccent : SILK_BONE),
+                    borderRadius: "0px",
                     padding: "4px 10px",
-                    fontSize: "11px",
-                    fontWeight: 800,
-                    fontFamily: "Arial, Helvetica, sans-serif",
+                    fontSize: "10px",
+                    fontWeight: 900,
+                    fontFamily: '"Arial Black", Impact, Arial, Helvetica, sans-serif',
                     cursor: "pointer",
-                    position: "relative",
+                    letterSpacing: "0.04em",
+                    textTransform: "uppercase",
                   }}
                 >
                   {item.code} // {item.title.split(" ")[0]}
-                  {!isActive && (
-                    <span
-                      style={{
-                        position: "absolute",
-                        top: "3px",
-                        right: "3px",
-                        width: "5px",
-                        height: "5px",
-                        backgroundColor: "var(--accent-olive, #596235)",
-                        display: "block",
-                      }}
-                    />
-                  )}
                 </button>
               );
             })}
           </div>
 
-          <div style={{ fontSize: "11px", color: "var(--text-muted, #9A99A2)", letterSpacing: "0.06em" }}>
+          <div style={{ fontSize: "10px", color: TITANIUM_PUTTY, letterSpacing: "0.06em", fontWeight: 700 }}>
             CLICK CARD OR INDEX TO LOCK TELEMETRY
           </div>
         </div>
@@ -703,24 +691,24 @@ export default function RoundCarousel({
               style={{
                 flex: 2,
                 height: "54px",
-                backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
-                border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
+                backgroundColor: TITANIUM_PUTTY,
+                ...SLAB_BORDER,
               }}
             />
             <div
               style={{
                 flex: 1,
                 height: "54px",
-                backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
-                border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
+                backgroundColor: TITANIUM_PUTTY,
+                ...SLAB_BORDER,
               }}
             />
             <div
               style={{
                 width: "180px",
                 height: "54px",
-                backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
-                border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
+                backgroundColor: TITANIUM_PUTTY,
+                ...SLAB_BORDER,
               }}
             />
           </div>
@@ -735,23 +723,21 @@ export default function RoundCarousel({
             }}
           >
             <div style={{ flex: 2 }}>
-              <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary, #F4F3EF)", marginBottom: "4px" }}>
-                <span style={{ color: "var(--accent-terracotta, #D96846)" }}>{activeProject.code} //</span> {activeProject.title} —{" "}
-                <span style={{ color: "var(--text-secondary, #CDCBD6)" }}>{activeProject.stack}</span>
+              <div style={{ fontSize: "13px", fontWeight: 900, color: SILK_BONE, marginBottom: "4px" }}>
+                <span style={{ color: AKIRA_VERMILION }}>{activeProject.code} //</span> {activeProject.title} —{" "}
+                <span style={{ color: TITANIUM_PUTTY }}>{activeProject.stack}</span>
               </div>
-              <div style={{ fontSize: "12px", color: "var(--text-secondary, #CDCBD6)", lineHeight: 1.4 }}>
+              <div style={{ fontSize: "11px", color: TITANIUM_PUTTY, lineHeight: 1.4, fontWeight: 700 }}>
                 {activeProject.summary}
               </div>
             </div>
 
-            {/* Live Interactive Stress / Telemetry Simulator */}
+            {/* Live Interactive Stress Simulator */}
             <div
               style={{
                 flex: 1,
-                backgroundColor: "var(--glass-surface, rgba(47, 48, 32, 0.58))",
-                backdropFilter: "blur(16px)",
-                WebkitBackdropFilter: "blur(16px)",
-                border: "1px solid var(--glass-border, rgba(205, 203, 214, 0.16))",
+                backgroundColor: SILK_BONE,
+                ...SLAB_BORDER,
                 padding: "10px 14px",
                 display: "flex",
                 justifyContent: "space-between",
@@ -759,25 +745,26 @@ export default function RoundCarousel({
               }}
             >
               <div>
-                <div style={{ fontSize: "10px", color: "var(--text-muted, #9A99A2)", letterSpacing: "0.06em" }}>
+                <div style={{ fontSize: "9px", color: SUMI_OBSIDIAN, letterSpacing: "0.06em", fontWeight: 700, opacity: 0.6 }}>
                   LIVE TELEMETRY BENCHMARK
                 </div>
-                <div style={{ fontSize: "15px", fontWeight: 800, color: "var(--accent-sage, #849250)", marginTop: "2px" }}>
+                <div style={{ fontSize: "14px", fontWeight: 900, color: AKIRA_VERMILION, marginTop: "2px" }}>
                   {computedMetric} {activeProject.simUnit}
                 </div>
               </div>
               <button
                 onClick={() => setSimMultiplier((prev) => (prev >= 1.8 ? 0.85 : Number((prev + 0.23).toFixed(2))))}
                 style={{
-                  backgroundColor: "var(--accent-terracotta, #D96846)",
-                  color: "#14150E",
-                  border: "1px solid var(--accent-terracotta, #D96846)",
-                  borderRadius: 0,
+                  backgroundColor: AKIRA_VERMILION,
+                  color: SILK_BONE,
+                  ...SLAB_BORDER,
                   padding: "6px 12px",
-                  fontSize: "10px",
-                  fontWeight: 800,
-                  fontFamily: "Arial, Helvetica, sans-serif",
+                  fontSize: "9px",
+                  fontWeight: 900,
+                  fontFamily: '"Arial Black", Impact, Arial, Helvetica, sans-serif',
                   cursor: "pointer",
+                  letterSpacing: "0.04em",
+                  textTransform: "uppercase",
                 }}
               >
                 {activeProject.liveLabel}
@@ -790,16 +777,16 @@ export default function RoundCarousel({
               target="_blank"
               rel="noreferrer"
               style={{
-                backgroundColor: "var(--accent-terracotta, #D96846)",
-                color: "#14150E",
+                backgroundColor: MECHA_GOLD,
+                color: SUMI_OBSIDIAN,
                 padding: "14px 20px",
-                fontSize: "11px",
-                fontWeight: 800,
+                fontSize: "10px",
+                fontWeight: 900,
                 textDecoration: "none",
                 letterSpacing: "0.06em",
-                border: "1px solid var(--accent-terracotta, #D96846)",
-                borderRadius: 0,
+                ...SLAB_BORDER,
                 whiteSpace: "nowrap",
+                textTransform: "uppercase",
               }}
             >
               INSPECT GITHUB

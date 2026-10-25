@@ -217,14 +217,14 @@ export interface CloudSkyProps {
 export default function CloudSky(props: CloudSkyProps) {
   const {
     style,
-    background = "#0A0A0A",
-    baseColor = "#171717",
-    accentColor = "#3A3A3A",
-    density = 85,
-    speed = 45,
-    size = 130,
-    clouds = { cirrus: 80, shadow: 90, softness: 180 },
-    sun = { x: 80, y: 88, glow: "#525252" },
+    background = "#8C8275",
+    baseColor = "#D6CFC2",
+    accentColor = "#F5F2EB",
+    density = 95,
+    speed = 55,
+    size = 145,
+    clouds = { cirrus: 85, shadow: 195, softness: 65 },
+    sun = { x: 80, y: 85, glow: "#D91E2A" },
     pointer = { wind: 220, damping: 40, parallax: 220 },
     width,
     height,
@@ -239,15 +239,15 @@ export default function CloudSky(props: CloudSkyProps) {
     zenith: background,
     horizon: baseColor,
     cloud: accentColor,
-    glow: sun.glow || "#525252",
-    coverage: clampN(num(density, 85), 0, 100) / 100,
-    speed: clampN(num(speed, 45), 0, 100) / 50,
-    size: clampN(num(size, 130), 20, 300) / 100,
-    softness: 4.5 / Math.max(0.15, clampN(num(clouds.softness, 180), 20, 300) / 100),
-    shadow: clampN(num(clouds.shadow, 90), 0, 200) / 100,
-    cirrus: clampN(num(clouds.cirrus, 80), 0, 100) / 100,
-    sunX: clampN(num(sun.x, 80), 0, 100) / 100,
-    sunY: clampN(num(sun.y, 88), 0, 100) / 100,
+    glow: sun?.glow || "#D91E2A",
+    coverage: clampN(num(density, 95), 0, 100) / 100,
+    speed: clampN(num(speed, 55), 0, 100) / 50,
+    size: clampN(num(size, 145), 20, 300) / 100,
+    softness: 4.5 / Math.max(0.15, clampN(num(clouds?.softness, 65), 20, 300) / 100),
+    shadow: clampN(num(clouds?.shadow, 195), 0, 200) / 100,
+    cirrus: clampN(num(clouds?.cirrus, 85), 0, 100) / 100,
+    sunX: clampN(num(sun?.x, 80), 0, 100) / 100,
+    sunY: clampN(num(sun?.y, 85), 0, 100) / 100,
     parallax: clampN(num(pointer.parallax, 220), 0, 300) / 100,
     wind: clampN(num(pointer.wind, 220), 0, 300) / 100,
     damping: clampN(num(pointer.damping, 40), 1, 100),
@@ -372,12 +372,21 @@ export default function CloudSky(props: CloudSkyProps) {
         isolation: "isolate",
         width: "100%",
         height: "100%",
+        minHeight: "100vh",
+        display: "block",
         ...style,
       }}
     >
       <canvas
         ref={canvasRef}
-        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }}
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          minHeight: "100vh",
+          display: "block",
+        }}
       />
     </div>
   );
